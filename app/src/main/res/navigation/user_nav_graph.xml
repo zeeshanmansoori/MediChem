@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_login"
+    >
+
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.example.anew.ui.intialSetup.loginFragment"
+        android:label="@string/menu_login"
+        tools:layout="@layout/fragment_login"
+        >
+        <action
+            android:id="@+id/action_nav_login_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_signUp"
+            app:destination="@id/nav_signUp" />
+        <action
+            android:id="@+id/action_nav_login_to_adminActivity"
+            app:destination="@id/adminActivity">
+<!--            -->
+<!--            <argument android:name="admin_id"-->
+<!--                app:argType="String"/>-->
+<!--            <argument android:name="admin_password"-->
+<!--                app:argType="String"/>-->
+        </action>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_signUp"
+        android:name="com.example.anew.ui.intialSetup.SignUpFragment"
+        android:label="SignUp"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_nav_signUp_to_nav_home"
+            app:destination="@id/nav_home"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/nav_login"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.anew.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_cart"
+            app:destination="@id/nav_cart" />
+        <action
+            android:id="@+id/action_nav_home_to_medDetailsFragment"
+            app:destination="@id/medDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_orders"
+        android:name="com.example.anew.ui.order.OrderFragment"
+        android:label="@string/menu_orders"
+        tools:layout="@layout/fragment_order" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.anew.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_cart"
+        android:name="com.example.anew.ui.Cart.CartFragment"
+        android:label="My Cart"
+        tools:layout="@layout/fragment_cart" />
+    <activity
+        android:id="@+id/adminActivity"
+        android:name="com.example.anew.AdminActivity"
+        android:label="AdminActivity"
+        tools:layout="@layout/activity_admin"
+        />
+    <fragment
+        android:id="@+id/medDetailsFragment"
+        android:name="com.example.anew.ui.medDetails.MedDetailsFragment"
+        android:label="fragment_med_details"
+        tools:layout="@layout/fragment_med_details" />
+
+</navigation>

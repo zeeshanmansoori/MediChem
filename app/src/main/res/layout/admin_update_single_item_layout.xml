@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+    app:cardCornerRadius="15dp"
+    app:cardBackgroundColor="#34579C"
+
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/table_bg">
+
+        <ImageView
+            android:id="@+id/medicine_image"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:src="@drawable/admin_medicine"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <RelativeLayout
+            android:id="@+id/data_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/medicine_image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+
+            <TextView
+                android:id="@+id/medicine_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:maxLines="1"
+                android:text="thl is medicine name"
+                android:textSize="@dimen/textsize"
+                />
+
+            <TextView
+                android:id="@+id/medicine_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:layout_below="@id/medicine_name"
+                android:maxLines="5"
+                android:minLines="2"
+                android:text="some description about particular medicine"
+                android:textSize="@dimen/textsize"
+                />
+
+            <TextView
+                android:id="@+id/order_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medicine_description"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:text="Added On"
+                android:textSize="@dimen/textsize"
+                />
+
+            <TextView
+                android:id="@+id/ordered_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medicine_description"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:text="09Sep-2020"
+                android:textSize="@dimen/textsize"
+                />
+
+            <TextView
+                android:id="@+id/med_id_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_date"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:text="Med Id"
+                android:textSize="@dimen/textsize"
+                />
+
+            <TextView
+                android:id="@+id/med_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ordered_date"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:text="646413131645646"
+                android:textSize="@dimen/textsize"
+                />
+
+            <TextView
+                android:id="@+id/price_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/med_id_label"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:text="Price per Uint"
+                android:textSize="@dimen/textsize"
+                />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/med_id"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:text="500Rs"
+                android:textSize="@dimen/textsize"
+                />
+
+            <TextView
+                android:id="@+id/med_qty_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/price_label"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:text="Med Quantity"
+                android:textSize="@dimen/textsize"
+                />
+
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/price"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:text="5 units"
+                android:textSize="@dimen/textsize"
+                />
+
+
+        </RelativeLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

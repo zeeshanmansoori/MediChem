@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "370792218785",
+    "firebase_url": "https://medicham-6826c.firebaseio.com",
+    "project_id": "medicham-6826c",
+    "storage_bucket": "medicham-6826c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370792218785:android:d47ffa846e2f4fcc7f30e0",
+        "android_client_info": {
+          "package_name": "com.example.anew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370792218785-473m62ubns17c88i6n545c9j405r79f6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.anew",
+            "certificate_hash": "0f5530e17877f2642aa0f8d7688519c61d31158d"
+          }
+        },
+        {
+          "client_id": "370792218785-vbdj8ofmqss6o7rvcoutr9u413r84vbi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjSqd2RIy96xDzsg-YDKAcrWkl8cq4f_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370792218785-vbdj8ofmqss6o7rvcoutr9u413r84vbi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

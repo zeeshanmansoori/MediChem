@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_update__med"
+            android:title="Update" />
+        <item
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/ic_discount"
+            android:title="My Orders"
+            />
+        <item
+            android:id="@+id/nav_add"
+            android:icon="@drawable/ic_to_do_list"
+            android:title="Add Med" />
+
+    </group>
+</menu>
