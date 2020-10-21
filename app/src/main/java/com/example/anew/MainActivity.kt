@@ -1,18 +1,15 @@
 package com.example.anew
 
 import android.os.Bundle
-import android.view.Menu
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
+import android.view.ViewParent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.customview.widget.Openable
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.findNavController
+import androidx.navigation.ui.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,11 +27,36 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_orders, R.id.nav_settings), drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_orders, R.id.nav_settings
+            ), drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
         navView.itemIconTintList = null
+        navView.setNavigationItemSelectedListener {
+            if (it.itemId==R.id.logout)
+                logMeOut()
+            else {
+                //NavigationUI.onNavDestinationSelected(it, navController)
+                val handled = NavigationUI.onNavDestinationSelected(it, navController)
+                if (handled) {
+                    val parent: ViewParent = navView.parent
+                    if (parent is Openable) {
+                        (parent as Openable).close()
+                    }
+                }
+                handled
+
+            }
+
+        }
+    }
+
+    private fun logMeOut(): Boolean {
+        finish()
+        return true
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -47,4 +69,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
 }

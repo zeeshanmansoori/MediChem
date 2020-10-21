@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    >
+
+    <data>
+
+        <variable
+            name="product"
+            type="com.example.anew.model.Product" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/table_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:paddingHorizontal="10dp"
+                >
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/med_img_image_view1"
+                    android:layout_width="0dp"
+                    android:layout_height="180dp"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="3dp"
+                    app:glideSrc="@{product.image}"
+                    glideErrorSrc="@{@drawable/ic_pills}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@drawable/ic_pills"
+
+                    />
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/med_img_image_view2"
+                    android:layout_width="0dp"
+                    android:layout_height="180dp"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="3dp"
+                    app:glideSrc="@{product.image}"
+                    glideErrorSrc="@{@drawable/ic_add_image}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@drawable/ic_add_image"
+                    android:alpha="0.3"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:paddingHorizontal="10dp"
+                >
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/med_img_image_view3"
+                    android:layout_width="0dp"
+                    android:layout_height="180dp"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="3dp"
+                    app:glideSrc="@{product.image}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    glideErrorSrc="@{@drawable/ic_add_image}"
+                    tools:background="@drawable/ic_add_image"
+                    android:alpha="0.3"
+
+                    />
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/med_img_image_view4"
+                    android:layout_width="0dp"
+                    android:layout_height="180dp"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="3dp"
+                    app:glideSrc="@{product.image}"
+                    glideErrorSrc="@{@drawable/ic_add_image}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@drawable/ic_add_image"
+                    android:alpha="0.3"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/medicine_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:maxLength="150"
+                android:maxLines="1"
+                android:text="@{product.name}"
+                android:textSize="@dimen/textsize"
+                android:hint="change med name"
+                android:inputType="text"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/medicine_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="change description"
+                android:inputType="text"
+                android:layout_below="@id/medicine_name"
+                android:maxLines="5"
+                android:minLines="2"
+                android:text="@{product.description}"
+                android:textSize="@dimen/textsize"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:hint="change exp date"
+                android:inputType="date"
+                android:id="@+id/exp_date"
+                android:text="@{product.expDate}"
+                android:textSize="@dimen/textsize"
+                tools:text="09Sep-2020"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/medicine_prize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="change prize per uint"
+                android:inputType="text"
+                android:layout_below="@+id/medicine_description"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_left_textview"
+                android:text="@{product.expDate + ` Rs`}"
+                android:textSize="@dimen/textsize"
+                tools:text="200 Rs"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@{@string/med_quantity(String.valueOf(product.quantity))}"
+                android:textSize="@dimen/textsize"
+                tools:text="5 units"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
+
+</layout>

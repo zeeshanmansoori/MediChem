@@ -6,5 +6,6 @@
     <color name="table_bg">#C4C5C5</color>
     <color name="user_menu_icon_color">#967ADC</color>
     <color name="partial_black">#504747</color>
+    <color name="actionBarColor">#301210</color>
 
 </resources>

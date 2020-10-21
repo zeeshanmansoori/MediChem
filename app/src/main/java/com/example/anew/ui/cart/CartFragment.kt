@@ -1,4 +1,4 @@
-package com.example.anew.ui.Cart
+package com.example.anew.ui.cart
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

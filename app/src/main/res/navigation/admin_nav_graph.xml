@@ -8,26 +8,35 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.anew.ui.Admin.home.AdminHomeFragment"
-        android:label="Update"
-        tools:layout="@layout/admin_fragment_home" />
+        android:name="com.example.anew.ui.admin.home.AdminHomeFragment"
+        android:label="Home"
+        tools:layout="@layout/admin_fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_detailFragment"
+            app:destination="@id/detailFragment" >
+            <argument android:name="Product"
+                app:argType="com.example.anew.model.Product"/>
+
+        </action>
+
+    </fragment>
 
 
     <fragment
         android:id="@+id/nav_orders"
-        android:name="com.example.anew.ui.Admin.order.adminOrderFragment"
+        android:name="com.example.anew.ui.admin.order.adminOrderFragment"
         android:label="Orders"
         tools:layout="@layout/admin_fragment_order" />
 
     <fragment android:id="@+id/nav_add"
-        android:name="com.example.anew.ui.Admin.Add.AddFragment"
+        android:name="com.example.anew.ui.admin.add.AddFragment"
         android:label="Add Med"
         tools:layout="@layout/fragment_add"
         />
 
     <fragment
         android:id="@+id/adminLoginFragment"
-        android:name="com.example.anew.ui.Admin.login.AdminLoginFragment"
+        android:name="com.example.anew.ui.admin.login.AdminLoginFragment"
         android:label="AdminLoginFragment"
         tools:layout="@layout/fragment_admin_login"
         >
@@ -38,5 +47,15 @@
             app:popUpToInclusive="true">
 
         </action>
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.anew.ui.admin.detail.DetailFragment"
+        android:label="Update Page"
+        tools:layout="@layout/admin_fragment_detail" >
+        <argument
+            android:name="Product"
+            app:argType="com.example.anew.model.Product"
+            />
     </fragment>
 </navigation>

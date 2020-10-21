@@ -12,13 +12,13 @@
         android:background="@drawable/gradient_bg"
         >
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@drawable/ic_admin"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="60dp"
-            android:elevation="10dp"
+            android:elevation="0dp"
             android:layout_marginLeft="10dp"
             />
 
@@ -31,10 +31,8 @@
             android:layout_marginStart="@dimen/margin_side"
             android:layout_marginLeft="@dimen/margin_side"
             android:layout_marginEnd="@dimen/margin_side"
-            android:padding="15dp"
-            android:background="@drawable/loginbg"
-            android:elevation="10dp"
-
+            android:padding="@dimen/table_padding"
+            android:background="@drawable/table_bg"
             >
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -42,9 +40,10 @@
 
                 >
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textAutoCorrect"
+                    android:inputType="textEmailAddress"
                     android:hint="login"
                     android:drawableLeft="@drawable/user"
                     android:drawablePadding="10dp"
@@ -58,6 +57,7 @@
                 android:layout_height="wrap_content"
                 >
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -69,18 +69,19 @@
 
 
             </com.google.android.material.textfield.TextInputLayout>
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/login_btn"
-                android:layout_marginTop="20dp"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="Log In"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/btn_background"
-                android:textColor="@android:color/white"
-                />
+
         </LinearLayout>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="Log In"
+            android:textColor="@android:color/white"
+            android:background="@drawable/btn_background"
+            />
 
 
 
