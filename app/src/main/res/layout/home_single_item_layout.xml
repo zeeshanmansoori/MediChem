@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
     >
+
     <data>
+
         <variable
             name="product"
             type="com.example.anew.model.Product" />
@@ -14,76 +15,66 @@
             name="listener"
             type="com.example.anew.ui.admin.home.AdminHomeAdapter.ProductItemClickListener" />
     </data>
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:background="@android:color/transparent"
-        android:focusable="true"
+        android:layout_margin="5dp"
         android:clickable="true"
-        app:cardPreventCornerOverlap="false"
-        >
+        android:focusable="true"
+        android:onClick="@{()->listener.onProductItemClicked(product)}"
+        app:cardPreventCornerOverlap="false">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/medicine_image"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center_vertical"
-                android:cropToPadding="true"
-                android:padding="5dp"
-                tools:src="@drawable/ic_pills"
-                app:glideSrc="@{product.image}"
                 glideErrorSrc="@{@drawable/ic_pills}"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:cropToPadding="true"
+                android:scaleType="fitCenter"
+                app:glideSrc="@{product.image1}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:scaleType="fitCenter"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:src="@drawable/ic_pills"
+                android:layout_marginHorizontal="2dp"
+                android:layout_marginTop="1dp"
                 />
 
-            <LinearLayout
-                android:id="@+id/data_container"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_margin="3dp"
-                android:orientation="vertical"
-                android:padding="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/add_to_cart"
-                app:layout_constraintStart_toEndOf="@id/medicine_image"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/medicine_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Crocine Advance"
-                    android:text="@{product.name}"
-                    />
-
-                <TextView
-                    android:id="@+id/medicine_prize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    tools:text="50Rs"
-                    android:text="@{@string/med_quantity(String.valueOf(product.quantity))}"
-                    />
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/add_to_cart"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/medicine_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_end"
-                android:layout_marginRight="@dimen/margin_end"
-                android:src="@drawable/add_to_cart"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{product.name}"
+                android:textAllCaps="true"
+                android:textColor="@color/text"
+                android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/medicine_image"
+                tools:text="@string/supra"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/medicine_prize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/med_price(String.valueOf(product.prize))}"
+                android:textColor="@color/text"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/medicine_name"
+                tools:text="$ 114"
+                android:layout_marginBottom="2dp"
+                />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>

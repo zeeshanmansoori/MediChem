@@ -20,7 +20,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.anew.R
 import com.example.anew.databinding.FragmentAddBinding
-import com.example.anew.model.Product
+import com.example.anew.model.*
 import com.example.anew.utils.CustomLoadingDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -96,59 +96,79 @@ class AddFragment : Fragment(), View.OnClickListener {
         with(binding) {
             val id = medicineIdEditText.text.toString().trim()
             val description = medicineDescriptionEditText.text.toString().trim()
-            val prize = medicinePrizeEditText.text.toString().trim()
+            val prize = if (medicinePrizeEditText.text.toString()
+                    .isEmpty()
+            ) (0.0).toFloat() else medicinePrizeEditText.text.toString().toFloat()
             val expDate = expDateEditText.text.toString().trim()
             val manName = manufacturerNameEditText.text.toString().trim()
             val name = medicineNameEditText.text.toString().trim()
             val quantity = numberPicker.number.toInt()
 
-            Log.d("mytag", "add fragment ")
-            if (
-                id.length == 10
-                && description.isNotEmpty()
-                && prize.isNotEmpty()
-                && expDate.isNotEmpty()
-                && manName.isNotEmpty()
-                && name.isNotEmpty()
-                && quantity >= 0
-            ) {
-                dialog.startDialog()
-                val map = HashMap<String, Any>()
-                map["id"] = id
-                map["name"] = name
-                map["description"] = description
-                map["expDate"] = expDate
-                map["prize"] = prize
-                map["manName"] = manName
-                map["quantity"] = quantity
-                map["image"] = ""
+            if (id.isEmpty()) {
+                medicineIdEditText.error = "id is empty"
+                medicineIdEditText.requestFocus()
+                return
+            }
+            if (id.length < 10) {
+                medicineIdEditText.error = "id should be of length 10"
+                medicineIdEditText.requestFocus()
+                return
+            }
 
+            if (name.isEmpty()) {
+                medicineNameEditText.error = "medicine Name is empty"
+                medicineNameEditText.requestFocus()
+                return
+            }
 
-                firebaseStore.collection(PRODUCT_REF).document(id).get().addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val exist = it.result?.exists() ?: false
-                        if (exist) {
-                            clearFields()
-                            dialog.dismissDialog()
-                            Snackbar.make(root, "data already exist ", Snackbar.LENGTH_SHORT)
-                                .show()
-                            return@addOnCompleteListener
-                        }
+            if (description.isEmpty()) {
+                medicineDescriptionEditText.error = "medicine Description is empty"
+                medicineDescriptionEditText.requestFocus()
+                return
+            }
 
-                        //check whether user has selected any image or not
-                        // adding image with data
+            if (expDate.isEmpty()) {
+                expDateEditText.error = "expDate is empty"
+                expDateEditText.requestFocus()
+                return
+            }
 
-                        val medicineImageRef = imageRef.child("$id.jpg")
-                        var metadata = storageMetadata { contentType = "image/jpg" }
+            dialog.startDialog()
+            val map = hashMapOf<String, Any>(
+                P_ID to id,
+                NAME to name,
+                DESCRIPTION to description,
+                EXP_DATE to expDate,
+                PRIZE to prize,
+                MAN_NAME to manName,
+                QUANTITY to quantity,
+                IMAGE1 to ""
 
-                        if (imageByteArray == null && imageUri == null) {
+            )
+            firebaseStore.collection(PRODUCT_REF).document(id).get().addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val exist = it.result?.exists() ?: false
+                    if (exist) {
+                        dialog.dismissDialog()
+                        Snackbar.make(root, "data already exist ", Snackbar.LENGTH_SHORT)
+                            .show()
+                        return@addOnCompleteListener
+                    }
+
+                    //check whether user has selected any image or not
+                    // adding image with data
+
+                    val medicineImageRef = imageRef.child("${id}r1.jpg")
+                    var metadata = storageMetadata { contentType = "image/jpg" }
+
+                    if (imageByteArray == null && imageUri == null) {
 
 //                            val bitmap =
 //                                BitmapFactory.decodeResource(resources, R.drawable.admin_medicine)
 
-                            //setimage resource first
+                        //setimage resource first
 
-                            //val bitmap = (binding.medicineImageImageView.drawable as BitmapDrawable).bitmap
+                        //val bitmap = (binding.medicineImageImageView.drawable as BitmapDrawable).bitmap
 //
 //                            val baos = ByteArrayOutputStream()
 //
@@ -156,102 +176,104 @@ class AddFragment : Fragment(), View.OnClickListener {
 //
 //                            val data = baos.toByteArray()
 
-                            firebaseStore.collection(PRODUCT_REF).document(id)
-                                .set(
-                                    Product(
-                                        id,
-                                        quantity,
-                                        manName,
-                                        name,
-                                        description,
-                                        prize,
-                                        expDate
-                                    )
+                        firebaseStore.collection(PRODUCT_REF).document(id)
+                            .set(
+                                Product(
+                                    id,
+                                    name,
+                                    description,
+                                    expDate,
+                                    quantity,
+                                    prize,
+                                    manName
+
+
                                 )
-                                .addOnSuccessListener {
-                                    dialog.dismissDialog()
-                                    Snackbar.make(
-                                        binding.root,
-                                        "medicine added",
-                                        Snackbar.LENGTH_SHORT
-                                    )
-                                        .show()
+                            )
+                            .addOnSuccessListener {
+                                dialog.dismissDialog()
+                                Snackbar.make(
+                                    binding.root,
+                                    "medicine added",
+                                    Snackbar.LENGTH_SHORT
+                                )
+                                    .show()
 
-                                }
+                            }
 
-                        }
-
-                        // put image picked from gallery
-                        imageUri?.let { uri ->
-                            medicineImageRef.putFile(uri)
-                                .addOnSuccessListener { _ ->
-                                    medicineImageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                                        val image = downloadUri.toString()
-
-                                        firebaseStore.collection(PRODUCT_REF).document(id)
-                                            .set(
-                                                Product(
-                                                    id,
-                                                    quantity,
-                                                    manName,
-                                                    name,
-                                                    description,
-                                                    prize,
-                                                    expDate,
-                                                    image
-                                                )
-                                            )
-                                            .addOnSuccessListener {
-                                                dialog.dismissDialog()
-                                                Snackbar.make(
-                                                    binding.root,
-                                                    "medicine added",
-                                                    Snackbar.LENGTH_SHORT
-                                                )
-                                                    .show()
-
-                                            }
-
-                                    }
-                                }
-
-                            // put image captured from camera
-                        } ?: imageByteArray?.let {
-                            medicineImageRef.putBytes(it)
-                                .addOnSuccessListener { _ ->
-                                    medicineImageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                                        val image = downloadUri.toString()
-                                        firebaseStore.collection(PRODUCT_REF).document(id)
-                                            .set(
-                                                Product(
-                                                    id,
-                                                    quantity,
-                                                    manName,
-                                                    name,
-                                                    description,
-                                                    prize,
-                                                    expDate,
-                                                    image
-                                                )
-                                            )
-                                            .addOnSuccessListener {
-                                                dialog.dismissDialog()
-                                                Snackbar.make(
-                                                    binding.root,
-                                                    "medicine added",
-                                                    Snackbar.LENGTH_SHORT
-                                                )
-                                                    .show()
-
-                                            }
-
-                                    }
-                                }
-                        }
-                    } else {
-                        dialog.dismissDialog()
                     }
+
+                    // put image picked from gallery
+                    imageUri?.let { uri ->
+                        medicineImageRef.putFile(uri)
+                            .addOnSuccessListener { _ ->
+                                medicineImageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                                    val image = downloadUri.toString()
+
+                                    firebaseStore.collection(PRODUCT_REF).document(id)
+                                        .set(
+                                            Product(
+                                                id,
+                                                name,
+                                                description,
+                                                expDate,
+                                                quantity,
+                                                prize,
+                                                manName,
+                                                image
+                                            )
+                                        )
+                                        .addOnSuccessListener {
+                                            dialog.dismissDialog()
+                                            Snackbar.make(
+                                                binding.root,
+                                                "medicine added",
+                                                Snackbar.LENGTH_SHORT
+                                            )
+                                                .show()
+
+                                        }
+
+                                }
+                            }
+
+                        // put image captured from camera
+                    } ?: imageByteArray?.let {
+                        medicineImageRef.putBytes(it)
+                            .addOnSuccessListener { _ ->
+                                medicineImageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                                    val image = downloadUri.toString()
+                                    firebaseStore.collection(PRODUCT_REF).document(id)
+                                        .set(
+                                            Product(
+                                                id,
+                                                name,
+                                                description,
+                                                expDate,
+                                                quantity,
+                                                prize,
+                                                manName,
+                                                image
+                                            )
+                                        )
+                                        .addOnSuccessListener {
+                                            dialog.dismissDialog()
+                                            Snackbar.make(
+                                                binding.root,
+                                                "medicine added",
+                                                Snackbar.LENGTH_SHORT
+                                            )
+                                                .show()
+
+                                        }
+
+                                }
+                            }
+                    }
+                } else {
+                    dialog.dismissDialog()
                 }
+            }
 
 //                databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
 //
@@ -343,17 +365,8 @@ class AddFragment : Fragment(), View.OnClickListener {
 //                })
 
 
-            } else {
-                Snackbar.make(
-                    binding.root,
-                    "empty fields",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-
-            }
         }
     }
-
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -411,6 +424,7 @@ class AddFragment : Fragment(), View.OnClickListener {
 
     }
 
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -429,22 +443,5 @@ class AddFragment : Fragment(), View.OnClickListener {
 
         }
     }
-
-
-    private fun clearFields() {
-        with(binding) {
-            expDateEditText.text?.clear()
-            medicineNameEditText.text?.clear()
-            medicineDescriptionEditText.text?.clear()
-            medicineIdEditText.text?.clear()
-            medicinePrizeEditText.text?.clear()
-            numberPicker.number = "0"
-            manufacturerNameEditText.text?.clear()
-            medicineIdEditText.requestFocus()
-
-
-        }
-    }
-
 }
 

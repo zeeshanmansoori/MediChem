@@ -10,7 +10,8 @@ import com.example.anew.model.Product
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class AdminHomeAdapter(val listener:ProductItemClickListener, options: FirestoreRecyclerOptions<Product>) : FirestoreRecyclerAdapter<Product, ProductHolder>(
+class AdminHomeAdapter(val listener:ProductItemClickListener, options: FirestoreRecyclerOptions<Product>)
+    : FirestoreRecyclerAdapter<Product, ProductHolder>(
     options
 )
 {

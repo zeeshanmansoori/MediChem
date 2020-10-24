@@ -81,12 +81,16 @@ class HomeFragment : Fragment(),AdminHomeAdapter.ProductItemClickListener {
     }
 
     override fun onProductItemClicked(product: Product) {
-        findNavController().navigate(R.id.action_nav_home_to_detailFragment)
+        moveToDetailFragment(product)
     }
 
     override fun onProductItemLongClicked(product: Product) {
         TODO("Not yet implemented")
     }
 
+    fun moveToDetailFragment(product: Product){
+            val action =  HomeFragmentDirections.actionNavHomeToMedDetailsFragment(product)
+            findNavController().navigate(action)
+    }
 
 }

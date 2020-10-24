@@ -1,11 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.medDetails.MedDetailsFragment"
+
     >
 
+    <data>
 
-</ScrollView>
+        <variable
+            name="product"
+            type="com.example.anew.model.Product" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+
+        >
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <ImageView
+                android:id="@+id/medicine_image"
+                glideErrorSrc="@{@drawable/ic_pills}"
+                glideSrc="@{product.image1}"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_marginHorizontal="10dp"
+                tools:background="@drawable/ic_pills" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/medicine_image"
+                android:background="@drawable/btn_border_bg"
+                android:layout_marginHorizontal="10dp"
+                />
+
+            <LinearLayout
+                android:id="@+id/linear1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medicine_image"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@{product.name}"
+                    android:textColor="@color/text"
+                    android:textSize="26dp"
+                    tools:text="@string/supra"
+                    android:textAllCaps="true"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    />
+
+
+                <View
+                    android:id="@+id/action_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="156dp"
+                    android:background="@color/colordevider" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@{@string/med_price(String.valueOf(product.prize))}"
+                    android:textColor="@color/text"
+                    android:textSize="22dp"
+                    tools:text="$ 114"
+
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:padding="5dp"
+
+                    >
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="Product Detail"
+                        android:textColor="@color/text"
+                        android:textSize="16dp"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/product_details_spinner"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                </LinearLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="5dp"
+                    android:text="A progressive casual runner, Motion provides long lasting comfort, traction and flexibility in an upper of breathable materials with a distinctive cage-inspired eye stay. A lightweight sole with a deep geometric."
+                    android:textColor="@color/subtext"
+                    android:textSize="15dp"
+                    android:visibility="visible"
+                    android:layout_marginRight="16dp"
+                    />
+            </LinearLayout>
+
+
+            <!--*******ADD TO BAG********-->
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_to_bag"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear1"
+                android:layout_centerHorizontal="true"
+                android:letterSpacing="0.09"
+                android:text="ADD  TO  BAG"
+                android:textColor="#fff"
+                android:textSize="17dp"
+                app:backgroundTint="@color/partial_black"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buy_now"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/add_to_bag"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:letterSpacing="0.09"
+                android:padding="5dp"
+                android:text="BUY  NOW"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                app:backgroundTint="@color/partial_black"
+                android:gravity="center"
+
+                />
+
+            <!--*******WISHLIST********-->
+
+            <LinearLayout
+                android:id="@+id/wishlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buy_now"
+                android:layout_marginTop="16dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_fav"
+                        android:drawablePadding="9dp"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:text="@string/Wishlist"
+                        android:textColor="@color/text"
+                        android:textSize="14dp"
+
+                        />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="16dp"
+                        android:text="@string/Share"
+                        android:textColor="@color/text"
+                        android:textSize="14dp"
+                        android:drawableLeft="@drawable/ic_share"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</layout>

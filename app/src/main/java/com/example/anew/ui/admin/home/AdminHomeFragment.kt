@@ -84,6 +84,7 @@ class AdminHomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener,
     override fun onStart() {
         super.onStart()
         firestoreRecyclerAdapter.startListening()
+
     }
 
     override fun onStop() {
@@ -92,7 +93,7 @@ class AdminHomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener,
     }
 
 
-    private fun deleteProduct(product: Product) {
+     private fun deleteProduct(product: Product) {
         val dialogBuilder = MaterialAlertDialogBuilder(activity as AdminActivity)
         with(dialogBuilder) {
             setTitle("Alert")
@@ -127,6 +128,7 @@ class AdminHomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener,
 
     private fun moveToDetailsFrag(product: Product) {
         Log.d("mytag", "item has clicked but no effect")
+
         val action = AdminHomeFragmentDirections.actionNavHomeToDetailFragment(product)
         //findNavController().navigate(R.id.action_nav_home_to_detailFragment)
         findNavController().navigate(action)

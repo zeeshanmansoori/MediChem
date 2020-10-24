@@ -12,7 +12,6 @@
 
     >
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,7 +71,6 @@
 
             <ImageButton
                 android:id="@+id/scan_btn"
-                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="5dp"
@@ -153,7 +151,7 @@
             android:lines="1"
             android:textSize="18sp"
             tools:text="this is text"
-            android:hint="enter description"
+            android:hint="enter price in Rs"
             android:maxLines="3"
             android:minLines="1"
             android:inputType="numberDecimal"
@@ -219,7 +217,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_top"
         android:text="add to database"
-        style="@style/Widget.AppCompat.Button.Borderless"
         />
 
 

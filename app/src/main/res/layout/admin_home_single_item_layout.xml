@@ -46,7 +46,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     tools:src="@drawable/ic_logout"
-                    app:glideSrc="@{product.image}"
+                    app:glideSrc="@{product.image1}"
                     glideErrorSrc="@{@drawable/ic_pills}"
                     />
 
@@ -165,7 +165,7 @@
                         android:layout_marginLeft="@dimen/margin_left_textview"
                         tools:text="500Rs"
                         android:textSize="@dimen/textsize"
-                        android:text="@{product.prize + `Rs`}"
+                        android:text="@{String.valueOf(product.prize) + `Rs`}"
                         />
 
                     <TextView
@@ -188,7 +188,7 @@
                         android:layout_marginLeft="@dimen/margin_left_textview"
                         tools:text="5 units"
                         android:textSize="@dimen/textsize"
-                        android:text="@{String.valueOf(product.quantity)}"
+                        android:text="@{@string/med_quantity(String.valueOf(product.quantity))}"
                         />
 
 

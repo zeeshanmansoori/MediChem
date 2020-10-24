@@ -21,4 +21,12 @@
     <string name="menu_item_reply">view details</string>
     <string name="menu_item_delete">delete</string>
     <string name="med_quantity">%s quantity</string>
+    <string name="med_price"><b>$ %s</b></string>
+
+    //
+
+    <string name="Wishlist">Add to Wishlist</string>
+    <string name="Share">Share</string>
+    <string name="supra"><b>SUPRA WOOD</b></string>
+
 </resources>

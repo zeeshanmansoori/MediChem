@@ -10,8 +10,15 @@
         <variable
             name="product"
             type="com.example.anew.model.Product" />
+        <variable
+            name="listener"
+            type="com.example.anew.ui.admin.detail.MyImageClickListener" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp"
+            android:paddingHorizontal="5dp"
+            android:paddingTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -47,13 +55,13 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="3dp"
-                    app:glideSrc="@{product.image}"
+                    app:glideSrc="@{product.image1}"
                     glideErrorSrc="@{@drawable/ic_pills}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:background="@drawable/ic_pills"
-
+                    android:onClick="@{view->listener.OnImageClick(view)}"
                     />
 
 
@@ -68,13 +76,14 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="3dp"
-                    app:glideSrc="@{product.image}"
+                    app:glideSrc="@{product.image2}"
                     glideErrorSrc="@{@drawable/ic_add_image}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:background="@drawable/ic_add_image"
-                    android:alpha="0.3"
+                    android:alpha="0.5"
+                    android:onClick="@{view->listener.OnImageClick(view)}"
                     />
             </LinearLayout>
 
@@ -97,14 +106,14 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="3dp"
-                    app:glideSrc="@{product.image}"
+                    app:glideSrc="@{product.image3}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     glideErrorSrc="@{@drawable/ic_add_image}"
                     tools:background="@drawable/ic_add_image"
-                    android:alpha="0.3"
-
+                    android:alpha="0.5"
+                    android:onClick="@{view->listener.OnImageClick(view)}"
                     />
 
 
@@ -119,13 +128,14 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="3dp"
-                    app:glideSrc="@{product.image}"
+                    app:glideSrc="@{product.image4}"
                     glideErrorSrc="@{@drawable/ic_add_image}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:background="@drawable/ic_add_image"
-                    android:alpha="0.3"
+                    android:alpha="0.5"
+                    android:onClick="@{view ->listener.OnImageClick(view)}"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -177,13 +187,11 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
-
+                android:id="@+id/exp_date_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="10dp"
                 android:hint="change exp date"
                 android:inputType="date"
-                android:id="@+id/exp_date"
                 android:text="@{product.expDate}"
                 android:textSize="@dimen/textsize"
                 tools:text="09Sep-2020"
@@ -198,15 +206,15 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/medicine_prize"
+                android:id="@+id/medicine_prize_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="change prize per uint"
-                android:inputType="text"
+                android:hint="change prize per unit"
+                android:inputType="numberDecimal"
                 android:layout_below="@+id/medicine_description"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="@dimen/margin_left_textview"
-                android:text="@{product.expDate + ` Rs`}"
+                android:text="@{String.valueOf(product.prize)}"
                 android:textSize="@dimen/textsize"
                 tools:text="200 Rs"
                 />
@@ -219,18 +227,35 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/quantity"
+                android:id="@+id/quantity_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="enter quantity"
+                android:text="@{String.valueOf(product.quantity)}"
+                android:textSize="@dimen/textsize"
+                tools:text="5 units"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/manufacturer_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:text="@{@string/med_quantity(String.valueOf(product.quantity))}"
+                android:text="@{product.manName}"
                 android:textSize="@dimen/textsize"
-                tools:text="5 units"
+                android:hint="enter manufacturer name"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
     </LinearLayout>
-
+    </ScrollView>
 </layout>
