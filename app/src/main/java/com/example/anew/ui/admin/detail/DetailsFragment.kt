@@ -103,7 +103,7 @@ class DetailsFragment : Fragment(), MyImageClickListener {
 
     private fun saveChanges() {
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
-        dialog.startDialog()
+
 
         with(binding) {
             val oldName = oldProduct.name.trim()
@@ -121,18 +121,27 @@ class DetailsFragment : Fragment(), MyImageClickListener {
             val prize = medicinePrizeEditText.text.toString().toFloat()
             val quantity = quantityEditText.text.toString().toInt()
 
-            if (imageUriArray.filterNotNull().count() > 0) {
-                for ((index, value) in imageUriArray.withIndex()) {
-                    if (value == null) continue
-                    uploadUri(index, value)
-                }
-            } else if (imageByteArray.filterNotNull().count() > 0) {
-                for ((index, value) in imageByteArray.withIndex()) {
-                    if (value == null) continue
-                    uploadBytes(index, value)
-                }
+
+            // when no changes made
+            if (oldName == name
+                && oldDescription == description
+                && oldManName == manName
+                && oldExpDate == expDate
+                && oldQuantity == quantity
+                && imageByteArray.filterNotNull().count() == 0
+                && imageUriArray.filterNotNull().count() == 0
+
+            ) {
+                Snackbar.make(binding.root, "you have not made any changes", Snackbar.LENGTH_SHORT)
+                    .show()
+                return
             }
 
+
+            // updating single values
+            uploadImages()
+            dialog.startDialog()
+            // name
             if (oldName != name && name.isNotEmpty() && oldDescription == description && expDate == oldExpDate
                 && oldManName == manName && oldPrize == prize && oldQuantity == quantity
             ) {
@@ -142,15 +151,16 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_detailFragment_to_nav_home)
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT).show()
                 }
-
+                return
             }
 
+
+            //description
             if (oldDescription != description && description.isNotEmpty() && oldName == name && expDate == oldExpDate
                 && oldManName == manName && oldPrize == prize && oldQuantity == quantity
             ) {
@@ -160,16 +170,17 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_detailFragment_to_nav_home)
+
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT).show()
                 }
-
+                return
             }
 
 
+            //expdate
             if (oldExpDate != expDate && expDate.isNotEmpty() && oldName == name && oldDescription == description
                 && oldManName == manName && oldPrize == prize && oldQuantity == quantity
             ) {
@@ -179,16 +190,17 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_detailFragment_to_nav_home)
+
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT).show()
                 }
-
+                return
             }
 
 
+            //man name
             if (oldManName != manName && manName.isNotEmpty() && oldName == name && oldDescription == description
                 && oldExpDate == expDate && oldPrize == prize && oldQuantity == quantity
             ) {
@@ -198,17 +210,18 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_detailFragment_to_nav_home)
+
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT).show()
                 }
 
+                return
             }
 
 
-
+            //prize
             if (oldPrize != prize && oldName == name && oldDescription == description
                 && oldExpDate == expDate && oldManName == manName && oldQuantity == quantity
             ) {
@@ -218,15 +231,16 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_detailFragment_to_nav_home)
+
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT).show()
                 }
-
+                return
             }
 
+            //quantity
             if (oldQuantity != quantity && oldName == name && oldDescription == description
                 && oldExpDate == expDate && oldManName == manName && oldPrize == prize
             ) {
@@ -236,22 +250,42 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_detailFragment_to_nav_home)
+
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT).show()
                 }
-
+                return
             }
+
 
             // updating multiple values
 
-            if (oldName != name && oldDescription != description
-                && oldManName != manName && name.isNotEmpty() && description.isNotEmpty()
-                && expDate.isNotEmpty() && manName.isNotEmpty()
-
+            if (
+                name.isEmpty()
+                || description.isEmpty()
+                || expDate.isEmpty()
+                || manName.isEmpty()
             ) {
+                Snackbar.make(binding.root, "one of the field is empty", Snackbar.LENGTH_SHORT)
+                    .show()
+                dialog.dismissDialog()
+
+            } else if (oldQuantity == quantity && oldName == name && oldDescription == description
+                && oldExpDate == expDate && oldManName == manName && oldPrize == prize &&
+                (imageByteArray.filterNotNull().count() > 0 || imageUriArray.filterNotNull()
+                    .count() > 0)
+            ) {
+                dialog.dismissDialog()
+                Snackbar.make(
+                    binding.root,
+                    "only images going to be updated",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+
+                return
+            } else {
                 val updateTask = firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
                     NAME, name,
                     DESCRIPTION, description,
@@ -263,20 +297,40 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_detailFragment_to_nav_home)
+                    dialog.dismissDialog()
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT).show()
+                    dialog.dismissDialog()
                 }
 
             }
 
 
-
         }
     }
 
+    private fun uploadImages() {
+        // uploading images taken from camera
+        if (imageUriArray.filterNotNull().count() > 0) {
+            for ((index, value) in imageUriArray.withIndex()) {
+                if (value == null) continue
+                uploadUri(index, value)
+            }
+
+        }
+
+        // uploadig images choosen from gallery
+        else if (imageByteArray.filterNotNull().count() > 0) {
+            for ((index, value) in imageByteArray.withIndex()) {
+                if (value == null) continue
+                uploadBytes(index, value)
+            }
+
+        }
+
+    }
 
     private fun delete() {
         val dialogBuilder = MaterialAlertDialogBuilder(activity as AdminActivity)
@@ -310,7 +364,6 @@ class DetailsFragment : Fragment(), MyImageClickListener {
         }
     }
 
-
     private fun takePhoto() {
         val itemList = arrayOf<CharSequence>("take photo", "pick from gallery")
 
@@ -335,7 +388,6 @@ class DetailsFragment : Fragment(), MyImageClickListener {
         }
         builder.show()
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -396,12 +448,10 @@ class DetailsFragment : Fragment(), MyImageClickListener {
 
     }
 
-    override fun OnImageClick(view: View) {
+    override fun onImageClicked(view: View) {
         imageId = view.id
         takePhoto()
     }
-
-
 
     private fun getImageName(imageId: Int) = when (imageId) {
         binding.medImgImageView1.id -> "${oldProduct.id}r1.jpg"
@@ -411,7 +461,7 @@ class DetailsFragment : Fragment(), MyImageClickListener {
         else -> "${oldProduct.id}.jpg"
     }
 
-    private fun getChildName(index: Int) = when(index){
+    private fun getChildName(index: Int) = when (index) {
         0 -> IMAGE1
         1 -> IMAGE2
         2 -> IMAGE3
@@ -420,16 +470,32 @@ class DetailsFragment : Fragment(), MyImageClickListener {
     }
 
     private fun uploadUri(index: Int, value: Uri) {
+        val dialog = CustomLoadingDialog(activity as AppCompatActivity)
+        dialog.startDialog()
         val imageRef = storageRef.child(getImageName(imageId))
         value.let {
             imageRef.putFile(it).addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener {
-                    firestore.collection(PRODUCT_REF).document(oldProduct.id).update(getChildName(index)
-                    ,it.toString())
+                    firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
+                        getChildName(index), it.toString()
+                    )
                         .addOnSuccessListener {
-                            Log.d("myimage","uploaded ${getChildName(index)}")
-                            Snackbar.make(binding.root,"Image uploaded",Snackbar.LENGTH_SHORT).show()
+                            Log.d("myimage", "uploaded ${getChildName(index)}")
+                            Snackbar.make(
+                                binding.root,
+                                "Image${index + 1} uploaded",
+                                Snackbar.LENGTH_SHORT
+                            )
+                                .show()
+                            dialog.dismissDialog()
+                            imageUriArray[index] = null
+
+                        }.addOnFailureListener {
+                            Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT)
+                                .show()
+                            dialog.dismissDialog()
                         }
+
                 }
             }
         }
@@ -437,15 +503,29 @@ class DetailsFragment : Fragment(), MyImageClickListener {
     }
 
     private fun uploadBytes(index: Int, value: ByteArray) {
+        val dialog = CustomLoadingDialog(activity as AppCompatActivity)
+        dialog.startDialog()
         val imageRef = storageRef.child(getImageName(imageId))
         value.let {
             imageRef.putBytes(it).addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener {
-                    firestore.collection(PRODUCT_REF).document(oldProduct.id).update(getChildName(index)
-                        ,it.toString())
+                    firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
+                        getChildName(index), it.toString()
+                    )
                         .addOnSuccessListener {
-                            Log.d("myimage","uploaded ${getChildName(index)}")
-                            Snackbar.make(binding.root,"Image uploaded",Snackbar.LENGTH_SHORT).show()
+                            Log.d("myimage", "uploaded ${getChildName(index)}")
+                            Snackbar.make(
+                                binding.root,
+                                "Image${index + 1} uploaded",
+                                Snackbar.LENGTH_SHORT
+                            )
+                                .show()
+                            dialog.dismissDialog()
+                            imageByteArray[index] = null
+                        }.addOnFailureListener {
+                            Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT)
+                                .show()
+                            dialog.dismissDialog()
                         }
                 }
             }
@@ -457,5 +537,5 @@ class DetailsFragment : Fragment(), MyImageClickListener {
 
 interface MyImageClickListener {
 
-    fun OnImageClick(view: View)
+    fun onImageClicked(view: View)
 }

@@ -61,7 +61,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:background="@drawable/ic_pills"
-                    android:onClick="@{view->listener.OnImageClick(view)}"
+                    android:onClick="@{view->listener.onImageClicked(view)}"
                     />
 
 
@@ -83,7 +83,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:background="@drawable/ic_add_image"
                     android:alpha="0.5"
-                    android:onClick="@{view->listener.OnImageClick(view)}"
+                    android:onClick="@{view->listener.onImageClicked(view)}"
                     />
             </LinearLayout>
 
@@ -113,7 +113,7 @@
                     glideErrorSrc="@{@drawable/ic_add_image}"
                     tools:background="@drawable/ic_add_image"
                     android:alpha="0.5"
-                    android:onClick="@{view->listener.OnImageClick(view)}"
+                    android:onClick="@{view->listener.onImageClicked(view)}"
                     />
 
 
@@ -135,7 +135,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:background="@drawable/ic_add_image"
                     android:alpha="0.5"
-                    android:onClick="@{view ->listener.OnImageClick(view)}"
+                    android:onClick="@{view ->listener.onImageClicked(view)}"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -213,7 +213,6 @@
                 android:inputType="numberDecimal"
                 android:layout_below="@+id/medicine_description"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/margin_left_textview"
                 android:text="@{String.valueOf(product.prize)}"
                 android:textSize="@dimen/textsize"
                 tools:text="200 Rs"

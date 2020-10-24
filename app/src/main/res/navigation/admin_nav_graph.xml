@@ -57,10 +57,5 @@
             android:name="Product"
             app:argType="com.example.anew.model.Product"
             />
-        <action
-            android:id="@+id/action_detailFragment_to_nav_home"
-            app:destination="@id/nav_home"
-            app:popUpTo="@id/detailFragment"
-            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
