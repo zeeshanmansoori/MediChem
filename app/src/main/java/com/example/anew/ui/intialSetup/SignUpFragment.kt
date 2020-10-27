@@ -1,7 +1,9 @@
 package com.example.anew.ui.intialSetup
 
+import android.app.Activity.MODE_PRIVATE
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Patterns
@@ -18,17 +20,19 @@ import com.example.anew.utils.MyUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.regex.Pattern
 
 
-private const val REQUEST_GET_PROFILE_IMAGE = 23
-private const val USER_REF = "USERS"
+const val REQUEST_GET_PROFILE_IMAGE = 23
+const val USER_REF = "USERS"
 
 class SignUpFragment : Fragment(), View.OnClickListener {
 
     private lateinit var bindng: FragmentSignUpBinding
-    private lateinit var userRef: DatabaseReference
+    //private lateinit var userRef: DatabaseReference
 
+    private lateinit var firestore: FirebaseFirestore
     //auth
     private lateinit var mAuth: FirebaseAuth
 
@@ -42,6 +46,7 @@ class SignUpFragment : Fragment(), View.OnClickListener {
         bindng = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
         mAuth = FirebaseAuth.getInstance()
         settingListeners()
+        firestore = FirebaseFirestore.getInstance()
         return bindng.root
     }
 
@@ -62,7 +67,6 @@ class SignUpFragment : Fragment(), View.OnClickListener {
 
     private fun createAccount() {
         activity?.let { MyUtil.hideKeyBoard(it) }
-        userRef = FirebaseDatabase.getInstance().getReference(USER_REF)
 
 
         with(bindng) {
@@ -114,19 +118,23 @@ class SignUpFragment : Fragment(), View.OnClickListener {
                 task->
                 if (task.isSuccessful){
                     val user = User(email,name,password,phoneNo,"")
-                    val insertTask = mAuth.currentUser?.uid?.let { userRef.child(it).setValue(user) }
-                    insertTask?.addOnCompleteListener {
-                        if (it.isSuccessful) {
+                    val userId = mAuth.currentUser?.uid
+                    userId?.let {
+                        firestore.collection(USER_REF).document(it).set(
+                            user
+                        )    .addOnSuccessListener {
                             Snackbar.make(bindng.root,"user has been registered successfully",Snackbar.LENGTH_SHORT).show()
                             progressBar.visibility = View.GONE
-                        }
-                        else {
-                            progressBar.visibility = View.GONE
-                            Snackbar.make(bindng.root, "failed ", Snackbar.LENGTH_SHORT).show()
-                        }
 
+                        }
+                            .addOnFailureListener {
+                                progressBar.visibility = View.GONE
+                                Snackbar.make(bindng.root, "failed to register ", Snackbar.LENGTH_SHORT).show()
+                            }
                     }
-                }else Snackbar.make(bindng.root,"failed ",Snackbar.LENGTH_SHORT).show()
+
+
+                }else Snackbar.make(bindng.root,"can not create an account ",Snackbar.LENGTH_SHORT).show()
                 progressBar.visibility = View.GONE
             }
         }

@@ -20,11 +20,6 @@
         <action
             android:id="@+id/action_nav_login_to_adminActivity"
             app:destination="@id/adminActivity">
-            <!--            -->
-            <!--            <argument android:name="admin_id"-->
-            <!--                app:argType="String"/>-->
-            <!--            <argument android:name="admin_password"-->
-            <!--                app:argType="String"/>-->
         </action>
 
 
@@ -90,6 +85,14 @@
         <argument
             android:name="product"
             app:argType="com.example.anew.model.Product" />
+        <action
+            android:id="@+id/action_medDetailsFragment_to_nav_cart"
+            app:destination="@id/nav_cart" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.anew.ui.profile.ProfileFragment"
+        android:label="profile"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

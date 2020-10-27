@@ -10,6 +10,10 @@
         <variable
             name="product"
             type="com.example.anew.model.Product" />
+
+        <variable
+            name="listener"
+            type="com.example.anew.ui.admin.detail.MyImageClickListener" />
     </data>
 
     <ScrollView
@@ -153,6 +157,7 @@
                 app:backgroundTint="@color/partial_black"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
+                android:onClick="@{view->listener.onImageClicked(view)}"
                 />
 
             <com.google.android.material.button.MaterialButton
@@ -169,7 +174,7 @@
                 android:textSize="18dp"
                 app:backgroundTint="@color/partial_black"
                 android:gravity="center"
-
+                android:onClick="@{view->listener.onImageClicked(view)}"
                 />
 
             <!--*******WISHLIST********-->

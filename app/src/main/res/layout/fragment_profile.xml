@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.profile.ProfileFragment">
+
+    <data>
+        <variable
+            name="user"
+            type="com.example.anew.model.User" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/user_image"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:backgroundTint="@color/partial_black"
+                tools:src="@drawable/ic_pills"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                glideSrc="@{user.image}"
+                glideErrorSrc="@{@drawable/user}"
+                android:clickable="true"
+                android:focusable="true"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/user_image"
+                android:layout_marginVertical="10dp"
+                android:layout_marginStart="25dp"
+                tools:text="Zeeshan"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:fontFamily="cursive"
+                android:text="@{user.name}"
+                android:background="@android:color/transparent"
+
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/user_image"
+                android:layout_marginStart="20dp"
+                android:orientation="vertical"
+                android:layout_alignParentBottom="true"
+
+                >
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="18dp"
+                    android:text="Mobile"
+                    android:textColor="@color/partial_black"
+                    android:textSize="@dimen/label_text_size"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/phone_no_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:inputType="phone"
+                    android:maxLength="14"
+                    android:paddingTop="2dp"
+                    android:text="@{user.phoneNo}"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:paddingStart="5dp"
+                    android:textColor="@color/subtext"
+                    />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="18sp"
+                    android:text="Email Address"
+                    android:textColor="@color/partial_black"
+                    android:textSize="@dimen/label_text_size"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/email_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:inputType="textEmailAddress"
+                    android:paddingTop="2dp"
+                    android:text="@{user.email}"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:paddingStart="5dp"
+                    android:textColor="@color/subtext"
+                    />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="18dp"
+                    android:text="Address"
+                    android:textColor="@color/partial_black"
+                    android:textSize="@dimen/label_text_size"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:paddingTop="2dp"
+                    android:text="@{user.address}"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:paddingStart="5dp"
+                    android:textColor="@color/subtext"
+                    android:lines="6"
+                    android:gravity="top"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="23dp"
+            android:tint="@color/partial_black"
+            app:backgroundTint="@android:color/white"
+            app:srcCompat="@drawable/ic_check"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="20dp"
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

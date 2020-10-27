@@ -6,36 +6,51 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anew.R
+import com.example.anew.databinding.CartSingleItemLayoutBinding
+import com.example.anew.model.CartProduct
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class CartAdapter(private val context: Context, private val cartElementList:MutableList<CartData>) : RecyclerView.Adapter<CartHolder>() {
+class CartAdapter(val cartItemClickListener: CartItemClickListener,
+                  options: FirestoreRecyclerOptions<CartProduct>) :
+    FirestoreRecyclerAdapter<CartProduct, CartHolder>(
+        options
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartHolder {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.cart_single_item_layout, parent, false)
-        return CartHolder(view)
+
+        val binding: CartSingleItemLayoutBinding = DataBindingUtil
+            .inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.cart_single_item_layout,
+                parent,
+                false
+            )
+        return CartHolder(binding,cartItemClickListener)
     }
 
-    override fun onBindViewHolder(holder: CartHolder, position: Int) {
-        val element = cartElementList[position]
-        holder.apply {
-            medicine_name.text = element.name
-            medicine_prize.text = element.prize
+    override fun onBindViewHolder(holder: CartHolder, position: Int, model: CartProduct) {
+        holder.bind(model)
+    }
 
+    interface CartItemClickListener{
+        fun onCartItemClicked(view: View,cartProduct: CartProduct)
         }
     }
 
-    override fun getItemCount() = cartElementList.size
 
+class CartHolder(val binding: CartSingleItemLayoutBinding,val cartItemClickListener: CartAdapter.CartItemClickListener)
+    : RecyclerView.ViewHolder(binding.root)
+{
+    init {
+        binding.listner = cartItemClickListener
+    }
 
-}
-
-class CartHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    var medicine_image: ImageView = itemView.findViewById(R.id.medicine_image)
-    var medicine_name: TextView = itemView.findViewById(R.id.medicine_name)
-    var medicine_prize: TextView = itemView.findViewById(R.id.medicine_prize)
-
-
+    fun bind(model: CartProduct){
+        binding.cartProduct = model
+    }
 
 }

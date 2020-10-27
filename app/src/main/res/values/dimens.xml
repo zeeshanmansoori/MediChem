@@ -16,5 +16,6 @@
     <dimen name="edittextmarginright">5dp</dimen>
     <dimen name="table_padding">5dp</dimen>
     <dimen name="grid_2">16dp</dimen>
+    <dimen name="label_text_size">19sp</dimen>
 
 </resources>

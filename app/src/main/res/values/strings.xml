@@ -28,5 +28,7 @@
     <string name="Wishlist">Add to Wishlist</string>
     <string name="Share">Share</string>
     <string name="supra"><b>SUPRA WOOD</b></string>
+    <string name="date_added">date added %s</string>
+    <string name="prize">Price $ %s</string>
 
 </resources>

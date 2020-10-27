@@ -350,7 +350,11 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                     )
                         .show()
                     dialog.dismiss()
-                    findNavController().navigate(R.id.action_detailFragment_to_nav_home)
+                    //findNavController().navigate(R.id.action_detailFragment_to_nav_home)
+                    with(activity
+                     as AdminActivity){
+                        onBackPressed()
+                    }
                 }.addOnFailureListener {
                     Snackbar.make(
                         binding.root,

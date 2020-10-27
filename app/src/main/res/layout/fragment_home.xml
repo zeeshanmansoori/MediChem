@@ -23,11 +23,12 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/add_to_cart"
+            app:srcCompat="@drawable/ic_shopping_bag"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_margin="20dp"
-
+            app:backgroundTint="@android:color/white"
+            android:tint="@color/partial_black"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
