@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="viewModel"
-            type="com.example.anew.NavHeaderViewModel" />
+            name="user"
+            type="com.example.anew.model.User" />
     </data>
 
     <RelativeLayout
@@ -43,7 +43,7 @@
             tools:text="@string/nav_header_title"
             android:textColor="#33303E"
             android:textSize="18sp"
-            android:text="@{viewModel.user.name}"
+            android:text="@{user.name}"
             />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -52,7 +52,7 @@
             android:layout_height="96dp"
             android:layout_centerInParent="true"
             android:contentDescription="@string/nav_header_desc"
-            glideSrc="@{viewModel.user.image}"
+            glideSrc="@{user.image}"
             glideErrorSrc="@{@drawable/ic_edit_profile}"
             tools:src="@drawable/ic_edit_profile"
             />
@@ -67,7 +67,7 @@
             android:textColor="@android:color/black"
             android:layout_below="@id/user_name"
             android:layout_centerHorizontal="true"
-            android:text="@{viewModel.user.email}"
+            android:text="@{user.email}"
             />
 
 

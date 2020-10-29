@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="save changes"
+        android:id="@+id/user_profile_save"
+        android:icon="@drawable/ic_update"
+        android:iconTint="@android:color/black"
+        app:showAsAction="withText"
+        />
+    <item android:title="help"
+        android:id="@+id/user_profile_help"
+        android:icon="@drawable/help"
+        android:iconTint="@android:color/black"
+        app:showAsAction="withText"
+        />
+
+</menu>

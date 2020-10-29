@@ -1,11 +1,14 @@
 package com.example.anew.ui.cart
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anew.R
 import com.example.anew.databinding.FragmentCartBinding
@@ -18,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
-class CartFragment : Fragment(), CartAdapter.CartItemClickListener {
+class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClickListener {
 
     private lateinit var binding: FragmentCartBinding
     private lateinit var firestore: FirebaseFirestore
@@ -53,6 +56,8 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener {
 
                 }
             }
+
+            proceedToBuy.setOnClickListener(this@CartFragment)
         }
         return binding.root
     }
@@ -71,6 +76,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener {
         when(view.id){
             R.id.cart_delete_btn -> removeProductFromCart(cartProduct)
 
+
         }
     }
 
@@ -82,8 +88,13 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener {
                 .document(cartProduct.product.id)
                 .delete()
             deleteTask.addOnSuccessListener {
-                Snackbar.make(binding.root,"product has been removed from bag",Snackbar.LENGTH_SHORT).show()
+                Log.d("mytag","product removed from cart")
+
             }
         }
+    }
+
+    override fun onClick(v: View?) {
+        findNavController().navigate(R.id.action_nav_cart_to_paymentDetailsFragment)
     }
 }

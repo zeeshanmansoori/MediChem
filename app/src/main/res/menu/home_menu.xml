@@ -8,6 +8,14 @@
         app:showAsAction="always"
         android:icon="@drawable/search"/>
 
+
+    <item
+        android:id="@+id/profile"
+        android:title="My profile"
+        android:icon="@drawable/ic_edit_profile"
+        android:iconTint="@android:color/black"
+        />
+
     <item
         android:id="@+id/home_about"
         android:title="About"

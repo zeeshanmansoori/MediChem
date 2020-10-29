@@ -48,7 +48,6 @@ class MenuBottomSheetDialogFragment : BottomSheetDialogFragment() {
             dismiss()
             menuBottomSheetItemClickListener?.apply {
                 onMenuBottomSheetItemClicked(menuItem,product)
-
             }
             true
         }

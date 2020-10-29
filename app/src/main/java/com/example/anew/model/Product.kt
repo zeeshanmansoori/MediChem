@@ -21,7 +21,7 @@ data class Product(
     val name: String = "",
     val description: String = "",
     val expDate: String = "",
-    val quantity: Int = 0,
+    var quantity: Int = 0,
     val prize: Float = 0.0f,
     val manName: String = "",
     val image1:String = "",

@@ -88,7 +88,7 @@ class HomeFragment : Fragment(),AdminHomeAdapter.ProductItemClickListener {
         TODO("Not yet implemented")
     }
 
-    fun moveToDetailFragment(product: Product){
+    private fun moveToDetailFragment(product: Product){
             val action =  HomeFragmentDirections.actionNavHomeToMedDetailsFragment(product)
             findNavController().navigate(action)
     }

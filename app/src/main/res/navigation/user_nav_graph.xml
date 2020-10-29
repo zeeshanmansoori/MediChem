@@ -71,7 +71,19 @@
         android:id="@+id/nav_cart"
         android:name="com.example.anew.ui.cart.CartFragment"
         android:label="My Cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_nav_cart_to_paymentDetailsFragment"
+            app:destination="@id/paymentDetailsFragment" />
+        <action
+            android:id="@+id/action_nav_cart_to_newAddressFragment"
+            app:destination="@id/newAddressFragment" >
+            <argument
+                android:name="fromCart"
+                app:argType="boolean"
+                />
+        </action>
+    </fragment>
     <activity
         android:id="@+id/adminActivity"
         android:name="com.example.anew.AdminActivity"
@@ -88,11 +100,81 @@
         <action
             android:id="@+id/action_medDetailsFragment_to_nav_cart"
             app:destination="@id/nav_cart" />
+        <action
+            android:id="@+id/action_medDetailsFragment_to_newAddressFragment"
+            app:destination="@id/newAddressFragment" >
+            <argument
+                android:name="fromDetails"
+                app:argType="boolean"
+                />
+        </action>
+        <action
+            android:id="@+id/action_medDetailsFragment_to_proceedWithDefaultAddBottomSheet"
+            app:destination="@id/proceedWithDefaultAddBottomSheet" >
+            <argument
+                android:name="product"
+                app:argType="com.example.anew.model.Product" />
+            <argument
+                android:name="address"
+                app:argType="com.example.anew.model.Address"/>
+        </action>
+
     </fragment>
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.anew.ui.profile.ProfileFragment"
         android:label="profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/paymentDetailsFragment"
+        android:name="com.example.anew.ui.payment.PaymentDetailsFragment"
+        android:label="Payment"
+        tools:layout="@layout/fragment_payment_details"
+        />
+    <fragment
+        android:id="@+id/newAddressFragment"
+        android:name="com.example.anew.newAddress.NewAddressFragment"
+        android:label="Add new Address"
+        tools:layout="@layout/fragment_new_address" >
+        <argument
+            android:name="fromDetails"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="fromCart"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="fromBottomSheet"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/proceedWithDefaultAddBottomSheet"
+        android:name="com.example.anew.ui.admin.detail.ProceedWithDefaultAddBottomSheet"
+        android:label="ProceedWithDefaultAddBottomSheet"
+        tools:layout="@layout/proceed_with_default_add_bottom_sheet_layout"
+        >
+
+        <action
+            android:id="@+id/action_proceedWithDefaultAddBottomSheet_to_newAddressFragment2"
+            app:destination="@id/newAddressFragment" >
+            <argument
+                android:name="fromBottomSheet"
+                app:argType="boolean"/>
+        </action>
+        <action
+            android:id="@+id/action_proceedWithDefaultAddBottomSheet_to_paymentDetailsFragment"
+            app:destination="@id/paymentDetailsFragment" />
+        <argument
+            android:name="product"
+            app:argType="com.example.anew.model.Product" />
+
+        <argument
+            android:name="address"
+            app:argType="com.example.anew.model.Address" />
+    </dialog>
+
 
 </navigation>

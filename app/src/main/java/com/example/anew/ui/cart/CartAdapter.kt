@@ -51,6 +51,7 @@ class CartHolder(val binding: CartSingleItemLayoutBinding,val cartItemClickListe
 
     fun bind(model: CartProduct){
         binding.cartProduct = model
+        binding.numberPicker.number = model.product.quantity.toString()
     }
 
 }

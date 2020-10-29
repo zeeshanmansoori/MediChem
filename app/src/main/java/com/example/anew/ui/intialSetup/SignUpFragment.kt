@@ -1,15 +1,13 @@
 package com.example.anew.ui.intialSetup
 
-import android.app.Activity.MODE_PRIVATE
-import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -19,9 +17,7 @@ import com.example.anew.model.User
 import com.example.anew.utils.MyUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.regex.Pattern
 
 
 const val REQUEST_GET_PROFILE_IMAGE = 23
@@ -33,6 +29,7 @@ class SignUpFragment : Fragment(), View.OnClickListener {
     //private lateinit var userRef: DatabaseReference
 
     private lateinit var firestore: FirebaseFirestore
+
     //auth
     private lateinit var mAuth: FirebaseAuth
 
@@ -59,7 +56,8 @@ class SignUpFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.bottom_container -> v.findNavController().navigate(R.id.action_nav_signUp_to_nav_home)
+            R.id.bottom_container -> v.findNavController()
+                .navigate(R.id.action_nav_signUp_to_nav_home)
             R.id.sign_up_btn -> createAccount()
         }
     }
@@ -75,66 +73,74 @@ class SignUpFragment : Fragment(), View.OnClickListener {
             val phoneNo = phoneNoEditText.text.toString().trim()
             val email = emailEditText.text.toString().trim()
 
-            if (name.isEmpty()){
+            if (name.isEmpty()) {
                 nameEditText.error = "name is empty"
                 nameEditText.requestFocus()
                 return
             }
-            if (password.isEmpty()){
-                passwordEditText.error ="password is empty"
+            if (password.isEmpty()) {
+                passwordEditText.error = "password is empty"
                 passwordEditText.requestFocus()
 
                 return
             }
-            if (phoneNo.isEmpty()){
+            if (phoneNo.isEmpty()) {
                 phoneNoEditText.error = "phone number is empty"
                 phoneNoEditText.requestFocus()
                 return
-            }else if (phoneNo.length<10){
+            } else if (phoneNo.length < 10) {
                 phoneNoEditText.error = "phone number is of 10 characters"
                 phoneNoEditText.requestFocus()
                 return
             }
-            if (email.isEmpty()){
+            if (email.isEmpty()) {
                 emailEditText.error = "email is empty"
                 emailEditText.requestFocus()
                 return
             }
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 emailEditText.error = "please provide valid email"
                 emailEditText.requestFocus()
                 return
             }
 
-            if (password.length<6){
+            if (password.length < 6) {
                 passwordEditText.error = "password must be of minimum 6 character length"
                 passwordEditText.requestFocus()
                 return
             }
 
             progressBar.visibility = View.VISIBLE
-            val task= mAuth.createUserWithEmailAndPassword(email,password)
-            task.addOnCompleteListener {
-                task->
-                if (task.isSuccessful){
-                    val user = User(email,name,password,phoneNo,"")
-                    val userId = mAuth.currentUser?.uid
-                    userId?.let {
-                        firestore.collection(USER_REF).document(it).set(
-                            user
-                        )    .addOnSuccessListener {
-                            Snackbar.make(bindng.root,"user has been registered successfully",Snackbar.LENGTH_SHORT).show()
+            val task = mAuth.createUserWithEmailAndPassword(email, password)
+            task.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = User(email, name, password, phoneNo)
+                    val userId = mAuth.currentUser?.uid!!
+
+                    firestore.collection(USER_REF).document(userId).set(
+                        user
+                    ).addOnSuccessListener {
+                        Snackbar.make(
+                            bindng.root,
+                            "user has been registered successfully",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                        progressBar.visibility = View.GONE
+
+                    }
+                        .addOnFailureListener {
                             progressBar.visibility = View.GONE
+                            Snackbar.make(bindng.root, "failed to register ", Snackbar.LENGTH_SHORT)
+                                .show()
 
                         }
-                            .addOnFailureListener {
-                                progressBar.visibility = View.GONE
-                                Snackbar.make(bindng.root, "failed to register ", Snackbar.LENGTH_SHORT).show()
-                            }
-                    }
 
 
-                }else Snackbar.make(bindng.root,"can not create an account ",Snackbar.LENGTH_SHORT).show()
+                } else Snackbar.make(
+                    bindng.root,
+                    "can not create an account ",
+                    Snackbar.LENGTH_SHORT
+                ).show()
                 progressBar.visibility = View.GONE
             }
         }
@@ -158,10 +164,7 @@ class SignUpFragment : Fragment(), View.OnClickListener {
     }
 
 
-
 }
-
-
 
 
 //            if (isValid) {
