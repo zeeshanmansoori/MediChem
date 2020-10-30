@@ -1,190 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="product"
-            type="com.example.anew.model.Product" />
 
         <variable
             name="address"
             type="com.example.anew.model.Address" />
     </data>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/navigation_view"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-        <com.google.android.material.card.MaterialCardView
+        android:padding="2dp">
+
+        <RadioGroup
+            android:id="@+id/radio_group"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardPreventCornerOverlap="false"
-            android:layout_margin="2dp"
-            >
-            <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/pick_from_store_radio_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="2dp"
-                >
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/radio_group"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:padding="3dp"
-                    >
-                    <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/new_address_radio_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Go with New Address"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/partial_black"
-                        app:buttonTint="@color/partial_black"
-                        android:background="@drawable/button_with_border"
-                        />
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_with_border"
+                android:text="Pick from store"
+                android:textColor="@color/partial_black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:buttonTint="@color/partial_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/default_address_radio_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Choose Default Address"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/partial_black"
-                        android:layout_marginTop="10dp"
-                        android:checked="true"
-                        app:buttonTint="@color/partial_black"
-                        android:background="@drawable/button_with_border"
-                        />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                </RadioGroup>
                 <TextView
-                    android:id="@+id/default_address_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/product_description"
-                    android:textSize="14sp"
-                    android:textColor="@color/subtext"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/radio_group"
-                    android:layout_marginVertical="10dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:lines="4"
-                    android:ellipsize="end"
-                    android:text="@{address.toString()}"
-                    />
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/product_container"
+                    android:id="@+id/medical_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/default_address_container"
-                    android:padding="3dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:fontFamily="sans-serif-black"
+                    android:lines="1"
+                    android:text="MediCham Andheri west Mumbai"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
-                    >
-                    <TextView
-                        android:id="@+id/quantity_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Quantity :"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/partial_black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        />
-
-                    <TextView
-                        android:id="@+id/quantity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{String.valueOf(product.quantity)}"
-                        android:textSize="14sp"
-                        android:textColor="@color/subtext"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        />
-
-                    <TextView
-                        android:id="@+id/product_name_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name :"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/partial_black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/quantity_label"
-                        />
-
-                    <TextView
-                        android:id="@+id/product_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="product name"
-                        android:textSize="14sp"
-                        android:textColor="@color/subtext"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/quantity"
-                        android:text="@{product.name}"
-
-                        />
-
-                    <TextView
-                        android:id="@+id/product_prize_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Prize :"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/partial_black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/product_name_label"
-                        />
-
-                    <TextView
-                        android:id="@+id/product_prize"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="@{String.valueOf(product.prize)}"
-                        android:textSize="14sp"
-                        android:textColor="@color/subtext"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/product_name"
-                        />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buy_now"
-                    android:layout_width="200dp"
+                <TextView
+                    android:id="@+id/medical_full_address"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:letterSpacing="0.09"
-                    android:padding="5dp"
-                    android:text="Go To Payment"
-                    android:textColor="#ffff"
-                    android:textSize="15dp"
-                    app:backgroundTint="@color/partial_black"
-                    android:gravity="center"
-                    app:layout_constraintTop_toBottomOf="@id/product_container"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginTop="3dp"
+                    android:ellipsize="end"
+                    android:lines="3"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="5dp"
-                    />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/medical_address"
+                    tools:text="@string/medical_address"
+                    tools:visibility="visible" />
+            </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
+            <LinearLayout
+                android:id="@+id/medical_contact_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/medical_full_address">
+
+                <TextView
+                    android:id="@+id/phone_no"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/call_img"
+                    android:drawablePadding="5dp"
+                    android:maxLength="10"
+                    android:padding="5dp"
+                    android:text="9576832423"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/get_direction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableStart="@drawable/ic_location"
+                    android:drawablePadding="5dp"
+                    android:padding="5dp"
+                    android:text="Map Directions"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </LinearLayout>
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/default_address_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_with_border"
+                android:text="Choose Default Address"
+                android:textColor="@color/partial_black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:buttonTint="@color/partial_black"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/default_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="3dp"
+                android:layout_toEndOf="@id/pick_from_store_radio_button"
+                android:ellipsize="end"
+                android:lines="3"
+                android:text="@{address.toString()}"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/default_address_radio_button"
+                tools:text="@string/medical_address"
+                tools:visibility="visible" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/new_address_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_with_border"
+                android:text="Go with New Address"
+                android:textColor="@color/partial_black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:buttonTint="@color/partial_black"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </RadioGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buy_now"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="Go To Payment"
+            android:textColor="#ffff"
+            android:textSize="15dp"
+            app:backgroundTint="@color/partial_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_group" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

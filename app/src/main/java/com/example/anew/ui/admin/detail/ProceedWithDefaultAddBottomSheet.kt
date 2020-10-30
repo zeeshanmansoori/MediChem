@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 class ProceedWithDefaultAddBottomSheet() :
     BottomSheetDialogFragment(), RadioGroup.OnCheckedChangeListener {
 
-    private val navArgs:ProceedWithDefaultAddBottomSheetArgs by navArgs()
+    private val navArgs: ProceedWithDefaultAddBottomSheetArgs by navArgs()
 
     private lateinit var binding: ProceedWithDefaultAddBottomSheetLayoutBinding
     override fun onCreateView(
@@ -30,18 +30,46 @@ class ProceedWithDefaultAddBottomSheet() :
             container,
             false
         )
-        binding.product = navArgs.product
         binding.address = navArgs.address
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.radioGroup.setOnCheckedChangeListener(this)
+
         binding.buyNow.setOnClickListener {
-            navigateToNewAddress()
+            navigateToPayment()
         }
     }
+
+    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+        when (checkedId) {
+            binding.newAddressRadioButton.id -> navigateToNewAddress()
+
+            binding.pickFromStoreRadioButton.id -> {
+                binding.apply {
+                    medicalAddress.visibility = View.VISIBLE
+                    medicalFullAddress.visibility = View.VISIBLE
+                    defaultAddress.visibility = View.GONE
+                    phoneNo.visibility = View.VISIBLE
+                    getDirection.visibility = View.VISIBLE
+                }
+            }
+
+            binding.defaultAddressRadioButton.id -> {
+                binding.apply {
+                    medicalAddress.visibility = View.GONE
+                    medicalFullAddress.visibility = View.GONE
+                    phoneNo.visibility = View.GONE
+                    getDirection.visibility = View.GONE
+                    defaultAddress.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
 
     private fun navigateToNewAddress() {
         val action = ProceedWithDefaultAddBottomSheetDirections
@@ -49,14 +77,8 @@ class ProceedWithDefaultAddBottomSheet() :
         findNavController().navigate(action)
     }
 
-    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
-        when(checkedId){
-            binding.newAddressRadioButton.id -> findNavController()
-                .navigate(R.id.action_proceedWithDefaultAddBottomSheet_to_newAddressFragment2)
-
-
-        }
+    private fun navigateToPayment() {
+        findNavController().navigate(R.id.action_proceedWithDefaultAddBottomSheet_to_paymentDetailsFragment)
     }
-
 
 }

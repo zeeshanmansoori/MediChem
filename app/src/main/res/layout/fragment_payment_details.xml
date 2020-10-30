@@ -1,28 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.payment.PaymentDetailsFragment"
-
+        android:background="@color/all_bg_color"
         >
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-
+            android:layout_marginHorizontal="10dp"
             >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Select a payment method"
-                android:textSize="25sp"
-                android:textColor="@android:color/black"
-                android:padding="10dp"
+                android:textSize="20sp"
+                android:paddingTop="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Payment Options"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:layout_marginVertical="10dp"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                >
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_google_pay"
+                        android:drawablePadding="10dp"
+                        android:textAlignment="center"
+                        android:padding="10dp"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:text="Google Pay Upi"
+                        android:paddingStart="8dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textSize="15sp"
+                        />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_paytm"
+                        android:drawablePadding="10dp"
+                        android:textAlignment="center"
+                        android:padding="10dp"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:text="Paytm"
+                        android:paddingStart="8dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textSize="15sp"
+                        android:paddingBottom="5dp"
+                        />
+
+                </RadioGroup>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cart Total"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:layout_marginVertical="10dp"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    >
+                    <TextView
+                        android:id="@+id/no_of_items_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No of Items"
+                        android:textSize="15sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/subtext"
+                        />
+
+                    <TextView
+                        android:id="@+id/no_of_items"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="5"
+                        android:textSize="15sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/subtext"
+                        android:layout_alignParentEnd="true"
+                        />
+                    <TextView
+                        android:id="@+id/total_mrp_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total MRP"
+                        android:textSize="15sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/subtext"
+                        android:layout_below="@id/no_of_items_label"
+                        />
+
+                    <TextView
+                        android:id="@+id/total_mrp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Rs 3534.45"
+                        android:textSize="15sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/subtext"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/no_of_items"
+                        />
+
+                    <TextView
+                        android:id="@+id/shipping_charge_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shipping Charges"
+                        android:textSize="15sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/subtext"
+                        android:layout_below="@id/total_mrp_label"
+                        />
+
+                    <TextView
+                        android:id="@+id/shipping_charge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Rs 100.45"
+                        android:textSize="15sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/subtext"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/total_mrp"
+                        />
+
+                    <TextView
+                        android:id="@+id/discount_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Discount"
+                        android:textSize="15sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/subtext"
+                        android:layout_below="@id/shipping_charge_label"
+                        />
+
+                    <TextView
+                        android:id="@+id/discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Rs 0.0"
+                        android:textSize="15sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/subtext"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/shipping_charge"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/amount_to_be_paid_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Amount to be paid"
+                        android:textSize="17sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/text"
+                        android:layout_below="@id/discount_label"
+                        />
+
+                    <TextView
+                        android:id="@+id/amount_to_be_paid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Rs 1450.0"
+                        android:textSize="17sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/text"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/discount"
+                        />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/amount_to_be_paid"
+                        android:layout_marginTop="10dp"
+                        android:background="#1600FF7F"
+                        android:paddingHorizontal="10dp"
+                        >
+                        <TextView
+                            android:id="@+id/total_savings_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Amount to be paid"
+                            android:textSize="15sp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                            android:textColor="#00ff7f"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            />
+
+                        <TextView
+                            android:id="@+id/total_savings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Rs 1450.0"
+                            android:textSize="15sp"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                            android:textColor="#00ff7f"
+                            android:layout_alignParentEnd="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address Details"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:layout_marginVertical="10dp"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"
+                />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                >
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="MediCham Andheri west"
+                        android:textSize="17sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textColor="@color/text"
+                        />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="@color/subtext"
+                        tools:text="@string/medical_address"
+                        android:lines="5"
+                        android:ellipsize="end"
+                        />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

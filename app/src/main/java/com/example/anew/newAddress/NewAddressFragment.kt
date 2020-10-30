@@ -61,8 +61,9 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
         binding.stateSpinner.onItemSelectedListener = this
         binding.saveAddress.setOnClickListener {
-            if (varArgs.fromBottomSheet){
 
+            if (varArgs.fromBottomSheet){
+                addNewAddress()
             }else if (varArgs.fromCart)
             {
                 addNewAddress()
@@ -74,6 +75,7 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
 
     }
+
 
     private fun addNewAddress() {
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
@@ -126,8 +128,9 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 return
             }
 
-            dialog.startDialog()
+
             val address = Address(city, locality, buildingName, pinCode, state, landMark, userName, phoneNo, alternatePhoneNo)
+            dialog.startDialog()
             firestore.collection(USER_REF).document(userId)
                 .collection(USER_ADDRESSES).document(ADDRESS1).set(address)
                 .addOnSuccessListener {
