@@ -25,45 +25,48 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/margin_side"
-                android:layout_marginLeft="@dimen/margin_side"
-                android:layout_marginTop="60dp"
-                android:layout_marginEnd="@dimen/margin_side"
-                android:background="@drawable/table_bg"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="50dp"
                 android:orientation="vertical"
                 android:padding="@dimen/table_padding">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/email_edit_text_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    app:startIconDrawable="@drawable/email_img_bg"
+                    app:endIconMode="clear_text"
+                    app:errorEnabled="true"
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/email_img"
-                        android:drawableLeft="@drawable/email_img"
-                        android:drawablePadding="10dp"
-                        android:hint="enter registered phone number"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="textEmailAddress"
+                        android:background="@android:color/transparent"
+                        android:hint="Enter email address"
+                        />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_edit_text_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:startIconDrawable="@drawable/lock"
+                    app:endIconMode="password_toggle"
+                    app:errorEnabled="true"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/lock"
-                        android:drawableLeft="@drawable/lock"
-                        android:drawablePadding="10dp"
-                        android:hint="enter password"
-                        android:inputType="textPassword" />
+                        android:hint="Enter password"
+                        android:inputType="textPassword"
+                        android:background="@android:color/transparent"
+                        />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,15 +75,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp"
+                >
 
                 <com.google.android.material.checkbox.MaterialCheckBox
                     android:id="@+id/remember_me_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
                     android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:paddingRight="5dp"
@@ -99,9 +101,6 @@
                     android:id="@+id/forget_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp"
                     android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:paddingRight="5dp"

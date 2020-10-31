@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.anew.R
 import com.example.anew.databinding.FragmentSignUpBinding
 import com.example.anew.model.User
@@ -35,11 +37,12 @@ class SignUpFragment : Fragment(), View.OnClickListener {
 
     private var imageUri: Uri? = null
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //val binding = DataBindingUtil.inflate<>()
+
         bindng = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
         mAuth = FirebaseAuth.getInstance()
         settingListeners()
@@ -51,7 +54,36 @@ class SignUpFragment : Fragment(), View.OnClickListener {
         with(bindng) {
             signUpBtn.setOnClickListener(this@SignUpFragment)
             bottomContainer.setOnClickListener(this@SignUpFragment)
+
+            nameEditText.addTextChangedListener {
+                it?.let {
+                    if (it.isNotEmpty() && nameEditTextContainer.error != null)
+                        nameEditTextContainer.error = null
+                }
+            }
+
+            phoneNoEditText.addTextChangedListener {
+                it?.let {
+                    if (it.isNotEmpty() && phoneNoEditTextContainer.error != null)
+                        phoneNoEditTextContainer.error = null
+                }
+            }
+
+            passwordEditText.addTextChangedListener {
+                it?.let {
+                    if (it.isNotEmpty() && passwordEditTextContainer.error != null)
+                        passwordEditTextContainer.error = null
+                }
+            }
+
+            emailEditText.addTextChangedListener {
+                it?.let {
+                    if (it.isNotEmpty() && emailEditTextContainer.error != null)
+                        emailEditTextContainer.error = null
+                }
+            }
         }
+
     }
 
     override fun onClick(v: View?) {
@@ -70,47 +102,48 @@ class SignUpFragment : Fragment(), View.OnClickListener {
         with(bindng) {
             val name = nameEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
-            val phoneNo = phoneNoEditText.text.toString().trim()
+            val phoneNo = phoneNoEditText.text.toString()
             val email = emailEditText.text.toString().trim()
 
             if (name.isEmpty()) {
-                nameEditText.error = "name is empty"
-                nameEditText.requestFocus()
+                nameEditTextContainer.error = "name is empty"
+                nameEditTextContainer.requestFocus()
                 return
             }
             if (password.isEmpty()) {
-                passwordEditText.error = "password is empty"
-                passwordEditText.requestFocus()
+                passwordEditTextContainer.error = "password is empty"
+                passwordEditTextContainer.requestFocus()
 
                 return
             }
             if (phoneNo.isEmpty()) {
-                phoneNoEditText.error = "phone number is empty"
-                phoneNoEditText.requestFocus()
+                phoneNoEditTextContainer.error = "phone number is empty"
+                phoneNoEditTextContainer.requestFocus()
                 return
             } else if (phoneNo.length < 10) {
-                phoneNoEditText.error = "phone number is of 10 characters"
-                phoneNoEditText.requestFocus()
+                phoneNoEditTextContainer.error = "phone number is of 10 characters"
+                phoneNoEditTextContainer.requestFocus()
                 return
             }
             if (email.isEmpty()) {
-                emailEditText.error = "email is empty"
-                emailEditText.requestFocus()
+                emailEditTextContainer.error = "email is empty"
+                emailEditTextContainer.requestFocus()
                 return
             }
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                emailEditText.error = "please provide valid email"
-                emailEditText.requestFocus()
+                emailEditTextContainer.error = "please provide valid email"
+                emailEditTextContainer.requestFocus()
                 return
             }
 
-            if (password.length < 6) {
-                passwordEditText.error = "password must be of minimum 6 character length"
-                passwordEditText.requestFocus()
+            if (password.length < 8) {
+                passwordEditTextContainer.error = "password must be of minimum 8 characters"
+                passwordEditTextContainer.requestFocus()
                 return
             }
 
             progressBar.visibility = View.VISIBLE
+
             val task = mAuth.createUserWithEmailAndPassword(email, password)
             task.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -126,7 +159,7 @@ class SignUpFragment : Fragment(), View.OnClickListener {
                             Snackbar.LENGTH_SHORT
                         ).show()
                         progressBar.visibility = View.GONE
-
+                            moveToHome()
                     }
                         .addOnFailureListener {
                             progressBar.visibility = View.GONE
@@ -144,6 +177,10 @@ class SignUpFragment : Fragment(), View.OnClickListener {
                 progressBar.visibility = View.GONE
             }
         }
+    }
+
+    private fun moveToHome(){
+        findNavController().navigate(R.id.action_nav_signUp_to_nav_home)
     }
 
 //    private fun getProfileImage() {

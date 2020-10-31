@@ -82,6 +82,9 @@
                 android:name="fromCart"
                 app:argType="boolean"
                 />
+            <argument
+                android:name="products"
+                app:argType="com.example.anew.model.Product[]" />
         </action>
     </fragment>
     <activity
@@ -107,6 +110,10 @@
                 android:name="fromDetails"
                 app:argType="boolean"
                 />
+
+            <argument
+                android:name="products"
+                app:argType="com.example.anew.model.Product[]" />
         </action>
         <action
             android:id="@+id/action_medDetailsFragment_to_proceedWithDefaultAddBottomSheet"
@@ -130,7 +137,14 @@
         android:name="com.example.anew.ui.payment.PaymentDetailsFragment"
         android:label="Payment"
         tools:layout="@layout/fragment_payment_details"
-        />
+        >
+        <argument
+            android:name="address"
+            app:argType="com.example.anew.model.Address" />
+        <argument
+            android:name="product"
+            app:argType="com.example.anew.model.Product" />
+    </fragment>
     <fragment
         android:id="@+id/newAddressFragment"
         android:name="com.example.anew.newAddress.NewAddressFragment"
@@ -148,25 +162,19 @@
             android:name="fromBottomSheet"
             app:argType="boolean"
             android:defaultValue="false" />
+        <argument
+            android:name="products"
+            app:argType="com.example.anew.model.Product[]" />
+
     </fragment>
 
     <dialog
         android:id="@+id/proceedWithDefaultAddBottomSheet"
-        android:name="com.example.anew.ui.admin.detail.ProceedWithDefaultAddBottomSheet"
+        android:name="com.example.anew.utils.ProceedWithDefaultAddBottomSheet"
         android:label="ProceedWithDefaultAddBottomSheet"
         tools:layout="@layout/proceed_with_default_add_bottom_sheet_layout"
         >
 
-        <action
-            android:id="@+id/action_proceedWithDefaultAddBottomSheet_to_newAddressFragment2"
-            app:destination="@id/newAddressFragment" >
-            <argument
-                android:name="fromBottomSheet"
-                app:argType="boolean"/>
-        </action>
-        <action
-            android:id="@+id/action_proceedWithDefaultAddBottomSheet_to_paymentDetailsFragment"
-            app:destination="@id/paymentDetailsFragment" />
         <argument
             android:name="product"
             app:argType="com.example.anew.model.Product" />
@@ -174,6 +182,30 @@
         <argument
             android:name="address"
             app:argType="com.example.anew.model.Address" />
+
+        <action
+            android:id="@+id/action_proceedWithDefaultAddBottomSheet_to_newAddressFragment2"
+            app:destination="@id/newAddressFragment" >
+            <argument
+                android:name="fromBottomSheet"
+                app:argType="boolean"/>
+            <argument
+                android:name="products"
+                app:argType="com.example.anew.model.Product[]" />
+        </action>
+        <action
+            android:id="@+id/action_proceedWithDefaultAddBottomSheet_to_paymentDetailsFragment"
+            app:destination="@id/paymentDetailsFragment" >
+
+            <argument
+                android:name="address"
+                app:argType="com.example.anew.model.Address" />
+            <argument
+                android:name="product"
+                app:argType="com.example.anew.model.Product" />
+
+        </action>
+
     </dialog>
 
 

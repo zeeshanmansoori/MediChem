@@ -1,5 +1,8 @@
 package com.example.anew.model
 
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
 const val DESCRIPTION = "description"
@@ -15,9 +18,9 @@ const val IMAGE3 = "image3"
 const val IMAGE4 = "image4"
 
 
-
+@Parcelize
 data class Product(
-    val id:String = "",
+    val id: String = "",
     val name: String = "",
     val description: String = "",
     val expDate: String = "",
@@ -28,4 +31,4 @@ data class Product(
     val image2:String = "",
     val image3:String = "",
     val image4:String = ""
-):Serializable
+):Parcelable

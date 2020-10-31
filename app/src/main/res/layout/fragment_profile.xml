@@ -8,6 +8,7 @@
         <variable
             name="user"
             type="com.example.anew.model.User" />
+
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -107,7 +108,6 @@
                         android:textSize="16sp"
                         android:paddingStart="8dp"
                         android:textColor="@color/subtext"
-                        tools:text="649982316546"
 
                         />
 
@@ -148,7 +148,7 @@
                     android:textSize="@dimen/label_text_size"
                     android:textStyle="bold" />
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/address_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

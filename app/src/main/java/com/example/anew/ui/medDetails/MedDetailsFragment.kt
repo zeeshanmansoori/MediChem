@@ -136,7 +136,7 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
 
     private fun navigateToNewAddress() {
         val action = MedDetailsFragmentDirections
-            .actionMedDetailsFragmentToNewAddressFragment(true)
+            .actionMedDetailsFragmentToNewAddressFragment(true,products = arrayOf(args.product))
         findNavController().navigate(action)
     }
 

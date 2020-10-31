@@ -76,7 +76,7 @@ dependencies {
 
     // FirebaseUI for Cloud Storage
     // show image from downloaduri
-   // implementation 'com.firebaseui:firebase-ui-storage:6.3.0'
+    // implementation 'com.firebaseui:firebase-ui-storage:6.3.0'
 
     implementation 'com.google.firebase:firebase-auth:19.4.0'
     implementation 'com.google.firebase:firebase-firestore:21.7.1'
@@ -96,4 +96,9 @@ dependencies {
 
     //number picker
     implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
+
+    // google pay
+
+    //implementation 'com.google.android.gms:play-services-wallet:18.1.1'
+
 }

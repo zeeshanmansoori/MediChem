@@ -25,28 +25,31 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
-    private lateinit var binding:FragmentNewAddressBinding
+    private lateinit var binding: FragmentNewAddressBinding
 
     private val firestore = FirebaseFirestore.getInstance()
 
     private val mAuth = FirebaseAuth.getInstance()
     private val userId = mAuth.currentUser?.uid!!
 
-    private val varArgs:NewAddressFragmentArgs by navArgs()
+    private val varArgs: NewAddressFragmentArgs by navArgs()
 
-
-    private lateinit var state:String
+    private lateinit var state: String
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_new_address, container, false)
-        findNavController().addOnDestinationChangedListener {
-                controller, destination, arguments ->
-            Log.d("mytag","destination = ${destination.label}")
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_address, container, false)
+
+
+        when {
+            varArgs.fromBottomSheet -> binding.saveAddress.text = "move to payment"
+            else -> binding.saveAddress.text = "save address"
         }
+
         return binding.root
     }
 
@@ -54,22 +57,23 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
         super.onViewCreated(view, savedInstanceState)
         binding.stateSpinner.adapter =
             ArrayAdapter.createFromResource(
-                activity?.baseContext!!,R.array.india_states
-            ,android.R.layout.simple_spinner_item
+                activity?.baseContext!!, R.array.india_states, android.R.layout.simple_spinner_item
             ).apply {
                 setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
             }
         binding.stateSpinner.onItemSelectedListener = this
         binding.saveAddress.setOnClickListener {
 
-            if (varArgs.fromBottomSheet){
-                addNewAddress()
-            }else if (varArgs.fromCart)
-            {
-                addNewAddress()
-            }else if (varArgs.fromDetails)
-            {
-                addNewAddress()
+            when {
+                varArgs.fromBottomSheet -> {
+                    moveToPayment()
+                }
+                varArgs.fromCart -> {
+                    addNewAddress()
+                }
+                varArgs.fromDetails -> {
+                    addNewAddress()
+                }
             }
         }
 
@@ -110,7 +114,7 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 return
             }
             if (state.isEmpty()) {
-                Snackbar.make(binding.root,"plz select state",Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.root, "plz select state", Snackbar.LENGTH_SHORT)
                     .show()
 
                 stateSpinner.requestFocus()
@@ -129,14 +133,94 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
 
 
-            val address = Address(city, locality, buildingName, pinCode, state, landMark, userName, phoneNo, alternatePhoneNo)
+            val address = Address(
+                city,
+                locality,
+                buildingName,
+                pinCode,
+                state,
+                landMark,
+                userName,
+                phoneNo,
+                alternatePhoneNo
+            )
             dialog.startDialog()
             firestore.collection(USER_REF).document(userId)
                 .collection(USER_ADDRESSES).document(ADDRESS1).set(address)
                 .addOnSuccessListener {
-                    Snackbar.make(binding.root,"address added successfully !",Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        binding.root,
+                        "address added successfully !",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     dialog.dismissDialog()
                 }
+        }
+    }
+
+    private fun moveToPayment() {
+        with(binding) {
+            val city = cityName.text?.trim().toString()
+            val locality = locality.text?.trim().toString()
+            val buildingName = buildingName.text?.trim().toString()
+            val pinCode = pinCode.text?.trim().toString()
+            val landMark = landMark.text?.trim().toString()
+            val userName = userName.text?.trim().toString()
+            val phoneNo = phoneNo.text?.trim().toString()
+            val alternatePhoneNo = alternatePhoneNo.text?.trim().toString()
+
+            if (city.isEmpty()) {
+                cityName.error = "city can not be empty !"
+                cityName.requestFocus()
+                return
+            }
+            if (locality.isEmpty()) {
+                binding.locality.error = "locality can not be empty !"
+                binding.locality.requestFocus()
+                return
+            }
+            if (buildingName.isEmpty()) {
+                binding.buildingName.error = "buildingName can not be empty !"
+                binding.buildingName.requestFocus()
+                return
+            }
+            if (pinCode.isEmpty()) {
+                binding.pinCode.error = "pincode can not be empty !"
+                binding.pinCode.requestFocus()
+                return
+            }
+            if (state.isEmpty()) {
+                Snackbar.make(binding.root, "plz select state", Snackbar.LENGTH_SHORT)
+                    .show()
+
+                stateSpinner.requestFocus()
+                return
+            }
+            if (userName.isEmpty()) {
+                binding.userName.error = "userName can not be empty !"
+                binding.userName.requestFocus()
+                return
+            }
+
+            if (phoneNo.isEmpty()) {
+                binding.phoneNo.error = "phoneNo can not be empty !"
+                binding.phoneNo.requestFocus()
+                return
+            }
+
+            val address = Address(
+                city,
+                locality,
+                buildingName,
+                pinCode,
+                state,
+                landMark,
+                userName,
+                phoneNo,
+                alternatePhoneNo
+            )
+
+
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.anew.ui.admin.detail
+package com.example.anew.utils
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.anew.R
 import com.example.anew.databinding.ProceedWithDefaultAddBottomSheetLayoutBinding
+import com.example.anew.model.Address
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.snackbar.Snackbar
 
 class ProceedWithDefaultAddBottomSheet() :
     BottomSheetDialogFragment(), RadioGroup.OnCheckedChangeListener {
@@ -19,6 +19,8 @@ class ProceedWithDefaultAddBottomSheet() :
     private val navArgs: ProceedWithDefaultAddBottomSheetArgs by navArgs()
 
     private lateinit var binding: ProceedWithDefaultAddBottomSheetLayoutBinding
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,13 +74,38 @@ class ProceedWithDefaultAddBottomSheet() :
 
 
     private fun navigateToNewAddress() {
-        val action = ProceedWithDefaultAddBottomSheetDirections
-            .actionProceedWithDefaultAddBottomSheetToNewAddressFragment2(true)
-        findNavController().navigate(action)
+//        val action =
+//            ProceedWithDefaultAddBottomSheetDirections.actionProceedWithDefaultAddBottomSheetToNewAddressFragment2(
+//                true
+//            )
+//        findNavController().navigate(action)
     }
 
     private fun navigateToPayment() {
-        findNavController().navigate(R.id.action_proceedWithDefaultAddBottomSheet_to_paymentDetailsFragment)
+
+        var address = when (binding.radioGroup.checkedRadioButtonId) {
+
+            binding.pickFromStoreRadioButton.id -> {
+                Address(
+                    "mumbai", "andheri (west)",
+                    "shanti apart", "400103", "MAHARASHTRA",
+                    "opposite to cinema", "", "126574357", ""
+                )
+            }
+
+            binding.defaultAddressRadioButton.id -> navArgs.address
+
+            else -> Address()
+
+        }
+
+        val action =
+            ProceedWithDefaultAddBottomSheetDirections.actionProceedWithDefaultAddBottomSheetToPaymentDetailsFragment(
+                address,
+                navArgs.product
+            )
+
+        findNavController().navigate(action)
     }
 
 }

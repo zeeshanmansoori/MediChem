@@ -1,5 +1,7 @@
 package com.example.anew.ui.intialSetup
 
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Patterns
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
@@ -22,14 +25,23 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
+const val CHECK_BOX = "checkbox"
 class loginFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var databaseReference: DatabaseReference
 
+    private val sharedPreferences = context?.getSharedPreferences(CHECK_BOX,MODE_PRIVATE)!!
+    private val rememberMe = sharedPreferences.getBoolean(CHECK_BOX,false)
     //auth
     private lateinit var mAuth: FirebaseAuth
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (mAuth.currentUser!=null && rememberMe)
+            findNavController().navigate(R.id.action_nav_login_to_nav_home)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,24 +81,24 @@ class loginFragment : Fragment(), View.OnClickListener {
             val password = passwordEditText.text.toString().trim()
 
             if (email.isEmpty()) {
-                emailEditText.error = "email is empty"
-                emailEditText.requestFocus()
+                emailEditTextContainer.error = "email is empty"
+                emailEditTextContainer.requestFocus()
                 return
 
             }
             if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                emailEditText.error = "provide valid email"
-                emailEditText.requestFocus()
+                emailEditTextContainer.error = "provide valid email"
+                emailEditTextContainer.requestFocus()
                 return
             }
 
             if (password.isEmpty()){
-                passwordEditText.error = "password is empty"
-                passwordEditText.requestFocus()
+                passwordEditTextContainer.error = "password is empty"
+                passwordEditTextContainer.requestFocus()
                 return
             }else if (password.length<6){
-                passwordEditText.error = "password length must be greater than 5 characters"
-                passwordEditText.requestFocus()
+                passwordEditTextContainer.error = "password must be of minimum 8 characters"
+                passwordEditTextContainer.requestFocus()
                 return
             }
 
@@ -112,6 +124,10 @@ class loginFragment : Fragment(), View.OnClickListener {
                     Snackbar.make(root,"login failed",Snackbar.LENGTH_SHORT).show()
                     dialog.dismissDialog()
                 }
+                with(sharedPreferences.edit()){
+                    putBoolean(CHECK_BOX,binding.rememberMeCheckbox.isChecked)
+                    apply()
+                }
             }
         }
 
@@ -125,6 +141,19 @@ class loginFragment : Fragment(), View.OnClickListener {
             loginBtn.setOnClickListener(this@loginFragment)
             bottomContainer.setOnClickListener(this@loginFragment)
 
+            emailEditText.addTextChangedListener {
+                it?.let {
+                    if (it.isNotEmpty() && emailEditTextContainer.error!=null)
+                        emailEditTextContainer.error = null
+                }
+            }
+
+            passwordEditText.addTextChangedListener {
+                it?.let {
+                    if (it.isNotEmpty() && passwordEditTextContainer.error!=null)
+                        passwordEditTextContainer.error = null
+                }
+            }
         }
     }
 
