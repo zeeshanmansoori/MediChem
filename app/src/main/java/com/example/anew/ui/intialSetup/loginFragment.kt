@@ -24,22 +24,22 @@ import com.example.anew.utils.CustomLoadingDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import io.paperdb.Paper
 
 const val CHECK_BOX = "checkbox"
 class loginFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var databaseReference: DatabaseReference
 
-    private val sharedPreferences = context?.getSharedPreferences(CHECK_BOX,MODE_PRIVATE)!!
-    private val rememberMe = sharedPreferences.getBoolean(CHECK_BOX,false)
     //auth
-    private lateinit var mAuth: FirebaseAuth
+    private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (mAuth.currentUser!=null && rememberMe)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Paper.init(activity)
+        if (Paper.book().read(CHECK_BOX,false) && mAuth.currentUser!=null){
             findNavController().navigate(R.id.action_nav_login_to_nav_home)
+        }
 
     }
 
@@ -50,7 +50,6 @@ class loginFragment : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        mAuth = FirebaseAuth.getInstance()
 
         settingListeners()
         return binding.root
@@ -124,10 +123,8 @@ class loginFragment : Fragment(), View.OnClickListener {
                     Snackbar.make(root,"login failed",Snackbar.LENGTH_SHORT).show()
                     dialog.dismissDialog()
                 }
-                with(sharedPreferences.edit()){
-                    putBoolean(CHECK_BOX,binding.rememberMeCheckbox.isChecked)
-                    apply()
-                }
+
+                Paper.book().write(CHECK_BOX,binding.rememberMeCheckbox.isChecked)
             }
         }
 

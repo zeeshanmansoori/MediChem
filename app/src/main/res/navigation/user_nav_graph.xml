@@ -110,7 +110,6 @@
                 android:name="fromDetails"
                 app:argType="boolean"
                 />
-
             <argument
                 android:name="products"
                 app:argType="com.example.anew.model.Product[]" />
@@ -142,9 +141,10 @@
             android:name="address"
             app:argType="com.example.anew.model.Address" />
         <argument
-            android:name="product"
-            app:argType="com.example.anew.model.Product" />
+            android:name="products"
+            app:argType="com.example.anew.model.Product[]" />
     </fragment>
+
     <fragment
         android:id="@+id/newAddressFragment"
         android:name="com.example.anew.newAddress.NewAddressFragment"
@@ -201,8 +201,8 @@
                 android:name="address"
                 app:argType="com.example.anew.model.Address" />
             <argument
-                android:name="product"
-                app:argType="com.example.anew.model.Product" />
+                android:name="products"
+                app:argType="com.example.anew.model.Product[]" />
 
         </action>
 

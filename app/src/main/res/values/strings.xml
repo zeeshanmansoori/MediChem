@@ -31,6 +31,7 @@
     <string name="date_added">date added %s</string>
     <string name="prize">Price $ %s</string>
     <string name="subtotal_prize">subtotal ( %s items ) : $ %s</string>
+    <string name="show_in_rupee">Rs %s</string>
     <string name="product_description">Description\nA progressive casual runner, Motion provides long lasting comfort, traction and flexibility in an upper of breathable materials with a distinctive cage-inspired eye stay. A lightweight sole with a deep geometric.</string>
     <string name="medical_address">
         Description\nA progressive casual runner, Motion provides long lasting comfort, traction and flexibility in an upper

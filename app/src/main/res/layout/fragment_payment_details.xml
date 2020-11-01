@@ -1,90 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="address"
+            type="com.example.anew.model.Address" />
+        <variable
+            name="paymentProduct"
+            type="com.example.anew.model.PaymentProduct" />
+    </data>
     <com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.payment.PaymentDetailsFragment"
             android:background="@color/all_bg_color"
-            >
+            tools:context=".ui.payment.PaymentDetailsFragment">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_marginHorizontal="10dp"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Select a payment method"
-                    android:textSize="20sp"
                     android:paddingTop="10dp"
+                    android:text="Select a payment method"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    />
+                    android:textSize="20sp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
                     android:text="Payment Options"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_marginTop="10dp"
                     android:textColor="@android:color/holo_red_light"
-                    android:textSize="16sp"
-                    android:layout_marginStart="5dp"
-                    />
+                    android:textSize="16sp" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    app:cardPreventCornerOverlap="false"
-                    >
+                    app:cardPreventCornerOverlap="false">
+
                     <RadioGroup
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_google_pay"
                             android:drawablePadding="10dp"
-                            android:textAlignment="center"
                             android:padding="10dp"
-                            />
+                            android:textAlignment="center" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="25dp"
-                            android:text="Google Pay Upi"
                             android:paddingStart="8dp"
+                            android:text="Google Pay Upi"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textSize="15sp"
-                            />
+                            android:textSize="15sp" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
                             android:drawableStart="@drawable/ic_paytm"
                             android:drawablePadding="10dp"
-                            android:textAlignment="center"
                             android:padding="10dp"
-                            />
+                            android:textAlignment="center" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="25dp"
-                            android:text="Paytm"
                             android:paddingStart="8dp"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textSize="15sp"
                             android:paddingBottom="5dp"
-                            />
+                            android:text="Paytm"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                            android:textSize="15sp" />
 
                     </RadioGroup>
                 </com.google.android.material.card.MaterialCardView>
@@ -92,155 +96,159 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
                     android:text="Cart Total"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_marginTop="10dp"
                     android:textColor="@android:color/holo_red_light"
-                    android:textSize="16sp"
-                    android:layout_marginStart="5dp"
-                    />
+                    android:textSize="16sp" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardPreventCornerOverlap="false"
-                    >
+                    app:cardPreventCornerOverlap="false">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        >
+                        android:padding="15dp">
+
                         <TextView
                             android:id="@+id/no_of_items_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="No of Items"
-                            android:textSize="@dimen/label_text_size14"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/subtext"
+                            android:textSize="@dimen/label_text_size14"
                             />
 
                         <TextView
                             android:id="@+id/no_of_items"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="5"
-                            android:textSize="@dimen/label_text_size14"
+                            android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/subtext"
-                            android:layout_alignParentEnd="true"
+                            android:textSize="@dimen/label_text_size14"
+                            tools:text="5"
+                            android:text="@{String.valueOf(paymentProduct.noOfItems)}"
                             />
+
                         <TextView
                             android:id="@+id/total_mrp_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_below="@id/no_of_items_label"
                             android:text="Total MRP"
-                            android:textSize="@dimen/label_text_size14"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/subtext"
-                            android:layout_below="@id/no_of_items_label"
-                            />
+                            android:textSize="@dimen/label_text_size14" />
 
                         <TextView
                             android:id="@+id/total_mrp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="Rs 3534.45"
-                            android:textSize="@dimen/label_text_size14"
+                            android:layout_below="@id/no_of_items"
+                            android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/subtext"
-                            android:layout_alignParentEnd="true"
-                            android:layout_below="@id/no_of_items"
+                            android:textSize="@dimen/label_text_size14"
+                            tools:text="Rs 3534.45"
+                            android:text="@{@string/show_in_rupee(String.valueOf(paymentProduct.totalMrp))}"
                             />
 
                         <TextView
                             android:id="@+id/shipping_charge_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_below="@id/total_mrp_label"
                             android:text="Shipping Charges"
-                            android:textSize="@dimen/label_text_size14"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/subtext"
-                            android:layout_below="@id/total_mrp_label"
-                            />
+                            android:textSize="@dimen/label_text_size14" />
 
                         <TextView
                             android:id="@+id/shipping_charge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="Rs 100.45"
-                            android:textSize="@dimen/label_text_size14"
+                            android:layout_below="@id/total_mrp"
+                            android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/subtext"
-                            android:layout_alignParentEnd="true"
-                            android:layout_below="@id/total_mrp"
+                            android:textSize="@dimen/label_text_size14"
+                            tools:text="Rs 100.45"
+                            android:text="@{@string/show_in_rupee(String.valueOf(paymentProduct.shippingCharges))}"
                             />
+
 
                         <TextView
                             android:id="@+id/discount_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_below="@id/shipping_charge_label"
                             android:text="Discount"
-                            android:textSize="@dimen/label_text_size14"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/subtext"
-                            android:layout_below="@id/shipping_charge_label"
+                            android:textSize="@dimen/label_text_size14"
+
                             />
 
                         <TextView
                             android:id="@+id/discount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="Rs 0.0"
-                            android:textSize="@dimen/label_text_size14"
+                            android:layout_below="@id/shipping_charge"
+                            android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/subtext"
-                            android:layout_alignParentEnd="true"
-                            android:layout_below="@id/shipping_charge"
+                            android:textSize="@dimen/label_text_size14"
+                            tools:text="Rs 0.0"
+                            android:text="@{@string/show_in_rupee(paymentProduct.discount)}"
                             />
-
-
                         <TextView
                             android:id="@+id/amount_to_be_paid_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_below="@id/discount_label"
                             android:text="Amount to be paid"
-                            android:textSize="@dimen/label_text_size16"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/text"
-                            android:layout_below="@id/discount_label"
-                            />
+                            android:textSize="@dimen/label_text_size16" />
 
                         <TextView
                             android:id="@+id/amount_to_be_paid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="Rs 1450.0"
-                            android:textSize="@dimen/label_text_size16"
+                            android:layout_below="@id/discount"
+                            android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/text"
-                            android:layout_alignParentEnd="true"
-                            android:layout_below="@id/discount"
+                            android:textSize="@dimen/label_text_size16"
+                            tools:text="Rs 1450.0"
+                            android:text="@{@string/show_in_rupee(paymentProduct.amountToBePaid)}"
                             />
+
+
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/amount_to_be_paid"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
                             android:layout_marginTop="10dp"
                             android:background="#0800FF7F"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentBottom="true"
-                            android:paddingVertical="10dp"
-                            >
+                            android:paddingVertical="10dp">
+
                             <TextView
                                 android:id="@+id/total_savings_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Amount to be paid"
-                                android:textSize="@dimen/label_text_size14"
+                                android:text="Total Savings"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                                 android:textColor="#00ff7f"
+                                android:textSize="@dimen/label_text_size14"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
 
@@ -250,14 +258,16 @@
                                 android:id="@+id/total_savings"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="Rs 1450.0"
-                                android:textSize="@dimen/label_text_size14"
+                                android:layout_alignParentEnd="true"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                                 android:textColor="#00ff7f"
-                                android:layout_alignParentEnd="true"
+                                android:textSize="@dimen/label_text_size14"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
+                                tools:text="Rs 1450.0"
+                                android:text="@{@string/show_in_rupee(String.valueOf(paymentProduct.totalSavings))}"
                                 />
+
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </RelativeLayout>
@@ -267,42 +277,44 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
                     android:text="Address Details"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:layout_marginTop="10dp"
                     android:textColor="@android:color/holo_red_light"
-                    android:textSize="16sp"
-                    android:layout_marginStart="5dp"
-                    />
+                    android:textSize="16sp" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardPreventCornerOverlap="false"
-                    >
+                    app:cardPreventCornerOverlap="false">
+
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="5dp"
-                        >
+                        android:padding="5dp">
+
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/address_header"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="MediCham Andheri west"
-                            android:textSize="@dimen/label_text_size16"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                             android:textColor="@color/text"
+                            android:textSize="@dimen/label_text_size16"
+                            tools:text="MediCham Andheri west"
                             />
+
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/address_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/label_text_size14"
-                            android:textColor="@color/subtext"
-                            tools:text="@string/medical_address"
-                            android:lines="5"
                             android:ellipsize="end"
-                            />
+                            android:lines="5"
+                            android:textColor="@color/subtext"
+                            android:textSize="@dimen/label_text_size14"
+                            android:text="@{address.toString()}"
+                            tools:text="@string/medical_address" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </com.google.android.material.card.MaterialCardView>
@@ -311,53 +323,56 @@
 
         </ScrollView>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:paddingTop="5dp"
+            android:layout_gravity="bottom"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
             >
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/to_be_paid_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="To be paid"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="10dp"
-                    app:layout_constraintBottom_toTopOf="@+id/to_be_paid"
-                    />
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/to_be_paid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rs 578.76"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/to_be_paid_label"
-                    android:textSize="@dimen/label_text_size16"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:layout_marginStart="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    />
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="Proceed to Payment"
-                    android:layout_marginEnd="10dp"
-                    android:backgroundTint="#00ff7f"
-                    android:textColor="@android:color/white"
-                    android:elevation="0dp"
-                    />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/to_be_paid_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="To be paid"
+                app:layout_constraintBottom_toTopOf="@+id/to_be_paid"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/to_be_paid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="@dimen/label_text_size16"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/to_be_paid_label"
+                tools:text="2345.43"
+                android:text="@{@string/show_in_rupee(String.valueOf(paymentProduct.amountToBePaid))}"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="Pay now"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingVertical="4dp"
+                android:textSize="@dimen/label_text_size14"
+                app:backgroundTint="@color/partial_black"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout>
 
 

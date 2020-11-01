@@ -181,25 +181,17 @@
                         android:text="Qty"
                         android:textSize="16sp" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/product_quantity_drop_down"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:endIconDrawable="@drawable/right_arrow"
-
-                        >
-
-                        <AutoCompleteTextView
-                            android:id="@+id/product_quantity_drop_down"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:backgroundTint="@color/partial_black"
-                            android:inputType="none"
-                            android:text="1"
-                            android:textSize="14sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginHorizontal="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

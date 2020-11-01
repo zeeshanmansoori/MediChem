@@ -3,6 +3,7 @@ package com.example.anew.ui.medDetails
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -44,7 +45,28 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
         //product = args.product
         binding.product = args.product
         binding.listener = this
-
+        binding.productQuantityDropDown.adapter =
+            ArrayAdapter.createFromResource(
+                activity?.baseContext!!, R.array.product_quantity, R.layout.spinner_item
+            ).apply {
+                setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+            }
+//
+//        binding.productQuantityDropDown.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                view: View?,
+//                position: Int,
+//                id: Long
+//            ) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//                TODO("Not yet implemented")
+//            }
+//
+//        }
         // enabling optn menu
         setHasOptionsMenu(true)
 
@@ -74,7 +96,7 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
     private fun addToCart() {
 
         var product = args.product
-        product.quantity = binding.productQuantityDropDown.text.toString().toInt()
+        product.quantity = binding.productQuantityDropDown.selectedItem.toString().toInt()
         val cartProduct = CartProduct(product, MyUtil.getDate())
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
         userId?.let { userid ->
@@ -142,9 +164,10 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
 
 
     private fun navigateToBottomSheet(address: Address) {
+        val product = binding.product?.apply { quantity = binding.productQuantityDropDown.selectedItem.toString().toInt()}!!
         val action =
             MedDetailsFragmentDirections.actionMedDetailsFragmentToProceedWithDefaultAddBottomSheet(
-                binding.product!!,address
+                product,address
             )
         findNavController().navigate(action)
 

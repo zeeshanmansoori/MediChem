@@ -74,11 +74,11 @@ class ProceedWithDefaultAddBottomSheet() :
 
 
     private fun navigateToNewAddress() {
-//        val action =
-//            ProceedWithDefaultAddBottomSheetDirections.actionProceedWithDefaultAddBottomSheetToNewAddressFragment2(
-//                true
-//            )
-//        findNavController().navigate(action)
+        val action =
+            ProceedWithDefaultAddBottomSheetDirections.actionProceedWithDefaultAddBottomSheetToNewAddressFragment2(
+                true, arrayOf(navArgs.product)
+            )
+        findNavController().navigate(action)
     }
 
     private fun navigateToPayment() {
@@ -101,8 +101,7 @@ class ProceedWithDefaultAddBottomSheet() :
 
         val action =
             ProceedWithDefaultAddBottomSheetDirections.actionProceedWithDefaultAddBottomSheetToPaymentDetailsFragment(
-                address,
-                navArgs.product
+                address, arrayOf(navArgs.product)
             )
 
         findNavController().navigate(action)

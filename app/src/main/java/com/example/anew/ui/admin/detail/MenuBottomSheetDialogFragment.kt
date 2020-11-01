@@ -1,4 +1,4 @@
-package com.example.anew.ui.admin.home
+package com.example.anew.ui.admin.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
