@@ -32,6 +32,7 @@ import java.io.ByteArrayOutputStream
 const val TAKE_IMAGE = 4
 const val PRODUCT_REF = "Products"
 const val IMAGE_REF = "Images"
+const val CART_REF  = "cart"
 
 class AddFragment : Fragment(), View.OnClickListener {
 
@@ -133,8 +134,8 @@ class AddFragment : Fragment(), View.OnClickListener {
 
             dialog.startDialog()
             val map = hashMapOf<String, Any>(
-                P_ID to id,
-                NAME to name,
+                PRODUCT_ID to id,
+                PRODUCT_NAME to name,
                 DESCRIPTION to description,
                 EXP_DATE to expDate,
                 PRIZE to prize,

@@ -12,9 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.anew.R
 import com.example.anew.databinding.FragmentCartBinding
 import com.example.anew.model.*
+import com.example.anew.ui.admin.add.CART_REF
 import com.example.anew.ui.admin.add.PRODUCT_REF
 import com.example.anew.ui.intialSetup.USER_REF
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -25,6 +27,8 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
     private lateinit var firestore: FirebaseFirestore
     private lateinit var mAuth: FirebaseAuth
     private lateinit var cartAdapter: CartAdapter
+    private lateinit var userId: String
+    private var snackbar:Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,33 +38,32 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cart, container, false)
         firestore = FirebaseFirestore.getInstance()
         mAuth = FirebaseAuth.getInstance()
-        val userId = mAuth.currentUser?.uid
+        userId = mAuth.currentUser?.uid!!
 
         with(binding) {
-            userId?.let {
-                val query: Query =
-                    firestore.collection(USER_REF).document(userId).collection(PRODUCT_REF)
-                val options = FirestoreRecyclerOptions.Builder<CartProduct>()
-                    .setQuery(query, CartProduct::class.java).build()
-                cartAdapter = CartAdapter(this@CartFragment, options)
+
+            val query: Query =
+                firestore.collection(USER_REF).document(userId).collection(CART_REF)
+            val options = FirestoreRecyclerOptions.Builder<CartProduct>()
+                .setQuery(query, CartProduct::class.java).build()
+            cartAdapter = CartAdapter(this@CartFragment, options)
 
 
-                //setting up recycler view
-                recyclerView.apply {
-                    setHasFixedSize(true)
-                    setItemViewCacheSize(20)
+            //setting up recycler view
+            recyclerView.apply {
+                setHasFixedSize(true)
+                setItemViewCacheSize(20)
 
-                    // setting adapter
-                    adapter = cartAdapter
+                // setting adapter
+                adapter = cartAdapter
 
-                }
             }
+
 
             proceedToBuy.setOnClickListener(this@CartFragment)
         }
         return binding.root
     }
-
 
 
     override fun onCartItemClicked(view: View, cartProduct: CartProduct) {
@@ -75,63 +78,51 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
     }
 
     override fun onNumberPickerValueChanged(
-        cartProduct: CartProduct,
+        position:Int,
         oldValue: Int,
         newValue: Int
     ) {
+
         if (newValue > oldValue) {
             cartAdapter.totalItemCount += newValue - oldValue
-            cartAdapter.totalPrize += (newValue - oldValue) * (cartProduct.product.prize)
+            cartAdapter.totalPrize += (newValue - oldValue) * (cartAdapter.getItem(position).prize)
+            cartAdapter.getItem(position).quantity = newValue
         } else if (oldValue > newValue) {
             cartAdapter.totalItemCount -= oldValue - newValue
-            cartAdapter.totalPrize -= (oldValue - newValue) * (cartProduct.product.prize)
+            cartAdapter.totalPrize -= (oldValue - newValue) * (cartAdapter.getItem(position).prize)
+            cartAdapter.getItem(position).quantity = newValue
         }
-        onCartItemChange(cartAdapter.totalItemCount,cartAdapter.totalPrize)
+        onCartItemChange(cartAdapter.totalItemCount, cartAdapter.totalPrize)
 
-        (FirebaseAuth.getInstance().currentUser?.uid)?.let { userId ->
-            val updateTask = FirebaseFirestore.getInstance().collection(USER_REF).document(userId)
-                .collection(PRODUCT_REF)
-                .document(cartProduct.product.id)
-                .update(QUANTITY,newValue)
-
-            updateTask.addOnSuccessListener {
-                if (newValue > oldValue) {
-                    cartAdapter.totalItemCount += newValue - oldValue
-                    cartAdapter.totalPrize += (newValue - oldValue) * (cartProduct.product.prize)
-                } else if (oldValue > newValue) {
-                    cartAdapter.totalItemCount -= oldValue - newValue
-                    cartAdapter.totalPrize -= (oldValue - newValue) * (cartProduct.product.prize)
-                }
-                onCartItemChange(cartAdapter.totalItemCount, cartAdapter.totalPrize)
-            }
-        }
 
     }
 
 
     private fun removeProductFromCart(cartProduct: CartProduct) {
-        (FirebaseAuth.getInstance().currentUser?.uid)?.let { userId ->
-            val deleteTask = FirebaseFirestore.getInstance().collection(USER_REF).document(userId)
-                .collection(PRODUCT_REF)
-                .document(cartProduct.product.id)
-                .delete()
-            deleteTask.addOnSuccessListener {
-                Log.d("mytag", "product removed from cart")
-                cartAdapter.totalItemCount -= cartProduct.product.quantity
-                cartAdapter.totalPrize -= (cartProduct.product.quantity) * (cartProduct.product.prize)
-                onCartItemChange(cartAdapter.totalItemCount, cartAdapter.totalPrize)
-            }
+
+        val deleteTask = FirebaseFirestore.getInstance().collection(USER_REF).document(userId)
+            .collection(CART_REF)
+            .document(cartProduct.id)
+            .delete()
+        deleteTask.addOnSuccessListener {
+
+            snackbar = Snackbar.make(binding.root,"item removed from bag",Snackbar.LENGTH_SHORT)
+            snackbar?.show()
+            cartAdapter.totalItemCount -= cartProduct.quantity
+            cartAdapter.totalPrize -= (cartProduct.quantity) * (cartProduct.prize)
+            onCartItemChange(cartAdapter.totalItemCount, cartAdapter.totalPrize)
         }
+
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
-            binding.proceedToBuy.id ->{
-                firestore.collection(USER_REF).document(mAuth.currentUser?.uid!!).collection(
+        when (v?.id) {
+            binding.proceedToBuy.id -> {
+                firestore.collection(USER_REF).document(userId).collection(
                     USER_ADDRESSES
                 ).document(ADDRESS1).get().addOnSuccessListener {
                     if (it.exists()) {
-                        navigateToPayment()
+                        navigateToPayment(it.toObject(Address::class.java)!!)
                     } else {
                         navigateToNewAddress()
                     }
@@ -143,17 +134,33 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
 
     }
 
-    private fun navigateToPayment(){
-        findNavController().navigate(R.id.action_nav_cart_to_paymentDetailsFragment)
+    private fun navigateToPayment(address: Address) {
+
+
+        val action = CartFragmentDirections.actionNavCartToPaymentDetailsFragment(
+            address,
+            getAllProductsOfTheCart()
+        )
+        findNavController().navigate(action)
+
     }
 
-    private fun navigateToNewAddress(){
+    private fun navigateToNewAddress() {
+
+        val action = CartFragmentDirections.actionNavCartToNewAddressFragment(
+            true,
+            getAllProductsOfTheCart()
+        )
+        findNavController().navigate(action)
+    }
+
+    private fun getAllProductsOfTheCart(): Array<Product> {
         val ls = mutableListOf<Product>()
         for (i in 0 until cartAdapter.itemCount)
-            ls.add(cartAdapter.getItem(i).product)
-        val action = CartFragmentDirections.actionNavCartToNewAddressFragment(true,
-            ls.toTypedArray())
-        findNavController().navigate(action)
+            with(cartAdapter.getItem(i)){
+                ls.add(Product(id,name,description,expDate, quantity, prize, manName, image1, image2, image3, image4))
+            }
+        return ls.toTypedArray()
     }
 
     override fun onStart() {
@@ -161,8 +168,37 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
         cartAdapter.startListening()
     }
 
+    override fun onPause() {
+
+        if (cartAdapter.itemCount==0) {
+            super.onPause()
+            snackbar?.dismiss()
+            return
+        }
+        else {
+
+            for (position in 0 until cartAdapter.itemCount) {
+//                Log.d("mycart","id ${cartAdapter.getItem(0).id}")
+//                Log.d("mycart","quantity ${cartAdapter.getItem(0).quantity}")
+
+                firestore.collection(USER_REF).document(userId)
+                    .collection(CART_REF)
+                    .document(cartAdapter.getItem(position).id)
+                    .update(QUANTITY,cartAdapter.getItem(position).quantity)
+                    .addOnSuccessListener { Log.d("mycart","updated quantity ${5}") }
+
+            }
+
+        }
+        snackbar?.dismiss()
+        super.onPause()
+    }
+
     override fun onStop() {
         super.onStop()
         cartAdapter.stopListening()
+
     }
+
+
 }

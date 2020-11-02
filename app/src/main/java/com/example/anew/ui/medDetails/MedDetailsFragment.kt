@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.anew.R
 import com.example.anew.databinding.FragmentMedDetailsBinding
 import com.example.anew.model.*
+import com.example.anew.ui.admin.add.CART_REF
 import com.example.anew.ui.admin.add.PRODUCT_REF
 import com.example.anew.ui.admin.detail.MyImageClickListener
 import com.example.anew.ui.intialSetup.USER_REF
@@ -22,7 +23,6 @@ import com.example.anew.utils.MyUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-
 
 class MedDetailsFragment : Fragment(), MyImageClickListener {
 
@@ -34,6 +34,8 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
     private val userId = mAuth.currentUser?.uid!!
 
     val args: MedDetailsFragmentArgs by navArgs()
+
+    private var snackbar:Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,29 +96,48 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
 
 
     private fun addToCart() {
-
-        var product = args.product
-        product.quantity = binding.productQuantityDropDown.selectedItem.toString().toInt()
-        val cartProduct = CartProduct(product, MyUtil.getDate())
-        val dialog = CustomLoadingDialog(activity as AppCompatActivity)
-        userId?.let { userid ->
-            dialog.startDialog()
-            val insertTask = firestore.collection(USER_REF).document(userid)
-                .collection(PRODUCT_REF).document(cartProduct.product.id).set(
-                    cartProduct
-                )
-
-            insertTask.addOnSuccessListener {
-                Snackbar.make(binding.root, "successfully added to bag", Snackbar.LENGTH_SHORT)
-                    .show()
-                dialog.dismissDialog()
-            }
-            insertTask.addOnFailureListener {
-                Snackbar.make(binding.root, "failed to add", Snackbar.LENGTH_SHORT).show()
-                dialog.dismissDialog()
-                Log.d("fail", "${it}")
-            }
+        val product = args.product.apply {
+            quantity = binding.productQuantityDropDown.selectedItem.toString().toInt()
         }
+
+        val dialog = CustomLoadingDialog(activity as AppCompatActivity)
+        val cartProduct = CartProduct(
+            product.id,
+            product.name,
+            product.description,
+            product.expDate,
+            product.quantity,
+            product.prize,
+            product.manName,
+            product.image1,
+            product.image2,
+            product.image3,
+            product.image4,
+            MyUtil.getDate()
+        )
+        dialog.startDialog()
+        val insertTask = firestore.collection(USER_REF).document(userId)
+            .collection(CART_REF).document(cartProduct.id).set(
+                cartProduct
+            )
+
+        insertTask.addOnSuccessListener {
+            snackbar =
+            Snackbar.make((activity as AppCompatActivity).findViewById(R.id.drawer_layout), "successfully added to bag", Snackbar.LENGTH_SHORT)
+                .setAction("CHECK"){
+                    navigateToCart()
+                }
+
+            snackbar?.show()
+            dialog.dismissDialog()
+        }
+        insertTask.addOnFailureListener {
+            snackbar = Snackbar.make(binding.root, "failed to add", Snackbar.LENGTH_SHORT)
+            snackbar?.show()
+            dialog.dismissDialog()
+            Log.d("fail", "${it}")
+        }
+
 
     }
 
@@ -135,7 +156,7 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
     }
 
     private fun buyNow(): Boolean {
-        firestore.collection(USER_REF).document(mAuth.currentUser?.uid!!).collection(
+        firestore.collection(USER_REF).document(userId).collection(
             USER_ADDRESSES
         ).document(ADDRESS1).get().addOnSuccessListener {
             if (it.exists()) {
@@ -158,19 +179,26 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
 
     private fun navigateToNewAddress() {
         val action = MedDetailsFragmentDirections
-            .actionMedDetailsFragmentToNewAddressFragment(true,products = arrayOf(args.product))
+            .actionMedDetailsFragmentToNewAddressFragment(true, products = arrayOf(args.product))
         findNavController().navigate(action)
     }
 
 
     private fun navigateToBottomSheet(address: Address) {
-        val product = binding.product?.apply { quantity = binding.productQuantityDropDown.selectedItem.toString().toInt()}!!
+        val product = binding.product?.apply {
+            quantity = binding.productQuantityDropDown.selectedItem.toString().toInt()
+        }!!
         val action =
             MedDetailsFragmentDirections.actionMedDetailsFragmentToProceedWithDefaultAddBottomSheet(
-                product,address
+                product, address
             )
         findNavController().navigate(action)
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        snackbar?.dismiss()
     }
 
 }

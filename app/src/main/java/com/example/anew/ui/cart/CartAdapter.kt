@@ -48,9 +48,9 @@ class CartAdapter(
         val binding: CartSingleItemLayoutBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.listner = cartItemClickListener
+            binding.listener = cartItemClickListener
             binding.numberPicker.setOnValueChangeListener { _, oldValue, newValue ->
-                cartItemClickListener.onNumberPickerValueChanged(getItem(bindingAdapterPosition),oldValue, newValue)
+                cartItemClickListener.onNumberPickerValueChanged(bindingAdapterPosition,oldValue, newValue)
 
             }
 
@@ -58,20 +58,14 @@ class CartAdapter(
 
         fun bind(model: CartProduct) {
             binding.cartProduct = model
-            binding.numberPicker.number = model.product.quantity.toString()
-            totalPrize += (model.product.prize) * (model.product.quantity)
-            totalItemCount += model.product.quantity
+            binding.numberPicker.number = model.quantity.toString()
+            totalPrize += (model.prize) * (model.quantity)
+            totalItemCount += model.quantity
             cartItemClickListener.onCartItemChange(totalItemCount, totalPrize)
 
-        }
-
-        fun getCurrentItem():Product{
-            val position = bindingAdapterPosition
-            if (position!=RecyclerView.NO_POSITION)
-                return getItem(position).product
-            return Product()
 
         }
+
 
     }
 
@@ -80,7 +74,7 @@ class CartAdapter(
 
         fun onCartItemChange(totalItemCount: Int, totalPrize: Double)
 
-        fun onNumberPickerValueChanged(product: CartProduct,oldValue: Int, newValue: Int)
+        fun onNumberPickerValueChanged(position: Int,oldValue: Int, newValue: Int)
     }
 
 }

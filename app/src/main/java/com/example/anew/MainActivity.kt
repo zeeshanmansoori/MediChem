@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logMeOut(): Boolean {
+        FirebaseAuth.getInstance().signOut()
         finish()
         return true
     }

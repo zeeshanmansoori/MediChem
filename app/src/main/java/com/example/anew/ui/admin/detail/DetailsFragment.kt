@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.anew.AdminActivity
 import com.example.anew.R
@@ -24,7 +23,6 @@ import com.example.anew.ui.admin.add.PRODUCT_REF
 import com.example.anew.ui.admin.add.TAKE_IMAGE
 import com.example.anew.utils.CustomLoadingDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -146,7 +144,7 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 && oldManName == manName && oldPrize == prize && oldQuantity == quantity
             ) {
                 val updateTask = firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
-                    NAME, name
+                    PRODUCT_NAME, name
                 )
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
@@ -287,7 +285,7 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 return
             } else {
                 val updateTask = firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
-                    NAME, name,
+                    PRODUCT_NAME, name,
                     DESCRIPTION, description,
                     EXP_DATE, expDate,
                     QUANTITY, quantity,

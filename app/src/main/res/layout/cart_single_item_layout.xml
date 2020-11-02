@@ -8,7 +8,7 @@
             name="cartProduct"
             type="com.example.anew.model.CartProduct" />
         <variable
-            name="listner"
+            name="listener"
             type="com.example.anew.ui.cart.CartAdapter.CartItemClickListener" />
 
     </data>
@@ -35,7 +35,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                glideSrc="@{cartProduct.product.image1}"
+                glideSrc="@{cartProduct.image1}"
                 glideErrorSrc="@{@drawable/ic_pills}"
                 tools:src="@drawable/ic_pills"
                 />
@@ -55,7 +55,7 @@
                 android:textSize="14sp"
                 android:textAllCaps="true"
                 android:ellipsize="end"
-                android:text="@{cartProduct.product.name}"
+                android:text="@{cartProduct.name}"
                 tools:text="product name"
                 />
 
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:lines="2"
-                android:text="@{@string/prize(String.valueOf(cartProduct.product.prize))}"
+                android:text="@{@string/prize(String.valueOf(cartProduct.prize))}"
                 tools:text = "prize $ 40"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/medicine_image"
@@ -97,7 +97,6 @@
                 android:layout_width="130dp"
                 android:layout_height="40dp"
                 app:finalNumber="10"
-                app:initialNumber="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/cart_delete_btn"
                 app:layout_constraintStart_toEndOf="@id/medicine_image"
@@ -115,7 +114,8 @@
                 app:layout_constraintStart_toEndOf="@id/number_picker"
                 app:layout_constraintTop_toBottomOf="@id/date_added"
                 app:backgroundTint="@color/partial_black"
-                android:onClick="@{view->listner.onCartItemClicked(view,cartProduct)}"
+                android:onClick="@{view->listener.onCartItemClicked(view,cartProduct)}"
+
                 />
 
 

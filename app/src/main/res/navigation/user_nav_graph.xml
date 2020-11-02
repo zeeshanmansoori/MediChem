@@ -13,7 +13,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_nav_login_to_nav_home"
-            app:destination="@id/nav_home" />
+            app:destination="@id/nav_home"
+            app:popUpTo="@id/nav_login"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_nav_login_to_nav_signUp"
             app:destination="@id/nav_signUp" />
