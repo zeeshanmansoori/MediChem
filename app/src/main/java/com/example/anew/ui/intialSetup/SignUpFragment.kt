@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.anew.R
 import com.example.anew.databinding.FragmentSignUpBinding
 import com.example.anew.model.User
+import com.example.anew.utils.CustomLoadingDialog
 import com.example.anew.utils.MyUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -37,6 +39,7 @@ class SignUpFragment : Fragment(), View.OnClickListener {
 
     private var imageUri: Uri? = null
 
+    private var snackbar:Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,8 +91,11 @@ class SignUpFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.bottom_container -> v.findNavController()
-                .navigate(R.id.action_nav_signUp_to_nav_home)
+            R.id.bottom_container -> {
+                snackbar = Snackbar.make(bindng.root,"plz mail us ",Snackbar.LENGTH_SHORT)
+                snackbar?.show()
+
+            }
             R.id.sign_up_btn -> createAccount()
         }
     }
@@ -97,7 +103,7 @@ class SignUpFragment : Fragment(), View.OnClickListener {
 
     private fun createAccount() {
         activity?.let { MyUtil.hideKeyBoard(it) }
-
+        val dialog = CustomLoadingDialog(activity as AppCompatActivity)
 
         with(bindng) {
             val name = nameEditText.text.toString().trim()
@@ -141,40 +147,40 @@ class SignUpFragment : Fragment(), View.OnClickListener {
                 passwordEditTextContainer.requestFocus()
                 return
             }
-
-            progressBar.visibility = View.VISIBLE
-
+            dialog.startDialog()
             val task = mAuth.createUserWithEmailAndPassword(email, password)
             task.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = User(email, name, password, phoneNo)
+                    val user = User(email, name,phoneNo)
                     val userId = mAuth.currentUser?.uid!!
 
                     firestore.collection(USER_REF).document(userId).set(
                         user
                     ).addOnSuccessListener {
+                        dialog.dismissDialog()
                         Snackbar.make(
                             bindng.root,
                             "user has been registered successfully",
                             Snackbar.LENGTH_SHORT
                         ).show()
-                        progressBar.visibility = View.GONE
                             moveToHome()
                     }
                         .addOnFailureListener {
-                            progressBar.visibility = View.GONE
+                            dialog.dismissDialog()
                             Snackbar.make(bindng.root, "failed to register ", Snackbar.LENGTH_SHORT)
                                 .show()
 
                         }
 
 
-                } else Snackbar.make(
-                    bindng.root,
-                    "can not create an account ",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-                progressBar.visibility = View.GONE
+                } else {
+                    dialog.dismissDialog()
+                    Snackbar.make(
+                        bindng.root,
+                        "can not create an account ",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
@@ -189,6 +195,10 @@ class SignUpFragment : Fragment(), View.OnClickListener {
 //        startActivityForResult(intent, REQUEST_GET_PROFILE_IMAGE)
 //    }
 
+    override fun onPause() {
+        super.onPause()
+        snackbar?.dismiss()
+    }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 //        if (requestCode == REQUEST_GET_PROFILE_IMAGE && resultCode == RESULT_OK) {

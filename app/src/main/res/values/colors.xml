@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimary">#009B86</color>
     <color name="colorPrimaryDark">#301210</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#00DDBF</color>
     <color name="table_bg">#C4C5C5</color>
     <color name="user_menu_icon_color">#967ADC</color>
     <color name="partial_black">#504747</color>
@@ -11,5 +11,9 @@
     <color name="subtext">#5f5f5f</color>
     <color name="colordevider">#64dad8d8</color>
     <color name="all_bg_color">#f5f5f5</color>
+    <color name="tint_background">#00DDBF</color>
+    <color name="new_color_dark">#009B86</color>
+
+    <color name="new_color_extra_dark">#004B40</color>
 
 </resources>

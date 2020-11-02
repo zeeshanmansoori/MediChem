@@ -37,6 +37,7 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
 
     private var snackbar:Snackbar? = null
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -122,18 +123,17 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
             )
 
         insertTask.addOnSuccessListener {
-            snackbar =
-            Snackbar.make((activity as AppCompatActivity).findViewById(R.id.drawer_layout), "successfully added to bag", Snackbar.LENGTH_SHORT)
+            snackbar =Snackbar.make((activity as AppCompatActivity).findViewById(R.id.drawer_layout), "successfully added to bag", Snackbar.LENGTH_SHORT)
                 .setAction("CHECK"){
                     navigateToCart()
                 }
 
             snackbar?.show()
+
             dialog.dismissDialog()
         }
         insertTask.addOnFailureListener {
-            snackbar = Snackbar.make(binding.root, "failed to add", Snackbar.LENGTH_SHORT)
-            snackbar?.show()
+            Snackbar.make(binding.root, "failed to add", Snackbar.LENGTH_SHORT).show()
             dialog.dismissDialog()
             Log.d("fail", "${it}")
         }
@@ -156,15 +156,19 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
     }
 
     private fun buyNow(): Boolean {
-        firestore.collection(USER_REF).document(userId).collection(
+        val dialog = CustomLoadingDialog(activity as AppCompatActivity)
+        dialog.startDialog()
+        firestore.collection(USER_REF).document(mAuth.currentUser?.uid!!).collection(
             USER_ADDRESSES
         ).document(ADDRESS1).get().addOnSuccessListener {
+            dialog.dismissDialog()
             if (it.exists()) {
                 navigateToBottomSheet(it.toObject(Address::class.java)!!)
             } else {
                 navigateToNewAddress()
             }
         }.addOnFailureListener {
+            dialog.dismissDialog()
             Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
         }
         return true
@@ -194,11 +198,6 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
             )
         findNavController().navigate(action)
 
-    }
-
-    override fun onPause() {
-        super.onPause()
-        snackbar?.dismiss()
     }
 
 }

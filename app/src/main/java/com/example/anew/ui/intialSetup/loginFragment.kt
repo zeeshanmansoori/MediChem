@@ -1,20 +1,17 @@
 package com.example.anew.ui.intialSetup
 
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.anew.MainActivity
 import com.example.anew.R
@@ -23,10 +20,13 @@ import com.example.anew.utils.MyUtil
 import com.example.anew.utils.CustomLoadingDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.firestore.FirebaseFirestore
 import io.paperdb.Paper
 
 const val CHECK_BOX = "checkbox"
+const val ADMIN_REF = "admin"
+const val IS_USER = "isUser"
+
 class loginFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentLoginBinding
@@ -34,11 +34,23 @@ class loginFragment : Fragment(), View.OnClickListener {
     //auth
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
+    private var snackbar: Snackbar? = null
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Paper.init(activity)
-        if (Paper.book().read(CHECK_BOX,false) && mAuth.currentUser!=null){
-            findNavController().navigate(R.id.action_nav_login_to_nav_home)
+        Log.d("mytag","checkbox ${Paper.book().read(CHECK_BOX, false)}")
+        Log.d("mytag","user ${Paper.book().read(IS_USER,false)}")
+        Log.d("mytag","auth ${mAuth.currentUser != null}")
+        if (Paper.book().read(CHECK_BOX, false)
+            && Paper.book().read(IS_USER,false)
+            && mAuth.currentUser != null
+            ) {
+            navigateToHome()
+        }else if (Paper.book().read(CHECK_BOX, false)
+            && !Paper.book().read(IS_USER,false)
+            && mAuth.currentUser != null){
+            navigateToAdminHome()
         }
 
     }
@@ -58,15 +70,18 @@ class loginFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.bottom_container -> moveToSignUp()
-            R.id.move_to_admin -> moveToAdmin()
-            R.id.login_btn -> loginUser()
-            else -> Snackbar.make(binding.root,"Nothing happened",Snackbar.LENGTH_SHORT).show()
+            binding.bottomContainer.id -> navigateToSignUp()
+            binding.adminLoginBtn.id -> loginUser(binding.adminLoginBtn.id)
+            binding.loginBtn.id -> loginUser(binding.loginBtn.id)
+            else -> {
+                snackbar = Snackbar.make(binding.root, "Nothing happened", Snackbar.LENGTH_SHORT)
+                snackbar?.show()
+            }
 
         }
     }
 
-    private fun loginUser() {
+    private fun loginUser(id: Int) {
 
         //hide keyboard
         activity?.let { MyUtil.hideKeyBoard(it) }
@@ -74,7 +89,6 @@ class loginFragment : Fragment(), View.OnClickListener {
         // custom dialog
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
 
-        //databaseReference = FirebaseDatabase.getInstance().reference
         with(binding) {
             val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
@@ -85,83 +99,109 @@ class loginFragment : Fragment(), View.OnClickListener {
                 return
 
             }
-            if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 emailEditTextContainer.error = "provide valid email"
                 emailEditTextContainer.requestFocus()
                 return
             }
 
-            if (password.isEmpty()){
+            if (password.isEmpty()) {
                 passwordEditTextContainer.error = "password is empty"
                 passwordEditTextContainer.requestFocus()
                 return
-            }else if (password.length<6){
+            } else if (password.length < 6) {
                 passwordEditTextContainer.error = "password must be of minimum 8 characters"
                 passwordEditTextContainer.requestFocus()
                 return
             }
 
             dialog.startDialog()
-            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
-                if (it.isSuccessful){
-                    val user = mAuth.currentUser
+            if (id == binding.loginBtn.id) {
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val user = mAuth.currentUser
 
 
-                    user?.let {
-                        user ->
-                        if (user.isEmailVerified){
-                            Snackbar.make(root,"logged in successfully",Snackbar.LENGTH_SHORT).show()
+                        user?.let { user ->
+                            snackbar = if (user.isEmailVerified) {
+                                Snackbar.make(root, "logged in successfully", Snackbar.LENGTH_SHORT)
+                            } else {
+                                Snackbar.make(root, "check your mail to verify your account", Snackbar.LENGTH_SHORT)
+                            }
+                            snackbar?.show()
+                        }
+                        dialog.dismissDialog()
+                        Paper.book().write(CHECK_BOX, binding.rememberMeCheckbox.isChecked)
+                        Paper.book().write(IS_USER,true)
+                        navigateToHome()
 
-                        }else{
-                            Snackbar.make(root,"check your mail to verify your account",Snackbar.LENGTH_SHORT).show()
+                    } else {
+                        snackbar = Snackbar.make(root, "email and password did not matched", Snackbar.LENGTH_SHORT)
+                        snackbar?.show()
+                        dialog.dismissDialog()
+                    }
+
+                }
+                return
+            }
+
+            if (id == binding.adminLoginBtn.id) {
+                FirebaseFirestore.getInstance().collection(ADMIN_REF).document(email).get()
+                    .addOnSuccessListener {
+                        mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
+                            snackbar = Snackbar.make(root, "welcome back admin", Snackbar.LENGTH_SHORT)
+                            snackbar?.show()
+                            dialog.dismissDialog()
+                            Paper.book().write(CHECK_BOX, binding.rememberMeCheckbox.isChecked)
+                            Paper.book().write(IS_USER,false)
+                            navigateToAdminHome()
                         }
                     }
-                    dialog.dismissDialog()
-                    moveToHome()
+                    .addOnFailureListener {
+                        dialog.dismissDialog()
+                        snackbar = Snackbar.make(root, "there is some error", Snackbar.LENGTH_SHORT)
+                        snackbar?.show()
+                    }
 
-                }else{
-                    Snackbar.make(root,"login failed",Snackbar.LENGTH_SHORT).show()
-                    dialog.dismissDialog()
-                }
 
-                Paper.book().write(CHECK_BOX,binding.rememberMeCheckbox.isChecked)
             }
-        }
 
+        }
 
 
     }
 
     private fun settingListeners() {
         with(binding) {
-            moveToAdmin.setOnClickListener(this@loginFragment)
+            adminLoginBtn.setOnClickListener(this@loginFragment)
             loginBtn.setOnClickListener(this@loginFragment)
             bottomContainer.setOnClickListener(this@loginFragment)
 
             emailEditText.addTextChangedListener {
                 it?.let {
-                    if (it.isNotEmpty() && emailEditTextContainer.error!=null)
+                    if (it.isNotEmpty() && emailEditTextContainer.error != null)
                         emailEditTextContainer.error = null
                 }
             }
 
             passwordEditText.addTextChangedListener {
                 it?.let {
-                    if (it.isNotEmpty() && passwordEditTextContainer.error!=null)
+                    if (it.isNotEmpty() && passwordEditTextContainer.error != null)
                         passwordEditTextContainer.error = null
                 }
             }
         }
     }
 
-    private fun moveToHome(){
+    private fun navigateToHome() {
         findNavController().navigate(R.id.action_nav_login_to_nav_home)
     }
 
-    private fun moveToSignUp(){
+    private fun navigateToSignUp() {
         findNavController().navigate(R.id.action_nav_login_to_nav_signUp)
     }
-    private fun moveToAdmin(){
+
+    private fun navigateToAdminHome() {
         findNavController().navigate(R.id.action_nav_login_to_adminActivity)
     }
 
@@ -188,9 +228,13 @@ class loginFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        snackbar?.dismiss()
+    }
+
 
 }
-
 
 
 //        if (MyUtil.isPhoneNo(email) && MyUtil.isPassword(password)) {

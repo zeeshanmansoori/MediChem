@@ -4,10 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -16,11 +18,10 @@
 
             <ImageView
                 android:id="@+id/profile_image_imageview"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="60dp"
-                android:src="@drawable/bandage"
+                android:src="@mipmap/login_jpg"
                 />
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -39,7 +40,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:errorEnabled="true"
-                    app:startIconDrawable="@drawable/ic_edit_profile"
                     app:endIconMode="clear_text"
                     android:layout_marginTop="10dp"
                     >
@@ -50,7 +50,11 @@
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:hint="Enter name"
-                        android:inputType="textAutoComplete" />
+                        android:inputType="textAutoComplete"
+                        android:drawableStart="@drawable/profie_img_bg"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="15dp"
+                        />
 
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -63,7 +67,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/name_edit_text_container"
                     app:errorEnabled="true"
-                    app:startIconDrawable="@drawable/email_img_bg"
                     app:endIconMode="clear_text"
                     >
 
@@ -74,6 +77,9 @@
                         android:hint="Enter email address"
                         android:inputType="textEmailAddress"
                         android:background="@android:color/transparent"
+                        android:drawableStart="@drawable/email_img_bg"
+                        android:drawablePadding="15dp"
+                        android:gravity="center_vertical"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -88,7 +94,6 @@
                     app:errorEnabled="true"
                     app:counterEnabled="true"
                     app:counterMaxLength="10"
-                    app:startIconDrawable="@drawable/call_img"
                     app:startIconContentDescription="content_start_icon"
                     app:endIconMode="clear_text"
                     >
@@ -101,6 +106,9 @@
                         android:inputType="phone"
                         android:maxLength="10"
                         android:background="@android:color/transparent"
+                        android:drawableStart="@drawable/call_img_bg"
+                        android:drawablePadding="15dp"
+                        android:gravity="center_vertical"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -115,7 +123,6 @@
                     app:layout_constraintTop_toBottomOf="@id/phone_no_edit_text_container"
                     app:endIconMode="password_toggle"
                     app:errorEnabled="true"
-                    app:startIconDrawable="@drawable/lock"
                     app:counterEnabled="true"
                     app:counterMaxLength="20"
                     >
@@ -127,6 +134,9 @@
                         android:hint="enter password of atleast 8 characters"
                         android:inputType="textPassword"
                         android:background="@android:color/transparent"
+                        android:drawableStart="@drawable/lock_img_bg"
+                        android:drawablePadding="15dp"
+                        android:layout_gravity="center_vertical"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -160,7 +170,7 @@
                 android:background="@drawable/btn_background"
                 android:text="Sign Up"
                 android:textColor="@android:color/white"
-                app:backgroundTint="@color/partial_black"
+                app:backgroundTint="@color/tint_background"
                 />
 
             <Space
@@ -200,17 +210,10 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:backgroundTint="@color/partial_black"
+                    app:backgroundTint="@color/tint_background"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
-            />
 
-    </RelativeLayout>
-
+    </ScrollView>
 </layout>

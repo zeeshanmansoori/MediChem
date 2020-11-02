@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,12 +19,11 @@
             android:orientation="vertical"
             tools:context=".ui.intialSetup.loginFragment">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="60dp"
-                android:src="@drawable/bandage" />
+                android:src="@mipmap/login_jpg"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -34,7 +38,6 @@
                     android:id="@+id/email_edit_text_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:startIconDrawable="@drawable/email_img_bg"
                     app:endIconMode="clear_text"
                     app:errorEnabled="true"
                     >
@@ -46,6 +49,10 @@
                         android:inputType="textEmailAddress"
                         android:background="@android:color/transparent"
                         android:hint="Enter email address"
+                        android:drawableStart="@drawable/email_img_bg"
+                        android:drawablePadding="15dp"
+                        android:gravity="center_vertical"
+
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -54,7 +61,6 @@
                     android:id="@+id/password_edit_text_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:startIconDrawable="@drawable/lock"
                     app:endIconMode="password_toggle"
                     app:errorEnabled="true"
                     >
@@ -66,6 +72,10 @@
                         android:hint="Enter password"
                         android:inputType="textPassword"
                         android:background="@android:color/transparent"
+                        android:focusable="true"
+                        android:drawableStart="@drawable/lock_img_bg"
+                        android:gravity="center_vertical"
+                        android:drawablePadding="15dp"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -88,7 +98,7 @@
                     android:paddingRight="5dp"
                     android:text="remember me!"
                     android:textSize="15sp"
-                    app:buttonTint="@color/partial_black"
+                    app:buttonTint="@color/tint_background"
                     />
 
 
@@ -118,10 +128,10 @@
                 android:background="@drawable/btn_background"
                 android:text="Log In"
                 android:textColor="@android:color/white"
-                app:backgroundTint="@color/partial_black"
+                app:backgroundTint="@color/tint_background"
                 />
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/move_to_admin"
+                android:id="@+id/admin_login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -180,11 +190,11 @@
                     android:elevation="0dp"
                     android:src="@drawable/right_arrow"
                     android:background="@drawable/btn_bg_img"
-                    android:backgroundTint="@color/partial_black"
+                    android:backgroundTint="@color/tint_background"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
     </RelativeLayout>
-
+    </ScrollView>
 </layout>

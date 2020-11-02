@@ -21,8 +21,9 @@
             app:destination="@id/nav_signUp" />
         <action
             android:id="@+id/action_nav_login_to_adminActivity"
-            app:destination="@id/adminActivity">
-        </action>
+            app:destination="@id/adminActivity"
+            app:popUpTo="@id/nav_login"
+            app:popUpToInclusive="true"></action>
 
 
     </fragment>

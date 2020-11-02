@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.example.anew.R
@@ -15,6 +16,7 @@ import com.example.anew.model.*
 import com.example.anew.ui.admin.add.CART_REF
 import com.example.anew.ui.admin.add.PRODUCT_REF
 import com.example.anew.ui.intialSetup.USER_REF
+import com.example.anew.utils.CustomLoadingDialog
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -118,15 +120,19 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
     override fun onClick(v: View?) {
         when (v?.id) {
             binding.proceedToBuy.id -> {
+                val dialog = CustomLoadingDialog(activity as AppCompatActivity)
+                dialog.startDialog()
                 firestore.collection(USER_REF).document(userId).collection(
                     USER_ADDRESSES
                 ).document(ADDRESS1).get().addOnSuccessListener {
+                    dialog.dismissDialog()
                     if (it.exists()) {
                         navigateToPayment(it.toObject(Address::class.java)!!)
                     } else {
                         navigateToNewAddress()
                     }
                 }.addOnFailureListener {
+                    dialog.dismissDialog()
                     Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
                 }
             }

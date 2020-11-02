@@ -28,6 +28,7 @@ class AdminHomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener,
     private lateinit var firestoreRecyclerAdapter: AdminHomeAdapter
     private lateinit var menuBottomSheetDialogFragment: MenuBottomSheetDialogFragment
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +38,7 @@ class AdminHomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener,
         //homeViewModel =ViewModelProviders.of(this).get(HomeViewModel::class.java)
         //val root = inflater.inflate(R.layout.fragment_home, container, false)
         //homeViewModel.text.observe(viewLifecycleOwner, Observer)
+
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater, R.layout.admin_fragment_home, container, false)
         firestore = FirebaseFirestore.getInstance()
@@ -72,9 +74,9 @@ class AdminHomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener,
 
             }
         }
+
         return binding.root
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

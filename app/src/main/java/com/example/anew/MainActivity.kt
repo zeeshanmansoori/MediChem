@@ -1,5 +1,6 @@
 package com.example.anew
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewParent
@@ -13,10 +14,15 @@ import androidx.navigation.ui.*
 import com.example.anew.databinding.NavHeaderMainBinding
 import com.example.anew.model.User
 import com.example.anew.ui.admin.home.NavHeaderViewModel
+import com.example.anew.ui.intialSetup.CHECK_BOX
+import com.example.anew.ui.intialSetup.IS_USER
 import com.example.anew.ui.intialSetup.USER_REF
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import io.paperdb.Paper
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,6 +47,8 @@ class MainActivity : AppCompatActivity() {
                 .get()
                 .addOnSuccessListener {
                     navHeaderMainBinding.user = it.toObject(User::class.java)!!
+                }.addOnFailureListener {
+                    Snackbar.make(drawerLayout,"plz login again having some issue",Snackbar.LENGTH_SHORT).show()
                 }
         }
 
@@ -76,9 +84,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logMeOut(): Boolean {
-        FirebaseAuth.getInstance().signOut()
-        finish()
+        val dialogBuilder = MaterialAlertDialogBuilder(this)
+        with(dialogBuilder) {
+            setTitle("Alert")
+            setMessage("Do you really want to sign out \nthis will not delete your account")
+            setNeutralButton("CANCEL") { dialog, _ ->
+                dialog.dismiss()
+            }
+            setPositiveButton("Log Me Out"){
+                _,_ ->
+                FirebaseAuth.getInstance().signOut()
+                Paper.book().write(CHECK_BOX, false)
+                Paper.book().write(IS_USER,false)
+                startActivity(Intent(this@MainActivity,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
+
+            }
+        }.apply { show() }
+
         return true
+
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
