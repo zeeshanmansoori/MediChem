@@ -1,5 +1,6 @@
 package com.example.anew
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,8 @@ import com.example.anew.ui.intialSetup.CHECK_BOX
 import com.example.anew.ui.intialSetup.IS_USER
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import io.paperdb.Paper
 
 class AdminActivity : AppCompatActivity() {
@@ -50,10 +53,12 @@ class AdminActivity : AppCompatActivity() {
     }
 
     private fun logMeOut(): Boolean {
-        FirebaseAuth.getInstance().signOut()
+        Firebase.auth.signOut()
         Paper.book().write(CHECK_BOX, false)
         Paper.book().write(IS_USER,false)
-        finish()
+        startActivity(Intent(this,MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+        })
         return true
     }
 

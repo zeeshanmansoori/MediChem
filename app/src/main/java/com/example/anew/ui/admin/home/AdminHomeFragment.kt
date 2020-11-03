@@ -80,7 +80,7 @@ class AdminHomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener,
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.home_menu, menu)
+        inflater.inflate(R.menu.admin_home_menu, menu)
 
     }
 

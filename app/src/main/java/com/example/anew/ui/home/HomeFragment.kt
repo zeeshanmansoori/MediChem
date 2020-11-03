@@ -1,11 +1,12 @@
 package com.example.anew.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import com.example.anew.MainActivity
 import com.example.anew.R
 import com.example.anew.databinding.FragmentHomeBinding
 import com.example.anew.model.Product
@@ -15,12 +16,12 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
-class HomeFragment : Fragment(),AdminHomeAdapter.ProductItemClickListener {
+class HomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener {
 
-   // private lateinit var adminHomeViewModel: AdminHomeViewModel
+    // private lateinit var adminHomeViewModel: AdminHomeViewModel
 
     private lateinit var firestore: FirebaseFirestore
-    private lateinit var binding:FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var homeAdapter: HomeAdapter
 
     override fun onCreateView(
@@ -36,18 +37,18 @@ class HomeFragment : Fragment(),AdminHomeAdapter.ProductItemClickListener {
 
         firestore = FirebaseFirestore.getInstance()
 
-        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         //query
-        val query:Query = firestore.collection(PRODUCT_REF)
+        val query: Query = firestore.collection(PRODUCT_REF)
 
         //fire store recycler option
         val firestoreRecyclerOptions = FirestoreRecyclerOptions.Builder<Product>()
-            .setQuery(query,Product::class.java)
+            .setQuery(query, Product::class.java)
             .build()
 
-        homeAdapter = HomeAdapter(firestoreRecyclerOptions,this)
-        with(binding){
+        homeAdapter = HomeAdapter(firestoreRecyclerOptions, this)
+        with(binding) {
             recyclerView.apply {
                 setHasFixedSize(true)
                 setItemViewCacheSize(20)
@@ -65,8 +66,45 @@ class HomeFragment : Fragment(),AdminHomeAdapter.ProductItemClickListener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.home_menu,menu)
+        inflater.inflate(R.menu.home_menu, menu)
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.home_profile -> navigateToProfile()
+            R.id.home_about -> navigateToAbout()
+            else -> return super.onOptionsItemSelected(item)
+        }
+
+    }
+
+    private fun navigateToAbout(): Boolean {
+        with(activity as MainActivity) {
+            val menuId = navView.menu.findItem(R.id.nav_about)
+            return NavigationUI.onNavDestinationSelected(menuId, findNavController())
+        }
+    }
+
+    private fun navigateToProfile(): Boolean {
+        with(activity as MainActivity) {
+            val menuId = navView.menu.findItem(R.id.nav_profile)
+            return NavigationUI.onNavDestinationSelected(menuId, findNavController())
+        }
+    }
+
+
+    override fun onProductItemClicked(product: Product) {
+        moveToDetailFragment(product)
+    }
+
+    override fun onProductItemLongClicked(product: Product) {
+        TODO("Not yet implemented")
+    }
+
+    private fun moveToDetailFragment(product: Product) {
+        val action = HomeFragmentDirections.actionNavHomeToMedDetailsFragment(product)
+        findNavController().navigate(action)
     }
 
     override fun onStart() {
@@ -80,17 +118,5 @@ class HomeFragment : Fragment(),AdminHomeAdapter.ProductItemClickListener {
         homeAdapter.stopListening()
     }
 
-    override fun onProductItemClicked(product: Product) {
-        moveToDetailFragment(product)
-    }
-
-    override fun onProductItemLongClicked(product: Product) {
-        TODO("Not yet implemented")
-    }
-
-    private fun moveToDetailFragment(product: Product){
-            val action =  HomeFragmentDirections.actionNavHomeToMedDetailsFragment(product)
-            findNavController().navigate(action)
-    }
 
 }

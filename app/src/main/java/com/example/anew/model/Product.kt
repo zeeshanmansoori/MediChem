@@ -1,13 +1,11 @@
 package com.example.anew.model
 
-import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.io.Serializable
 
 const val DESCRIPTION = "description"
 const val PRODUCT_NAME = "name"
-const val QUANTITY  = "quantity"
+const val QUANTITY = "quantity"
 const val EXP_DATE = "expDate"
 const val PRIZE = "prize"
 const val MAN_NAME = "manName"
@@ -28,8 +26,17 @@ data class Product(
     var quantity: Int = 0,
     val prize: Float = 0.0f,
     val manName: String = "",
-    val image1:String = "",
-    val image2:String = "",
-    val image3:String = "",
-    val image4:String = ""
-):Parcelable
+    val image1: String = "",
+    val image2: String = "",
+    val image3: String = "",
+    val image4: String = ""
+) : Parcelable
+
+
+
+data class Order(
+    val address: Address = Address(),
+    val product: MutableList<Product> = mutableListOf(),
+    val dateAdded: String = "",
+    val paymentStatus: String = "paid online"
+)

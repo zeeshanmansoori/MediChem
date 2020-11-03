@@ -130,6 +130,18 @@
                 android:textColor="@android:color/white"
                 app:backgroundTint="@color/tint_background"
                 />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/google_login_btn"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/ic_google_icon"
+                android:background="@drawable/btn_bg_img"
+                app:backgroundTint="@color/google_blue_color"
+                android:text="Login With Google"
+                />
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/admin_login_btn"
                 android:layout_width="match_parent"

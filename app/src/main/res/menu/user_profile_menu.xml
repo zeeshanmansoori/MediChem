@@ -8,7 +8,7 @@
         android:iconTint="@android:color/black"
         app:showAsAction="withText"
         />
-    <item android:title="help"
+    <item android:title="About"
         android:id="@+id/user_profile_help"
         android:icon="@drawable/help"
         android:iconTint="@android:color/black"

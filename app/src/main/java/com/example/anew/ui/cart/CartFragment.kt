@@ -154,7 +154,6 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
     private fun navigateToNewAddress() {
 
         val action = CartFragmentDirections.actionNavCartToNewAddressFragment(
-            true,
             getAllProductsOfTheCart()
         )
         findNavController().navigate(action)

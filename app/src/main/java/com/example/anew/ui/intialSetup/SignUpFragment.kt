@@ -22,6 +22,7 @@ import com.example.anew.utils.MyUtil
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import io.paperdb.Paper
 
 
 const val REQUEST_GET_PROFILE_IMAGE = 23
@@ -116,10 +117,15 @@ class SignUpFragment : Fragment(), View.OnClickListener {
                 nameEditTextContainer.requestFocus()
                 return
             }
-            if (password.isEmpty()) {
-                passwordEditTextContainer.error = "password is empty"
-                passwordEditTextContainer.requestFocus()
+            if (email.isEmpty()) {
+                emailEditTextContainer.error = "email is empty"
+                emailEditTextContainer.requestFocus()
+                return
+            }
 
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                emailEditTextContainer.error = "please provide valid email"
+                emailEditTextContainer.requestFocus()
                 return
             }
             if (phoneNo.isEmpty()) {
@@ -131,16 +137,13 @@ class SignUpFragment : Fragment(), View.OnClickListener {
                 phoneNoEditTextContainer.requestFocus()
                 return
             }
-            if (email.isEmpty()) {
-                emailEditTextContainer.error = "email is empty"
-                emailEditTextContainer.requestFocus()
+            if (password.isEmpty()) {
+                passwordEditTextContainer.error = "password is empty"
+                passwordEditTextContainer.requestFocus()
+
                 return
             }
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                emailEditTextContainer.error = "please provide valid email"
-                emailEditTextContainer.requestFocus()
-                return
-            }
+
 
             if (password.length < 8) {
                 passwordEditTextContainer.error = "password must be of minimum 8 characters"
@@ -163,6 +166,9 @@ class SignUpFragment : Fragment(), View.OnClickListener {
                             "user has been registered successfully",
                             Snackbar.LENGTH_SHORT
                         ).show()
+                        Paper.book().write(CHECK_BOX, true)
+                        Paper.book().write(IS_USER, true)
+
                             moveToHome()
                     }
                         .addOnFailureListener {

@@ -32,7 +32,7 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private val mAuth = FirebaseAuth.getInstance()
     private val userId = mAuth.currentUser?.uid!!
 
-    private val varArgs: NewAddressFragmentArgs by navArgs()
+    private val navArgs: NewAddressFragmentArgs by navArgs()
 
     private lateinit var state: String
 
@@ -44,11 +44,6 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_address, container, false)
 
-
-        when {
-            varArgs.fromBottomSheet -> binding.saveAddress.text = "move to payment"
-            else -> binding.saveAddress.text = "save address"
-        }
 
         return binding.root
     }
@@ -63,18 +58,7 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
         binding.stateSpinner.onItemSelectedListener = this
         binding.saveAddress.setOnClickListener {
-
-            when {
-                varArgs.fromBottomSheet -> {
-                    moveToPayment()
-                }
-                varArgs.fromCart -> {
-                    addNewAddress()
-                }
-                varArgs.fromDetails -> {
-                    addNewAddress()
-                }
-            }
+            addNewAddress()
         }
 
 
@@ -154,75 +138,18 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         Snackbar.LENGTH_SHORT
                     ).show()
                     dialog.dismissDialog()
+                    navigateToPayment(address)
                 }
         }
     }
 
-    private fun moveToPayment() {
-        with(binding) {
-            val city = cityName.text?.trim().toString()
-            val locality = locality.text?.trim().toString()
-            val buildingName = buildingName.text?.trim().toString()
-            val pinCode = pinCode.text?.trim().toString()
-            val landMark = landMark.text?.trim().toString()
-            val userName = userName.text?.trim().toString()
-            val phoneNo = phoneNo.text?.trim().toString()
-            val alternatePhoneNo = alternatePhoneNo.text?.trim().toString()
-
-            if (city.isEmpty()) {
-                cityName.error = "city can not be empty !"
-                cityName.requestFocus()
-                return
-            }
-            if (locality.isEmpty()) {
-                binding.locality.error = "locality can not be empty !"
-                binding.locality.requestFocus()
-                return
-            }
-            if (buildingName.isEmpty()) {
-                binding.buildingName.error = "buildingName can not be empty !"
-                binding.buildingName.requestFocus()
-                return
-            }
-            if (pinCode.isEmpty()) {
-                binding.pinCode.error = "pincode can not be empty !"
-                binding.pinCode.requestFocus()
-                return
-            }
-            if (state.isEmpty()) {
-                Snackbar.make(binding.root, "plz select state", Snackbar.LENGTH_SHORT)
-                    .show()
-
-                stateSpinner.requestFocus()
-                return
-            }
-            if (userName.isEmpty()) {
-                binding.userName.error = "userName can not be empty !"
-                binding.userName.requestFocus()
-                return
-            }
-
-            if (phoneNo.isEmpty()) {
-                binding.phoneNo.error = "phoneNo can not be empty !"
-                binding.phoneNo.requestFocus()
-                return
-            }
-
-            val address = Address(
-                city,
-                locality,
-                buildingName,
-                pinCode,
-                state,
-                landMark,
-                userName,
-                phoneNo,
-                alternatePhoneNo
-            )
-
-
+    private fun navigateToPayment(address: Address) {
+        NewAddressFragmentDirections.actionNewAddressFragmentToPaymentDetailsFragment(address,navArgs.products).also {
+            findNavController().navigate(it)
         }
+
     }
+
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         state = parent?.getItemAtPosition(position).toString()

@@ -23,7 +23,7 @@
             android:id="@+id/action_nav_login_to_adminActivity"
             app:destination="@id/adminActivity"
             app:popUpTo="@id/nav_login"
-            app:popUpToInclusive="true"></action>
+            app:popUpToInclusive="true"/>
 
 
     </fragment>
@@ -82,10 +82,6 @@
             android:id="@+id/action_nav_cart_to_newAddressFragment"
             app:destination="@id/newAddressFragment" >
             <argument
-                android:name="fromCart"
-                app:argType="boolean"
-                />
-            <argument
                 android:name="products"
                 app:argType="com.example.anew.model.Product[]" />
         </action>
@@ -109,10 +105,6 @@
         <action
             android:id="@+id/action_medDetailsFragment_to_newAddressFragment"
             app:destination="@id/newAddressFragment" >
-            <argument
-                android:name="fromDetails"
-                app:argType="boolean"
-                />
             <argument
                 android:name="products"
                 app:argType="com.example.anew.model.Product[]" />
@@ -146,6 +138,12 @@
         <argument
             android:name="products"
             app:argType="com.example.anew.model.Product[]" />
+        <action
+            android:id="@+id/action_paymentDetailsFragment_to_orderPlacedFragment"
+            app:destination="@id/orderPlacedFragment"
+            app:popUpTo="@id/medDetailsFragment"
+            app:popUpToInclusive="true" >
+        </action>
     </fragment>
 
     <fragment
@@ -154,20 +152,19 @@
         android:label="Add new Address"
         tools:layout="@layout/fragment_new_address" >
         <argument
-            android:name="fromDetails"
-            app:argType="boolean"
-            android:defaultValue="false" />
-        <argument
-            android:name="fromCart"
-            app:argType="boolean"
-            android:defaultValue="false" />
-        <argument
-            android:name="fromBottomSheet"
-            app:argType="boolean"
-            android:defaultValue="false" />
-        <argument
             android:name="products"
             app:argType="com.example.anew.model.Product[]" />
+        <action
+            android:id="@+id/action_newAddressFragment_to_paymentDetailsFragment"
+            app:destination="@id/paymentDetailsFragment" >
+
+            <argument
+                android:name="address"
+                app:argType="com.example.anew.model.Address" />
+            <argument
+                android:name="products"
+                app:argType="com.example.anew.model.Product[]" />
+        </action>
 
     </fragment>
 
@@ -190,9 +187,6 @@
             android:id="@+id/action_proceedWithDefaultAddBottomSheet_to_newAddressFragment2"
             app:destination="@id/newAddressFragment" >
             <argument
-                android:name="fromBottomSheet"
-                app:argType="boolean"/>
-            <argument
                 android:name="products"
                 app:argType="com.example.anew.model.Product[]" />
         </action>
@@ -210,6 +204,18 @@
         </action>
 
     </dialog>
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.example.anew.ui.about.AboutFragment"
+        android:label="About"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/orderPlacedFragment"
+        android:name="com.example.anew.ui.orderPlaced.OrderPlacedFragment"
+        android:label="fragment_order_placed"
+        tools:layout="@layout/fragment_order_placed" >
+
+    </fragment>
 
 
 </navigation>

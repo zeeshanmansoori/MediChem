@@ -358,6 +358,7 @@
                 />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/pay_now_btn"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
@@ -367,7 +368,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:paddingVertical="4dp"
                 android:textSize="@dimen/label_text_size14"
-                app:backgroundTint="@color/partial_black"
+                android:backgroundTint="@color/tint_background"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -54,22 +54,7 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
             ).apply {
                 setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
             }
-//
-//        binding.productQuantityDropDown.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
-//            override fun onItemSelected(
-//                parent: AdapterView<*>?,
-//                view: View?,
-//                position: Int,
-//                id: Long
-//            ) {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//                TODO("Not yet implemented")
-//            }
-//
-//        }
+
         // enabling optn menu
         setHasOptionsMenu(true)
 
@@ -133,7 +118,8 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
             dialog.dismissDialog()
         }
         insertTask.addOnFailureListener {
-            Snackbar.make(binding.root, "failed to add", Snackbar.LENGTH_SHORT).show()
+            snackbar = Snackbar.make(binding.root, "failed to add", Snackbar.LENGTH_SHORT)
+            snackbar?.show()
             dialog.dismissDialog()
             Log.d("fail", "${it}")
         }
@@ -183,7 +169,7 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
 
     private fun navigateToNewAddress() {
         val action = MedDetailsFragmentDirections
-            .actionMedDetailsFragmentToNewAddressFragment(true, products = arrayOf(args.product))
+            .actionMedDetailsFragmentToNewAddressFragment( products = arrayOf(args.product))
         findNavController().navigate(action)
     }
 
@@ -198,6 +184,11 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
             )
         findNavController().navigate(action)
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        snackbar?.dismiss()
     }
 
 }

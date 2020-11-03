@@ -1,6 +1,10 @@
 package com.example.anew.utils
 
 
+import android.graphics.Color
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.ColorDrawable
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.anew.R
@@ -8,7 +12,7 @@ import com.example.anew.R
 class CustomLoadingDialog(val activity: AppCompatActivity) {
 
     private lateinit var dialog: AlertDialog
-
+    private var imageView:ImageView? = null
 
     fun startDialog() {
         val builder = AlertDialog.Builder(activity)
@@ -16,11 +20,17 @@ class CustomLoadingDialog(val activity: AppCompatActivity) {
         builder.setView(inflater.inflate(R.layout.custom_loading_dialog, null))
         builder.setCancelable(false)
         dialog = builder.create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
+        imageView =dialog.findViewById(R.id.car_view)
+        (imageView?.drawable as AnimationDrawable).start()
 
     }
 
-    fun dismissDialog() = dialog.dismiss()
+    fun dismissDialog()  {
+        (imageView?.drawable as AnimationDrawable).stop()
+        dialog.dismiss()
+    }
 
 
 }

@@ -6,37 +6,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anew.R
+import com.example.anew.databinding.OrderedSingleItemLayoutBinding
+import com.example.anew.model.Order
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class OrderAdapter(private val context: Context, private val orderElementList:MutableList<OrderData>) : RecyclerView.Adapter<OrderHolder>() {
+class OrderAdapter(options:FirestoreRecyclerOptions<Order>): FirestoreRecyclerAdapter<Order, OrderHolder>(options) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHolder {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.ordered_single_item_layout, parent, false)
-        return OrderHolder(view)
+        val binding:OrderedSingleItemLayoutBinding
+        = DataBindingUtil.inflate(LayoutInflater.from(parent.context),R.layout.ordered_single_item_layout,parent,false)
+        return OrderHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: OrderHolder, position: Int) {
-        val element = orderElementList[position]
-        holder.apply {
-            medicine_name.text = element.name
-
-        }
+    override fun onBindViewHolder(holder: OrderHolder, position: Int, model: Order) {
+        holder.bind(model)
     }
-
-    override fun getItemCount() = orderElementList.size
 
 
 }
 
-class OrderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    var medicine_image: ImageView = itemView.findViewById(R.id.medicine_image)
-    var medicine_name: TextView = itemView.findViewById(R.id.medicine_name)
-    var total_price: TextView = itemView.findViewById(R.id.ordered_total)
-    var qty: TextView = itemView.findViewById(R.id.ordered_qty)
-    var date: TextView = itemView.findViewById(R.id.ordered_date)
-    var payment_status: TextView = itemView.findViewById(R.id.payment_status)
+class OrderHolder(val binding: OrderedSingleItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
 
+    fun bind(model: Order){
+
+    }
 
 }

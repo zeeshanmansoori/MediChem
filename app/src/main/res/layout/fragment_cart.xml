@@ -31,7 +31,7 @@
                 android:background="@drawable/btn_background"
                 android:text="Proceed to buy"
                 android:textColor="@android:color/white"
-                app:backgroundTint="@color/partial_black"
+                app:backgroundTint="@color/tint_background"
                 />
             <View
                 android:id="@+id/action_divider"
