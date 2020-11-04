@@ -39,7 +39,13 @@
     </string>
     <string name="confirmation_msg">you will shortly receive your order confirmation message and email</string>
     <string name="delivery_msg">Expected delivery within 4-6 days</string>
-    <string name="order_id"><b>Order Id :</b> 23435354657 </string>
+
+    <string name="order_id"><b>Order Id :</b> \t\t %s </string>
+    <string name="order_date">order date %s</string>
+    <string name="order_total">order total \t\t%s</string>
+    <string name="payment_successful"><font fgcolor='#009B86'>Successful</font></string>
+    <string name="payment_unsuccessful"><font fgcolor='#009B86'>Unsuccessful</font></string>
+
 
     <string-array name="product_quantity">
         <item>1</item>

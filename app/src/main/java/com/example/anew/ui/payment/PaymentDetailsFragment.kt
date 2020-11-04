@@ -14,18 +14,23 @@ import com.example.anew.R
 import com.example.anew.databinding.FragmentPaymentDetailsBinding
 import com.example.anew.model.Order
 import com.example.anew.model.PaymentProduct
+import com.example.anew.ui.intialSetup.USER_REF
 import com.example.anew.ui.orderPlaced.ORDER_PLACED
 import com.example.anew.utils.CustomLoadingDialog
 import com.example.anew.utils.MyUtil
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 class PaymentDetailsFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentPaymentDetailsBinding
     private val navArgs: PaymentDetailsFragmentArgs by navArgs()
 
-    private var snackbar:Snackbar? = null
+    private val userId = Firebase.auth.currentUser?.uid!!
+
+    private var snackbar: Snackbar? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,26 +57,50 @@ class PaymentDetailsFragment : Fragment(), View.OnClickListener {
     private fun navigateToConfirmation() {
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
         dialog.startDialog()
-        val order = Order(navArgs.address,navArgs.products.toMutableList(),MyUtil.getDate())
-        FirebaseFirestore.getInstance().collection(ORDER_PLACED)
-            .add(order)
-            .addOnSuccessListener {
-                dialog.dismissDialog()
-                findNavController().navigate(R.id.action_paymentDetailsFragment_to_orderPlacedFragment)
-                Log.d("mytag","placed")
+        val order = Order(
+            address = navArgs.address,
+            product = navArgs.products.toMutableList(),
+            dateAdded = MyUtil.getDate()
+        )
+        FirebaseFirestore.getInstance().collection(USER_REF).document(userId)
+            .collection(ORDER_PLACED)
+            .document()
+            .apply {
 
-            }
-            .addOnFailureListener {
-                dialog.dismissDialog()
-                snackbar = Snackbar.make(binding.root,"some error while placing order",Snackbar.LENGTH_SHORT)
-                    .setAction("RETRY"){
-                        navigateToConfirmation()
+                set(order.also {
+                    it.orderId = this.id
+                })
+                    .addOnSuccessListener {
+
+                        FirebaseFirestore.getInstance().collection(ORDER_PLACED)
+                            .document(order.orderId)
+                            .set(order)
+                            .addOnSuccessListener {
+                                dialog.dismissDialog()
+                                findNavController().navigate(R.id.action_paymentDetailsFragment_to_orderPlacedFragment)
+                                Log.d("paymentDetailsFragment", "placed")
+                            }
+                            .addOnFailureListener {
+                                dialog.dismissDialog()
+                                Log.d("paymentDetailsFragment", "placed")
+                            }
                     }
-                snackbar?.show()
+                    .addOnFailureListener {
+                        dialog.dismissDialog()
+                        snackbar = Snackbar.make(
+                            binding.root,
+                            "some error while placing order",
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .setAction("RETRY") {
+                                navigateToConfirmation()
+                            }
+                        snackbar?.show()
+                    }
             }
+
 
     }
-
 
 
     override fun onPause() {

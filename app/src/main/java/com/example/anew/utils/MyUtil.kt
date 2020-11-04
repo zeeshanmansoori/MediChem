@@ -22,22 +22,6 @@ import java.util.*
 
 
 object MyUtil {
-    const val IMAGE_REF ="images"
-    fun validateUser(name: String, password: String, phoneNo: String, email: String) =
-        isValidEmail(email) &&
-                password.isNotEmpty() && password.length >= 8 &&
-                isPhoneNo(phoneNo) &&
-                !containsDigit(name)
-
-
-    fun containsDigit(name: String) = name.contains(Regex("\\d")) && name.isNotEmpty()
-    fun isPhoneNo(name: String) =
-        Patterns.PHONE.matcher(name).matches() && name.isNotEmpty() && name.length == 10
-
-    fun isValidEmail(name: String) =
-        Patterns.EMAIL_ADDRESS.matcher(name).matches() && name.isNotEmpty()
-
-    fun isPassword(name: String) = name.length >= 8 && name.isNotEmpty()
     fun hideKeyBoard(activity: FragmentActivity) {
         (activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).apply {
             hideSoftInputFromWindow(activity.currentFocus?.windowToken, 0)
@@ -49,5 +33,6 @@ object MyUtil {
         val date = Date()
         return format.format(date)
     }
+
 
 }

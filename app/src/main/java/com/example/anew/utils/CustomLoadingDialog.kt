@@ -12,7 +12,6 @@ import com.example.anew.R
 class CustomLoadingDialog(val activity: AppCompatActivity) {
 
     private lateinit var dialog: AlertDialog
-    private var imageView:ImageView? = null
 
     fun startDialog() {
         val builder = AlertDialog.Builder(activity)
@@ -22,15 +21,10 @@ class CustomLoadingDialog(val activity: AppCompatActivity) {
         dialog = builder.create()
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
-        imageView =dialog.findViewById(R.id.car_view)
-        (imageView?.drawable as AnimationDrawable).start()
-
     }
 
     fun dismissDialog()  {
-        (imageView?.drawable as AnimationDrawable).stop()
         dialog.dismiss()
     }
-
 
 }

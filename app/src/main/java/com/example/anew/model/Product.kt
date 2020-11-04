@@ -36,7 +36,10 @@ data class Product(
 
 data class Order(
     val address: Address = Address(),
-    val product: MutableList<Product> = mutableListOf(),
     val dateAdded: String = "",
-    val paymentStatus: String = "paid online"
+    var orderId:String = "",
+    val paymentStatus: Boolean =true,
+    val product: MutableList<Product> = mutableListOf(),
+    var totalPrize: Double = 0.0
+
 )

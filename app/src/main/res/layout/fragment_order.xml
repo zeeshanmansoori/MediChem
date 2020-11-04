@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.order.OrderFragment">
+<layout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Your Order History"
-        android:gravity="center"
-        android:background="@drawable/btn_background"
-        android:textColor="@android:color/white"
-        android:textSize="15sp"
-        android:padding="10dp"
-        android:backgroundTint="@color/tint_background"
-        android:layout_margin="10dp"
-        />
-
-    <View
-        android:id="@+id/action_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="5dp"
-        android:background="@color/colordevider" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/ordered_single_item_layout"
-        android:background="@color/all_bg_color"
-        />
-</LinearLayout>
+        android:orientation="vertical"
+        tools:context=".ui.order.OrderFragment">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your Order History"
+            android:gravity="center"
+            android:background="@drawable/btn_background"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            android:padding="10dp"
+            android:backgroundTint="@color/tint_background"
+            android:layout_margin="10dp"
+            />
+
+        <View
+            android:id="@+id/action_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/colordevider" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/ordered_single_item_layout"
+            android:background="@color/all_bg_color"
+            />
+    </LinearLayout></layout>

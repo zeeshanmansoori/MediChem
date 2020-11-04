@@ -9,9 +9,4 @@
         android:icon="@drawable/search"/>
 
 
-    <item
-        android:id="@+id/home_about"
-        android:title="About"
-        app:showAsAction="never"/>
-
 </menu>

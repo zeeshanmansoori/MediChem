@@ -169,12 +169,14 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
     }
 
     override fun onStart() {
+
         super.onStart()
         cartAdapter.startListening()
     }
 
     override fun onPause() {
-
+        super.onPause()
+        snackbar?.dismiss()
         if (cartAdapter.itemCount==0) {
             super.onPause()
             snackbar?.dismiss()
@@ -195,8 +197,8 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
             }
 
         }
-        snackbar?.dismiss()
-        super.onPause()
+
+
     }
 
     override fun onStop() {

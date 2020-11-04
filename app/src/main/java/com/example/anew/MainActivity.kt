@@ -53,7 +53,10 @@ class MainActivity : AppCompatActivity() {
                 .document(userId)
                 .get()
                 .addOnSuccessListener {
-                    navHeaderMainBinding.user = it.toObject(User::class.java)!!
+                    val user = it.toObject(User::class.java)
+                    user?.let {
+                        navHeaderMainBinding.user = it
+                    }
                 }.addOnFailureListener {
                     Snackbar.make(drawerLayout,"plz login again having some issue",Snackbar.LENGTH_SHORT).show()
                 }
@@ -96,8 +99,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logMeOut(): Boolean {
-        val dialogBuilder = MaterialAlertDialogBuilder(this)
-        with(dialogBuilder) {
+        MaterialAlertDialogBuilder(this).apply {
+
             setTitle("Alert")
             setMessage("Do you really want to sign out \nthis will not delete your account")
             setNeutralButton("CANCEL") { dialog, _ ->

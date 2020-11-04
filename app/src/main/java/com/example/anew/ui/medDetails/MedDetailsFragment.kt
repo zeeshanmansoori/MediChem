@@ -82,11 +82,12 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
 
 
     private fun addToCart() {
+        val dialog = CustomLoadingDialog(activity as AppCompatActivity)
+        dialog.startDialog()
         val product = args.product.apply {
             quantity = binding.productQuantityDropDown.selectedItem.toString().toInt()
         }
 
-        val dialog = CustomLoadingDialog(activity as AppCompatActivity)
         val cartProduct = CartProduct(
             product.id,
             product.name,
@@ -101,7 +102,6 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
             product.image4,
             MyUtil.getDate()
         )
-        dialog.startDialog()
         val insertTask = firestore.collection(USER_REF).document(userId)
             .collection(CART_REF).document(cartProduct.id).set(
                 cartProduct

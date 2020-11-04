@@ -133,17 +133,7 @@ class AddFragment : Fragment(), View.OnClickListener {
             }
 
             dialog.startDialog()
-            val map = hashMapOf<String, Any>(
-                PRODUCT_ID to id,
-                PRODUCT_NAME to name,
-                DESCRIPTION to description,
-                EXP_DATE to expDate,
-                PRIZE to prize,
-                MAN_NAME to manName,
-                QUANTITY to quantity,
-                IMAGE1 to ""
 
-            )
             firebaseStore.collection(PRODUCT_REF).document(id).get().addOnCompleteListener {
                 if (it.isSuccessful) {
                     val exist = it.result?.exists() ?: false

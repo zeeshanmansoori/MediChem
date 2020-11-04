@@ -7,21 +7,31 @@
     android:orientation="vertical"
     tools:context="ui.admin.order.adminOrderFragment"
     >
-    <TextView
+
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your Order History"
+        android:text="Orders Got"
         android:gravity="center"
-        android:textStyle="bold|italic"
-        android:layout_margin="5dp"
         android:background="@drawable/btn_background"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:padding="5dp"
+        android:textSize="15sp"
+        android:padding="10dp"
+        android:backgroundTint="@color/tint_background"
+        android:layout_margin="10dp"
         />
+    <View
+        android:id="@+id/action_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colordevider" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/admin_order_single_item_layout"
+        />
 </LinearLayout>

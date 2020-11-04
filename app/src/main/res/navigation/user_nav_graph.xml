@@ -22,8 +22,7 @@
         <action
             android:id="@+id/action_nav_login_to_adminActivity"
             app:destination="@id/adminActivity"
-            app:popUpTo="@id/nav_login"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@id/nav_login" />
 
 
     </fragment>
@@ -148,7 +147,7 @@
 
     <fragment
         android:id="@+id/newAddressFragment"
-        android:name="com.example.anew.newAddress.NewAddressFragment"
+        android:name="com.example.anew.ui.newAddress.NewAddressFragment"
         android:label="Add new Address"
         tools:layout="@layout/fragment_new_address" >
         <argument
