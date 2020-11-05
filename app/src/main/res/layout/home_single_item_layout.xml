@@ -67,13 +67,13 @@
                 android:id="@+id/medicine_prize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/med_price(String.valueOf(product.prize))}"
+                android:text="@{@string/show_in_rupee(String.valueOf(product.prize))}"
                 android:textColor="@color/subtext"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/medicine_name"
-                tools:text="$ 114"
+                tools:text="Rs 114"
                 android:layout_marginBottom="2dp"
                 />
 

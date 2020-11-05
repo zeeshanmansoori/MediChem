@@ -26,7 +26,7 @@ import io.paperdb.Paper
 
 
 const val REQUEST_GET_PROFILE_IMAGE = 23
-const val USER_REF = "USERS"
+const val USER_REF = "User"
 
 class SignUpFragment : Fragment(), View.OnClickListener {
 

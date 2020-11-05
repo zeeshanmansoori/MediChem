@@ -9,4 +9,18 @@
         android:iconTint="@color/partial_black"
         />
 
+    <item android:id="@+id/add_to_fav"
+        android:title="Add to favourite"
+        android:icon="@drawable/ic_fav"
+        android:iconTint="@color/partial_black"
+        />
+
+
+    <item android:id="@+id/share_now"
+        android:title="Share Now"
+        android:icon="@drawable/ic_share"
+        android:iconTint="@color/partial_black"
+        />
+
+
 </menu>

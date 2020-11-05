@@ -1,224 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.admin.add.AddFragment"
-    >
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-
-    >
+    tools:context=".ui.admin.add.AddFragment">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/medicine_image_image_view"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/profile_image_bg" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_below_product_image_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:text="capture or choose the image"
-                android:textAlignment="center"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/edittextmargintop"
-            android:orientation="horizontal"
-            >
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/scan_btn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="5dp"
-                >
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/medicine_id_edit_text"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/medicine_image_image_view"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/profile_image_bg" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_below_product_image_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:ellipsize="end"
-                    android:hint="enter medicine id or scan qr/bar code"
-                    android:inputType="number"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="capture or choose the image"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+
+                    />
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edittextmargintop"
+                android:orientation="horizontal"
+                >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/scan_btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/medicine_id_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:ellipsize="end"
+                        android:hint="Enter medicine id or scan qr/bar code"
+                        android:inputType="number"
+                        android:lines="1"
+                        android:maxLength="10"
+                        android:textSize="18sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <ImageButton
+                    android:id="@+id/scan_btn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_scan"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:backgroundTint="@android:color/transparent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/medicine_name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter medicine name"
+                    android:inputType="text"
                     android:lines="1"
                     android:textSize="18sp"
-                    android:maxLength="10"
+                    android:backgroundTint="@android:color/transparent"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <ImageButton
-                android:id="@+id/scan_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/ic_scan"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/medicine_name_edit_text"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/edittextmarginleft"
-                android:layout_marginRight="@dimen/edittextmarginright"
-                android:hint="enter medicine name"
-                android:lines="1"
-                android:textSize="18sp"
-                tools:text="this is text"
-                android:inputType="text"/>
+                app:endIconMode="clear_text"
 
-        </com.google.android.material.textfield.TextInputLayout>
+                >
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/exp_date_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/edittextmarginleft"
-            android:layout_marginRight="@dimen/edittextmarginright"
-            android:lines="1"
-            android:textSize="18sp"
-            tools:text="this is text"
-            android:inputType="date"
-            android:hint="expiry date in MM/DD/YYYY"
-            />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/medicine_description_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter description"
+                    android:textSize="18sp"
+                    android:maxLength="500"
+                    android:maxLines="4"
+                    android:backgroundTint="@android:color/transparent"
+                    />
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:endIconMode="clear_text">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/medicine_description_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/edittextmarginleft"
-            android:layout_marginRight="@dimen/edittextmarginright"
-            android:lines="1"
-            android:textSize="18sp"
-            tools:text="this is text"
-            android:inputType="text"
-            android:hint="enter description"
-            android:maxLines="3"
-            android:minLines="1"
-            />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/medicine_prize_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter price in Rs"
+                    android:inputType="numberDecimal"
+                    android:lines="1"
+                    android:maxLines="3"
+                    android:minLines="1"
+                    android:textSize="18sp"
+                    android:backgroundTint="@android:color/transparent"
+                    />
 
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/medicine_prize_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/edittextmarginleft"
-            android:layout_marginRight="@dimen/edittextmarginright"
-            android:lines="1"
-            android:textSize="18sp"
-            tools:text="this is text"
-            android:hint="enter price in Rs"
-            android:maxLines="3"
-            android:minLines="1"
-            android:inputType="numberDecimal"
+            </com.google.android.material.textfield.TextInputLayout>
 
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/manufacturer_name_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/edittextmarginleft"
-            android:layout_marginRight="@dimen/edittextmarginright"
-            android:hint="enter manufacturer details"
-            android:maxLines="3"
-            android:minLines="1"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_below_product_image_view" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|center"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:layout_marginHorizontal="5dp"
-            >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/usage_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter indication and usage"
+                    android:maxLines="4"
+                    android:minLines="1"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_below_product_image_view"
+                    android:maxLength="500"
+                    android:backgroundTint="@android:color/transparent"
+                    />
 
-            <com.google.android.material.textview.MaterialTextView
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:gravity="center_vertical|center"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:layout_margin="2dp"
+                >
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="select units" />
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/number_picker"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/btn_bg_img"
+                    app:finalNumber="20000"
+                    app:focusable="true"
+                    app:initialNumber="1" />
+            </LinearLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/submit_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="select units" />
-
-            <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
-                android:id="@+id/number_picker"
-                android:layout_width="150dp"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
-                app:focusable="true"
-                app:initialNumber="0"
-                app:finalNumber="20000"
-                android:background="@drawable/btn_bg_img"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_top"
+                android:text="add to database"
+                android:padding="10dp"
                 />
+
+
+
         </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/submit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/margin_top"
-        android:text="add to database"
-        />
-
-
-</LinearLayout>
 </layout>

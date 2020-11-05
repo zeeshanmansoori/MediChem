@@ -2,7 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     >
 
     <data>
@@ -23,7 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/table_bg"
-        android:orientation="vertical">
+        android:orientation="vertical"
+
+        >
 
         <LinearLayout
             android:id="@+id/container"
@@ -138,11 +139,19 @@
                     android:onClick="@{view ->listener.onImageClicked(view)}"
                     />
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colordevider"
+                android:layout_marginVertical="3dp"
+                />
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:endIconMode="clear_text"
+            android:layout_margin="5dp"
 
             >
 
@@ -155,27 +164,31 @@
                 android:maxLines="1"
                 android:text="@{product.name}"
                 android:textSize="@dimen/textsize"
-                android:hint="change med name"
+                android:hint="Chane med name"
                 android:inputType="text"
+                android:backgroundTint="@android:color/transparent"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:endIconMode="clear_text"
+            android:layout_margin="5dp"
+
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/medicine_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="change description"
-                android:inputType="text"
+                android:hint="Chane description"
                 android:layout_below="@id/medicine_name"
-                android:maxLines="5"
-                android:minLines="2"
+                android:maxLines="4"
                 android:text="@{product.description}"
                 android:textSize="@dimen/textsize"
+                android:backgroundTint="@android:color/transparent"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -183,25 +196,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/exp_date_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="change exp date"
-                android:inputType="date"
-                android:text="@{product.expDate}"
-                android:textSize="@dimen/textsize"
-                tools:text="09Sep-2020"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            app:endIconMode="clear_text"
+            android:layout_margin="5dp"
 
             >
 
@@ -209,13 +205,13 @@
                 android:id="@+id/medicine_prize_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="change prize per unit"
+                android:hint="Chane prize per unit"
                 android:inputType="numberDecimal"
                 android:layout_below="@+id/medicine_description"
                 android:layout_alignParentRight="true"
                 android:text="@{String.valueOf(product.prize)}"
                 android:textSize="@dimen/textsize"
-                tools:text="200 Rs"
+                android:backgroundTint="@android:color/transparent"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -223,6 +219,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:endIconMode="clear_text"
+            android:layout_margin="5dp"
+
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -233,26 +232,38 @@
                 android:hint="enter quantity"
                 android:text="@{String.valueOf(product.quantity)}"
                 android:textSize="@dimen/textsize"
-                tools:text="5 units"
+                android:backgroundTint="@android:color/transparent"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:endIconMode="clear_text"
+            android:layout_margin="5dp"
+            android:backgroundTint="@android:color/transparent"
             >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/manufacturer_name_edit_text"
+                android:id="@+id/medicine_indication_usage_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:text="@{product.manName}"
+                android:text="@{product.medicineUsage}"
                 android:textSize="@dimen/textsize"
-                android:hint="enter manufacturer name"
+                android:hint="Change Indication/Usage"
+                android:backgroundTint="@android:color/transparent"
+                android:maxLines="4"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_changes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Changes"
+            android:layout_gravity="center"
+            />
 
 
     </LinearLayout>

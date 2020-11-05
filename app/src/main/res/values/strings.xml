@@ -21,7 +21,6 @@
     <string name="menu_item_reply">view details</string>
     <string name="menu_item_delete">delete</string>
     <string name="med_quantity">%s quantity</string>
-    <string name="med_price"><b>$ %s</b></string>
 
     //
 
@@ -32,7 +31,7 @@
     <string name="prize">Price $ %s</string>
     <string name="subtotal_prize">subtotal ( %s items ) : $ %s</string>
     <string name="show_in_rupee">Rs %s</string>
-    <string name="product_description">Description\nA progressive casual runner, Motion provides long lasting comfort, traction and flexibility in an upper of breathable materials with a distinctive cage-inspired eye stay. A lightweight sole with a deep geometric.</string>
+
     <string name="medical_address">
         Description\nA progressive casual runner, Motion provides long lasting comfort, traction and flexibility in an upper
         of breathable materials with a distinctive cage-inspired eye stay. A lightweight sole with a deep geometric.
@@ -40,11 +39,15 @@
     <string name="confirmation_msg">you will shortly receive your order confirmation message and email</string>
     <string name="delivery_msg">Expected delivery within 4-6 days</string>
 
+
     <string name="order_id"><b>Order Id :</b> \t\t %s </string>
-    <string name="order_date">order date %s</string>
-    <string name="order_total">order total \t\t%s</string>
+    <string name="order_date"><b>Order date :</b>%s</string>
+    <string name="order_total"><b>Order total :</b>\t\t%s</string>
     <string name="payment_successful"><font fgcolor='#009B86'>Successful</font></string>
     <string name="payment_unsuccessful"><font fgcolor='#009B86'>Unsuccessful</font></string>
+    <string name="product_id"><b>product Id :</b>\t\t%s</string>
+    <string name="product_description"><b>description :</b>\t %s</string>
+    <string name="product_usage"><b>Indications n Usage :</b>\t %s</string>
 
 
     <string-array name="product_quantity">

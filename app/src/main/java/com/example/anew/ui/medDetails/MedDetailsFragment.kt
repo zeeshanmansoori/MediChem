@@ -89,21 +89,11 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
         }
 
         val cartProduct = CartProduct(
-            product.id,
-            product.name,
-            product.description,
-            product.expDate,
-            product.quantity,
-            product.prize,
-            product.manName,
-            product.image1,
-            product.image2,
-            product.image3,
-            product.image4,
+            product,
             MyUtil.getDate()
         )
         val insertTask = firestore.collection(USER_REF).document(userId)
-            .collection(CART_REF).document(cartProduct.id).set(
+            .collection(CART_REF).document(cartProduct.product.id).set(
                 cartProduct
             )
 
@@ -180,7 +170,7 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
         }!!
         val action =
             MedDetailsFragmentDirections.actionMedDetailsFragmentToProceedWithDefaultAddBottomSheet(
-                product, address
+                arrayOf(product), address
             )
         findNavController().navigate(action)
 

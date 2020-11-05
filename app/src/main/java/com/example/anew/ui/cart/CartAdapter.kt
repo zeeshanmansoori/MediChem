@@ -58,9 +58,9 @@ class CartAdapter(
 
         fun bind(model: CartProduct) {
             binding.cartProduct = model
-            binding.numberPicker.number = model.quantity.toString()
-            totalPrize += (model.prize) * (model.quantity)
-            totalItemCount += model.quantity
+            binding.numberPicker.number = model.product.quantity.toString()
+            totalPrize += (model.product.prize) * (model.product.quantity)
+            totalItemCount += model.product.quantity
             cartItemClickListener.onCartItemChange(totalItemCount, totalPrize)
 
 

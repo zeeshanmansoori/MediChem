@@ -21,6 +21,8 @@ import com.example.anew.model.*
 import com.example.anew.ui.admin.add.IMAGE_REF
 import com.example.anew.ui.admin.add.PRODUCT_REF
 import com.example.anew.ui.admin.add.TAKE_IMAGE
+import com.example.anew.ui.intialSetup.ADMIN_REF
+import com.example.anew.ui.intialSetup.USER_REF
 import com.example.anew.utils.CustomLoadingDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -106,16 +108,14 @@ class DetailsFragment : Fragment(), MyImageClickListener {
         with(binding) {
             val oldName = oldProduct.name.trim()
             val oldDescription = oldProduct.description.trim()
-            val oldExpDate = oldProduct.expDate.trim()
-            val oldManName = oldProduct.manName.trim()
+            val oldMedUsage = oldProduct.medicineUsage.trim()
             val oldPrize = oldProduct.prize
             val oldQuantity = oldProduct.quantity
 
             //new fields
             val name = medicineName.text.toString().trim()
             val description = medicineDescription.text.toString().trim()
-            val expDate = expDateEditText.text.toString().trim()
-            val manName = manufacturerNameEditText.text.toString().trim()
+            val medUsage = medicineIndicationUsageEditText.text.toString().trim()
             val prize = medicinePrizeEditText.text.toString().toFloat()
             val quantity = quantityEditText.text.toString().toInt()
 
@@ -123,8 +123,7 @@ class DetailsFragment : Fragment(), MyImageClickListener {
             // when no changes made
             if (oldName == name
                 && oldDescription == description
-                && oldManName == manName
-                && oldExpDate == expDate
+                && oldMedUsage == medUsage
                 && oldQuantity == quantity
                 && imageByteArray.filterNotNull().count() == 0
                 && imageUriArray.filterNotNull().count() == 0
@@ -140,8 +139,8 @@ class DetailsFragment : Fragment(), MyImageClickListener {
             uploadImages()
             dialog.startDialog()
             // name
-            if (oldName != name && name.isNotEmpty() && oldDescription == description && expDate == oldExpDate
-                && oldManName == manName && oldPrize == prize && oldQuantity == quantity
+            if (oldName != name && name.isNotEmpty() && oldDescription == description
+                && oldMedUsage == medUsage && oldPrize == prize && oldQuantity == quantity
             ) {
                 val updateTask = firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
                     PRODUCT_NAME, name
@@ -159,8 +158,8 @@ class DetailsFragment : Fragment(), MyImageClickListener {
 
 
             //description
-            if (oldDescription != description && description.isNotEmpty() && oldName == name && expDate == oldExpDate
-                && oldManName == manName && oldPrize == prize && oldQuantity == quantity
+            if (oldDescription != description && description.isNotEmpty() && oldName == name
+                && oldMedUsage == medUsage && oldPrize == prize && oldQuantity == quantity
             ) {
                 val updateTask = firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
                     DESCRIPTION, description
@@ -177,37 +176,16 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 return
             }
 
-
-            //expdate
-            if (oldExpDate != expDate && expDate.isNotEmpty() && oldName == name && oldDescription == description
-                && oldManName == manName && oldPrize == prize && oldQuantity == quantity
+            //medicine usage
+            if (oldMedUsage != medUsage && medUsage.isNotEmpty() && oldName == name && oldDescription == description
+                && oldPrize == prize && oldQuantity == quantity
             ) {
                 val updateTask = firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
-                    EXP_DATE, expDate
+                    MEDICINE_USAGE, medUsage
                 )
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
-                    Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-
-                }
-                updateTask.addOnFailureListener {
-                    dialog.dismissDialog()
-                    Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT).show()
-                }
-                return
-            }
-
-
-            //man name
-            if (oldManName != manName && manName.isNotEmpty() && oldName == name && oldDescription == description
-                && oldExpDate == expDate && oldPrize == prize && oldQuantity == quantity
-            ) {
-                val updateTask = firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
-                    MAN_NAME, manName
-                )
-                updateTask.addOnSuccessListener {
-                    dialog.dismissDialog()
-                    Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "Usage updated", Snackbar.LENGTH_SHORT).show()
 
                 }
                 updateTask.addOnFailureListener {
@@ -221,7 +199,7 @@ class DetailsFragment : Fragment(), MyImageClickListener {
 
             //prize
             if (oldPrize != prize && oldName == name && oldDescription == description
-                && oldExpDate == expDate && oldManName == manName && oldQuantity == quantity
+                && oldMedUsage == medUsage && oldQuantity == quantity
             ) {
                 val updateTask = firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
                     PRIZE, prize
@@ -240,7 +218,7 @@ class DetailsFragment : Fragment(), MyImageClickListener {
 
             //quantity
             if (oldQuantity != quantity && oldName == name && oldDescription == description
-                && oldExpDate == expDate && oldManName == manName && oldPrize == prize
+                && oldMedUsage == medUsage && oldPrize == prize
             ) {
                 val updateTask = firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
                     QUANTITY, quantity
@@ -263,15 +241,14 @@ class DetailsFragment : Fragment(), MyImageClickListener {
             if (
                 name.isEmpty()
                 || description.isEmpty()
-                || expDate.isEmpty()
-                || manName.isEmpty()
+                || medUsage.isEmpty()
             ) {
                 Snackbar.make(binding.root, "one of the field is empty", Snackbar.LENGTH_SHORT)
                     .show()
                 dialog.dismissDialog()
 
             } else if (oldQuantity == quantity && oldName == name && oldDescription == description
-                && oldExpDate == expDate && oldManName == manName && oldPrize == prize &&
+                && oldMedUsage == medUsage && oldPrize == prize &&
                 (imageByteArray.filterNotNull().count() > 0 || imageUriArray.filterNotNull()
                     .count() > 0)
             ) {
@@ -287,10 +264,9 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 val updateTask = firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
                     PRODUCT_NAME, name,
                     DESCRIPTION, description,
-                    EXP_DATE, expDate,
                     QUANTITY, quantity,
                     PRIZE, prize,
-                    MAN_NAME, manName
+                    MEDICINE_USAGE, medUsage
                 )
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()

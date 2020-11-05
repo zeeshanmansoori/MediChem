@@ -32,7 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import io.paperdb.Paper
 
 const val CHECK_BOX = "checkbox"
-const val ADMIN_REF = "admin"
+const val ADMIN_REF = "Admin"
 const val IS_USER = "isUser"
 const val RC_SIGN_IN = 123
 

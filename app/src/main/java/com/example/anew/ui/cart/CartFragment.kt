@@ -16,6 +16,7 @@ import com.example.anew.model.*
 import com.example.anew.ui.admin.add.CART_REF
 import com.example.anew.ui.admin.add.PRODUCT_REF
 import com.example.anew.ui.intialSetup.USER_REF
+import com.example.anew.ui.medDetails.MedDetailsFragmentDirections
 import com.example.anew.utils.CustomLoadingDialog
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.snackbar.Snackbar
@@ -30,7 +31,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
     private lateinit var mAuth: FirebaseAuth
     private lateinit var cartAdapter: CartAdapter
     private lateinit var userId: String
-    private var snackbar:Snackbar? = null
+    private var snackbar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,51 +68,18 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
         return binding.root
     }
 
-
-    override fun onCartItemClicked(view: View, cartProduct: CartProduct) {
-        when (view.id) {
-            R.id.cart_delete_btn -> removeProductFromCart(cartProduct)
-        }
-    }
-
-    override fun onCartItemChange(totalItemCount: Int, totalPrize: Double) {
-        binding.cartSubTotal.text =
-            "subtotal ( ${cartAdapter.totalItemCount} items ) : Rs ${cartAdapter.totalPrize}"
-    }
-
-    override fun onNumberPickerValueChanged(
-        position:Int,
-        oldValue: Int,
-        newValue: Int
-    ) {
-
-        if (newValue > oldValue) {
-            cartAdapter.totalItemCount += newValue - oldValue
-            cartAdapter.totalPrize += (newValue - oldValue) * (cartAdapter.getItem(position).prize)
-            cartAdapter.getItem(position).quantity = newValue
-        } else if (oldValue > newValue) {
-            cartAdapter.totalItemCount -= oldValue - newValue
-            cartAdapter.totalPrize -= (oldValue - newValue) * (cartAdapter.getItem(position).prize)
-            cartAdapter.getItem(position).quantity = newValue
-        }
-        onCartItemChange(cartAdapter.totalItemCount, cartAdapter.totalPrize)
-
-
-    }
-
-
     private fun removeProductFromCart(cartProduct: CartProduct) {
 
         val deleteTask = FirebaseFirestore.getInstance().collection(USER_REF).document(userId)
             .collection(CART_REF)
-            .document(cartProduct.id)
+            .document(cartProduct.product.id)
             .delete()
         deleteTask.addOnSuccessListener {
 
-            snackbar = Snackbar.make(binding.root,"item removed from bag",Snackbar.LENGTH_SHORT)
+            snackbar = Snackbar.make(binding.root, "item removed from bag", Snackbar.LENGTH_SHORT)
             snackbar?.show()
-            cartAdapter.totalItemCount -= cartProduct.quantity
-            cartAdapter.totalPrize -= (cartProduct.quantity) * (cartProduct.prize)
+            cartAdapter.totalItemCount -= cartProduct.product.quantity
+            cartAdapter.totalPrize -= (cartProduct.product.quantity) * (cartProduct.product.prize)
             onCartItemChange(cartAdapter.totalItemCount, cartAdapter.totalPrize)
         }
 
@@ -119,35 +87,40 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            binding.proceedToBuy.id -> {
-                val dialog = CustomLoadingDialog(activity as AppCompatActivity)
-                dialog.startDialog()
-                firestore.collection(USER_REF).document(userId).collection(
-                    USER_ADDRESSES
-                ).document(ADDRESS1).get().addOnSuccessListener {
-                    dialog.dismissDialog()
-                    if (it.exists()) {
-                        navigateToPayment(it.toObject(Address::class.java)!!)
-                    } else {
-                        navigateToNewAddress()
-                    }
-                }.addOnFailureListener {
-                    dialog.dismissDialog()
-                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
-                }
-            }
+            binding.proceedToBuy.id -> buyNow()
+
         }
 
     }
 
-    private fun navigateToPayment(address: Address) {
+    private fun buyNow(): Boolean {
+        val dialog = CustomLoadingDialog(activity as AppCompatActivity)
+        dialog.startDialog()
+        firestore.collection(USER_REF).document(mAuth.currentUser?.uid!!).collection(
+            USER_ADDRESSES
+        ).document(ADDRESS1).get().addOnSuccessListener {
+            dialog.dismissDialog()
+            if (it.exists()) {
+                navigateToBottomSheet(it.toObject(Address::class.java)!!)
+            } else {
+                navigateToNewAddress()
+            }
+        }.addOnFailureListener {
+            dialog.dismissDialog()
+            Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+        }
+        return true
 
+    }
 
-        val action = CartFragmentDirections.actionNavCartToPaymentDetailsFragment(
-            address,
-            getAllProductsOfTheCart()
+    private fun navigateToBottomSheet(address: Address) {
+        CartFragmentDirections.actionNavCartToProceedWithDefaultAddBottomSheet(
+            getAllProductsOfTheCart(),
+            address
         )
-        findNavController().navigate(action)
+            .also {
+                findNavController().navigate(it)
+            }
 
     }
 
@@ -162,11 +135,41 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
     private fun getAllProductsOfTheCart(): Array<Product> {
         val ls = mutableListOf<Product>()
         for (i in 0 until cartAdapter.itemCount)
-            with(cartAdapter.getItem(i)){
-                ls.add(Product(id,name,description,expDate, quantity, prize, manName, image1, image2, image3, image4))
+            with(cartAdapter.getItem(i)) {
+                ls.add(
+                    product
+                )
             }
         return ls.toTypedArray()
     }
+
+    override fun onNumberPickerValueChanged(position: Int, oldValue: Int, newValue: Int) {
+
+        if (newValue > oldValue) {
+            cartAdapter.totalItemCount += newValue - oldValue
+            cartAdapter.totalPrize += (newValue - oldValue) * (cartAdapter.getItem(position).product.prize)
+            cartAdapter.getItem(position).product.quantity = newValue
+        } else if (oldValue > newValue) {
+            cartAdapter.totalItemCount -= oldValue - newValue
+            cartAdapter.totalPrize -= (oldValue - newValue) * (cartAdapter.getItem(position).product.prize)
+            cartAdapter.getItem(position).product.quantity = newValue
+        }
+        onCartItemChange(cartAdapter.totalItemCount, cartAdapter.totalPrize)
+
+
+    }
+
+    override fun onCartItemClicked(view: View, cartProduct: CartProduct) {
+        when (view.id) {
+            R.id.cart_delete_btn -> removeProductFromCart(cartProduct)
+        }
+    }
+
+    override fun onCartItemChange(totalItemCount: Int, totalPrize: Double) {
+        binding.cartSubTotal.text =
+            "subtotal ( ${cartAdapter.totalItemCount} items ) : Rs ${cartAdapter.totalPrize}"
+    }
+
 
     override fun onStart() {
 
@@ -177,12 +180,11 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
     override fun onPause() {
         super.onPause()
         snackbar?.dismiss()
-        if (cartAdapter.itemCount==0) {
+        if (cartAdapter.itemCount == 0) {
             super.onPause()
             snackbar?.dismiss()
             return
-        }
-        else {
+        } else {
 
             for (position in 0 until cartAdapter.itemCount) {
 //                Log.d("mycart","id ${cartAdapter.getItem(0).id}")
@@ -190,9 +192,9 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
 
                 firestore.collection(USER_REF).document(userId)
                     .collection(CART_REF)
-                    .document(cartAdapter.getItem(position).id)
-                    .update(QUANTITY,cartAdapter.getItem(position).quantity)
-                    .addOnSuccessListener { Log.d("mycart","updated quantity ${5}") }
+                    .document(cartAdapter.getItem(position).product.id)
+                    .update(QUANTITY, cartAdapter.getItem(position).product.quantity)
+                    .addOnSuccessListener { Log.d("mycart", "updated quantity ${5}") }
 
             }
 

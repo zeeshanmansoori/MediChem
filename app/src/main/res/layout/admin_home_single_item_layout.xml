@@ -22,7 +22,7 @@
             android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:padding="3dp"
             android:elevation="0dp"
             android:clickable="true"
             android:focusable="true"
@@ -33,8 +33,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
+                android:paddingTop="2dp"
+                android:layout_margin="5dp"
                 >
 
                 <ImageView
@@ -51,41 +51,51 @@
                     glideErrorSrc="@{@drawable/ic_pills}"
                     />
 
-                <RelativeLayout
-                    android:id="@+id/data_container"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:padding="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_height="0dp"
                     app:layout_constraintStart_toEndOf="@id/med_img_image_view"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     >
 
-
                     <TextView
-                        android:id="@+id/medicine_name_label"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/med_id"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_left_textview"
-                        android:maxLines="1"
-                        android:text="Med name"
-                        android:textSize="@dimen/textsize"
-
+                        android:textSize="@dimen/label_text_size14"
+                        android:text="@{@string/product_id(String.valueOf(product.id))}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="product id     : 1232132"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
                         />
-
                     <TextView
                         android:id="@+id/medicine_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        tools:text="name of the medicine"
-                        android:text="@{product.name}"
-                        android:textSize="@dimen/textsize"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentEnd="true"
+                        android:ellipsize="end"
                         android:maxLength="150"
+                        android:maxLines="1"
+                        android:text="@{product.name}"
+                        android:textSize="@dimen/label_text_size14"
+                        tools:text="name of the medicine"
+                        android:textAllCaps="true"
+                        android:textColor="@color/text"
+                        app:layout_constraintTop_toBottomOf="@id/med_id"
+                        android:gravity="center"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_margin="5dp"
                         />
+
 
                     <TextView
                         android:id="@+id/medicine_description"
@@ -93,70 +103,36 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margin_left_textview"
                         android:layout_below="@id/medicine_name"
-                        android:maxLines="5"
-                        android:minLines="2"
+                        android:lines="2"
                         tools:text="some description about particular medicine"
-                        android:text="@{product.description}"
-                        android:textSize="@dimen/textsize"
-
+                        android:text="@{@string/product_description(product.description)}"
+                        android:textSize="@dimen/label_text_size14"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/medicine_name"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
                         />
 
-                    <TextView
-                        android:id="@+id/exp_date_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/medicine_description"
-                        android:layout_marginLeft="@dimen/margin_left_textview"
-                        android:text="exp date"
-                        android:textSize="@dimen/textsize"
-                                                />
 
                     <TextView
-                        android:id="@+id/exp_date"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/medicine_indication_usage_edit_text"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/medicine_description"
-                        android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_left_textview"
-                        tools:text="09Sep-2020"
-                        android:textSize="@dimen/textsize"
-                        android:text="@{product.expDate}"
+                        android:layout_below="@id/medicine_name"
+                        android:maxLines="2"
+                        tools:text="usage description about"
+                        android:text="@{@string/product_usage(product.medicineUsage)}"
+                        android:textSize="@dimen/label_text_size14"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/medicine_description"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:layout_margin="5dp"
                         />
-
-                    <TextView
-                        android:id="@+id/med_id_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/exp_date_label"
-                        android:layout_marginLeft="@dimen/margin_left_textview"
-                        android:text="Med Id"
-                        android:textSize="@dimen/textsize"
-
-                        />
-
-                    <TextView
-                        android:id="@+id/med_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/exp_date"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginLeft="@dimen/margin_left_textview"
-                        tools:text="646413131645646"
-                        android:textSize="@dimen/textsize"
-                        android:text="@{product.id}"
-                        />
-
-                    <TextView
-                        android:id="@+id/price_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/med_id_label"
-                        android:layout_marginLeft="@dimen/margin_left_textview"
-                        android:text="Price per Uint"
-                        android:textSize="@dimen/textsize"
-                        android:textAppearance="?attr/textAppearanceHeadline1"
-                        />
-
                     <TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
@@ -164,20 +140,14 @@
                         android:layout_below="@+id/med_id"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_left_textview"
-                        tools:text="500Rs"
-                        android:textSize="@dimen/textsize"
-                        android:text="@{String.valueOf(product.prize) + `Rs`}"
-                        />
-
-                    <TextView
-                        android:id="@+id/med_qty_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/price_label"
-                        android:layout_marginLeft="@dimen/margin_left_textview"
-                        android:text="Med Quantity"
-                        android:textSize="@dimen/textsize"
-
+                        tools:text="Rs 500"
+                        android:textSize="@dimen/label_text_size14"
+                        android:text="@{ `Rs ` + String.valueOf(product.prize)}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/medicine_indication_usage_edit_text"
+                        android:lines="1"
+                        android:layout_margin="5dp"
                         />
 
                     <TextView
@@ -188,15 +158,17 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_left_textview"
                         tools:text="5 units"
-                        android:textSize="@dimen/textsize"
+                        android:textSize="@dimen/label_text_size16"
                         android:text="@{@string/med_quantity(String.valueOf(product.quantity))}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/price"
+                        android:lines="1"
+                        android:layout_margin="5dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         />
 
-
-                </RelativeLayout>
-
-
-
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -10,9 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -32,7 +30,7 @@ import java.io.ByteArrayOutputStream
 const val TAKE_IMAGE = 4
 const val PRODUCT_REF = "Products"
 const val IMAGE_REF = "Images"
-const val CART_REF  = "cart"
+const val CART_REF  = "Cart"
 
 class AddFragment : Fragment(), View.OnClickListener {
 
@@ -53,6 +51,8 @@ class AddFragment : Fragment(), View.OnClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        setHasOptionsMenu(true)
         activity?.run {
             if (
                 ActivityCompat.checkSelfPermission(
@@ -98,8 +98,7 @@ class AddFragment : Fragment(), View.OnClickListener {
             val prize = if (medicinePrizeEditText.text.toString()
                     .isEmpty()
             ) (0.0).toFloat() else medicinePrizeEditText.text.toString().toFloat()
-            val expDate = expDateEditText.text.toString().trim()
-            val manName = manufacturerNameEditText.text.toString().trim()
+            val medicineUsage= usageEditText.text.toString().trim()
             val name = medicineNameEditText.text.toString().trim()
             val quantity = numberPicker.number.toInt()
 
@@ -126,12 +125,6 @@ class AddFragment : Fragment(), View.OnClickListener {
                 return
             }
 
-            if (expDate.isEmpty()) {
-                expDateEditText.error = "expDate is empty"
-                expDateEditText.requestFocus()
-                return
-            }
-
             dialog.startDialog()
 
             firebaseStore.collection(PRODUCT_REF).document(id).get().addOnCompleteListener {
@@ -152,31 +145,10 @@ class AddFragment : Fragment(), View.OnClickListener {
 
                     if (imageByteArray == null && imageUri == null) {
 
-//                            val bitmap =
-//                                BitmapFactory.decodeResource(resources, R.drawable.admin_medicine)
-
-                        //setimage resource first
-
-                        //val bitmap = (binding.medicineImageImageView.drawable as BitmapDrawable).bitmap
-//
-//                            val baos = ByteArrayOutputStream()
-//
-//                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-//
-//                            val data = baos.toByteArray()
-
                         firebaseStore.collection(PRODUCT_REF).document(id)
                             .set(
                                 Product(
-                                    id,
-                                    name,
-                                    description,
-                                    expDate,
-                                    quantity,
-                                    prize,
-                                    manName
-
-
+                                    id, name, description, quantity, prize, medicineUsage
                                 )
                             )
                             .addOnSuccessListener {
@@ -194,7 +166,7 @@ class AddFragment : Fragment(), View.OnClickListener {
 
                     // put image picked from gallery
                     imageUri?.let { uri ->
-                        medicineImageRef.putFile(uri)
+                        medicineImageRef.putFile(uri,metadata)
                             .addOnSuccessListener { _ ->
                                 medicineImageRef.downloadUrl.addOnSuccessListener { downloadUri ->
                                     val image = downloadUri.toString()
@@ -202,14 +174,7 @@ class AddFragment : Fragment(), View.OnClickListener {
                                     firebaseStore.collection(PRODUCT_REF).document(id)
                                         .set(
                                             Product(
-                                                id,
-                                                name,
-                                                description,
-                                                expDate,
-                                                quantity,
-                                                prize,
-                                                manName,
-                                                image
+                                                id, name, description, quantity, prize, medicineUsage,image
                                             )
                                         )
                                         .addOnSuccessListener {
@@ -235,14 +200,7 @@ class AddFragment : Fragment(), View.OnClickListener {
                                     firebaseStore.collection(PRODUCT_REF).document(id)
                                         .set(
                                             Product(
-                                                id,
-                                                name,
-                                                description,
-                                                expDate,
-                                                quantity,
-                                                prize,
-                                                manName,
-                                                image
+                                                id, name, description, quantity, prize, medicineUsage,image
                                             )
                                         )
                                         .addOnSuccessListener {
@@ -263,96 +221,6 @@ class AddFragment : Fragment(), View.OnClickListener {
                     dialog.dismissDialog()
                 }
             }
-
-//                databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-//
-//                    override fun onDataChange(snapshot: DataSnapshot) {
-//                        if (!snapshot.child(id).exists()) {
-//                            val map = HashMap<String, Any>()
-//                            map["id"] = id
-//                            map["name"] = name
-//                            map["description"] = description
-//                            map["expDate"] = expDate
-//                            map["prize"] = prize
-//                            map["manName"] = manName
-//                            map["quantity"] = quantity
-//
-//                            databaseReference.child(id).updateChildren(map).addOnCompleteListener {
-//                                if (it.isSuccessful) {
-//                                    Snackbar.make(
-//                                        binding.root,
-//                                        "medicine added",
-//                                        Snackbar.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                } else {
-//                                    dialog.dismissDialog()
-//                                    Snackbar.make(
-//                                        binding.root,
-//                                        "task is unsuccessful",
-//                                        Snackbar.LENGTH_SHORT
-//                                    )
-//                                        .show()
-//                                }
-//                            }
-//
-//                            val medicineImageRef = imageRef.child("$id.jpg")
-//                            imageUri?.let {
-//
-//                                val uploadTask = medicineImageRef.putFile(it)
-//                                uploadTask.addOnSuccessListener {
-//                                    Log.d("mytag", "uploadtask file success")
-//                                    Snackbar.make(
-//                                        binding.root,
-//                                        "image upload done",
-//                                        Snackbar.LENGTH_SHORT
-//                                    ).show()
-//                                }.addOnFailureListener {
-//                                    Log.d("mytag", "uploadtask file failure")
-//                                    Snackbar.make(
-//                                        binding.root,
-//                                        "image upload failed $it",
-//                                        Snackbar.LENGTH_SHORT
-//                                    ).show()
-//                                }
-//
-//
-//                            } ?: imageByteArray?.let {
-//                                val uploadTask = medicineImageRef.putBytes(it)
-//                                uploadTask.addOnSuccessListener {
-//                                    Log.d("mytag", "uploadtask byte success")
-//                                    Snackbar.make(
-//                                        binding.root,
-//                                        "image upload done",
-//                                        Snackbar.LENGTH_SHORT
-//                                    ).show()
-//                                }.addOnFailureListener {
-//                                    Log.d("mytag", "uploadtask byte failure")
-//                                    Snackbar.make(
-//                                        binding.root,
-//                                        "image upload failed $it",
-//                                        Snackbar.LENGTH_SHORT
-//                                    ).show()
-//                                }
-//
-//                            }
-//                            dialog.dismissDialog()
-//                        } else {
-//                            dialog.dismissDialog()
-//                            Snackbar.make(
-//                                binding.root,
-//                                "medicine already exists",
-//                                Snackbar.LENGTH_SHORT
-//                            ).show()
-//                        }
-//
-//                    }
-//
-//                    override fun onCancelled(error: DatabaseError) {
-//                        Log.d("mytag", "database error " + error.message)
-//                    }
-//                })
-
 
         }
     }
@@ -432,5 +300,112 @@ class AddFragment : Fragment(), View.OnClickListener {
 
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.admin_add_med_menu,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+         when(item.itemId){
+            R.id.action_save -> addToDb()
+             //R.id.action_settings -> navigateTo
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
+
+
+
+//                databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+//
+//                    override fun onDataChange(snapshot: DataSnapshot) {
+//                        if (!snapshot.child(id).exists()) {
+//                            val map = HashMap<String, Any>()
+//                            map["id"] = id
+//                            map["name"] = name
+//                            map["description"] = description
+//                            map["expDate"] = expDate
+//                            map["prize"] = prize
+//                            map["medicineUsage
+//                            "] = medicineUsage
+
+//                            map["quantity"] = quantity
+//
+//                            databaseReference.child(id).updateChildren(map).addOnCompleteListener {
+//                                if (it.isSuccessful) {
+//                                    Snackbar.make(
+//                                        binding.root,
+//                                        "medicine added",
+//                                        Snackbar.LENGTH_SHORT
+//                                    )
+//                                        .show()
+//                                } else {
+//                                    dialog.dismissDialog()
+//                                    Snackbar.make(
+//                                        binding.root,
+//                                        "task is unsuccessful",
+//                                        Snackbar.LENGTH_SHORT
+//                                    )
+//                                        .show()
+//                                }
+//                            }
+//
+//                            val medicineImageRef = imageRef.child("$id.jpg")
+//                            imageUri?.let {
+//
+//                                val uploadTask = medicineImageRef.putFile(it)
+//                                uploadTask.addOnSuccessListener {
+//                                    Log.d("mytag", "uploadtask file success")
+//                                    Snackbar.make(
+//                                        binding.root,
+//                                        "image upload done",
+//                                        Snackbar.LENGTH_SHORT
+//                                    ).show()
+//                                }.addOnFailureListener {
+//                                    Log.d("mytag", "uploadtask file failure")
+//                                    Snackbar.make(
+//                                        binding.root,
+//                                        "image upload failed $it",
+//                                        Snackbar.LENGTH_SHORT
+//                                    ).show()
+//                                }
+//
+//
+//                            } ?: imageByteArray?.let {
+//                                val uploadTask = medicineImageRef.putBytes(it)
+//                                uploadTask.addOnSuccessListener {
+//                                    Log.d("mytag", "uploadtask byte success")
+//                                    Snackbar.make(
+//                                        binding.root,
+//                                        "image upload done",
+//                                        Snackbar.LENGTH_SHORT
+//                                    ).show()
+//                                }.addOnFailureListener {
+//                                    Log.d("mytag", "uploadtask byte failure")
+//                                    Snackbar.make(
+//                                        binding.root,
+//                                        "image upload failed $it",
+//                                        Snackbar.LENGTH_SHORT
+//                                    ).show()
+//                                }
+//
+//                            }
+//                            dialog.dismissDialog()
+//                        } else {
+//                            dialog.dismissDialog()
+//                            Snackbar.make(
+//                                binding.root,
+//                                "medicine already exists",
+//                                Snackbar.LENGTH_SHORT
+//                            ).show()
+//                        }
+//
+//                    }
+//
+//                    override fun onCancelled(error: DatabaseError) {
+//                        Log.d("mytag", "database error " + error.message)
+//                    }
+//                })
 

@@ -75,14 +75,24 @@
         android:label="My Cart"
         tools:layout="@layout/fragment_cart" >
         <action
-            android:id="@+id/action_nav_cart_to_paymentDetailsFragment"
-            app:destination="@id/paymentDetailsFragment" />
-        <action
             android:id="@+id/action_nav_cart_to_newAddressFragment"
             app:destination="@id/newAddressFragment" >
             <argument
                 android:name="products"
                 app:argType="com.example.anew.model.Product[]" />
+        </action>
+        <action
+            android:id="@+id/action_nav_cart_to_proceedWithDefaultAddBottomSheet"
+            app:destination="@id/proceedWithDefaultAddBottomSheet" >
+
+            <argument
+                android:name="products"
+                app:argType="com.example.anew.model.Product[]" />
+
+            <argument
+                android:name="address"
+                app:argType="com.example.anew.model.Address" />
+
         </action>
     </fragment>
     <activity
@@ -112,8 +122,8 @@
             android:id="@+id/action_medDetailsFragment_to_proceedWithDefaultAddBottomSheet"
             app:destination="@id/proceedWithDefaultAddBottomSheet" >
             <argument
-                android:name="product"
-                app:argType="com.example.anew.model.Product" />
+                android:name="products"
+                app:argType="com.example.anew.model.Product[]" />
             <argument
                 android:name="address"
                 app:argType="com.example.anew.model.Address"/>
@@ -175,8 +185,8 @@
         >
 
         <argument
-            android:name="product"
-            app:argType="com.example.anew.model.Product" />
+            android:name="products"
+            app:argType="com.example.anew.model.Product[]" />
 
         <argument
             android:name="address"
