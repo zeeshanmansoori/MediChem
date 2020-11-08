@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="order"
+            type="com.example.anew.model.Order" />
+
+    </data>
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/order_details_tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:lines="1"
+                    android:padding="@dimen/padding4"
+                    android:text="Order Details"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textSize="18sp"
+                    android:gravity="center"
+
+                    />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/order_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="@dimen/padding4"
+                    android:textSize="@dimen/label_text_size14"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/medicine_image"
+                    app:layout_constraintTop_toBottomOf="@+id/order_details_tag"
+                    tools:text="order id"
+                    android:gravity="center"
+                    android:text="@{order.orderId}"
+                    />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/order_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:padding="@dimen/padding4"
+                    android:textSize="@dimen/label_text_size14"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/medicine_image"
+                    app:layout_constraintTop_toBottomOf="@id/order_id"
+                    tools:text="order date"
+                    android:text="@{@string/order_date(order.dateAdded)}"
+                    />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/order_total"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:padding="@dimen/padding4"
+                    android:textSize="@dimen/label_text_size14"
+                    app:layout_constraintStart_toEndOf="@id/medicine_image"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/order_date"
+                    tools:text="order total"
+                    android:gravity="center"
+                    android:text="@{@string/order_total(String.valueOf(order.totalPrize))}"
+                    />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/expansion_btn"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_up_arrow"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/medicine_image"
+                    app:layout_constraintTop_toBottomOf="@id/order_total"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/medicine_image"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    app:layout_constraintTop_toBottomOf="@id/order_details_tag"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/expansion_btn"
+                    glideSrc="@{order.product.get(0).image1}"
+                    glideErrorSrc="@{@drawable/ic_pills}"
+                    android:layout_marginStart="5dp"
+                    />
+
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/expandable_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/expansion_btn"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    >
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:lines="1"
+                        android:padding="@dimen/padding4"
+                        android:text="Payment information"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:textSize="18sp"
+                        />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/payment_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:padding="@dimen/padding4"
+                        android:text="@{order.paymentStatus == true ? @string/payment_successful :@string/payment_unsuccessful}"
+                        android:textSize="@dimen/label_text_size16"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_marginStart="10dp"
+                        />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/payment_method"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:padding="@dimen/padding4"
+                        android:text="Payment method\nGoogle pay Upi"
+                        android:textSize="@dimen/label_text_size14"
+                        android:layout_marginStart="10dp"
+                        />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:lines="1"
+                        android:padding="@dimen/padding4"
+                        android:text="Purchase Details"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:textSize="18sp"
+                        />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/sub_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/change_image"
+                        android:visibility="visible"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        setData="@{order.product}"
+                        />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+
+
+</layout>

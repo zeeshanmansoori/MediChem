@@ -6,7 +6,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.anew.R
 import com.example.anew.databinding.AdminOrderSingleItemLayoutBinding
-import com.example.anew.databinding.OrderedSingleItemLayoutBinding
 import com.example.anew.model.Order
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions

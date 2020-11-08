@@ -26,10 +26,8 @@ class AdminHomeAdapter(
     }
 
     override fun onBindViewHolder(holder: ProductHolder, position: Int, model: Product) {
-        val currentItem = getItem(position)
-        currentItem?.let {
-            holder.bind(it)
-        }
+        if(position!=RecyclerView.NO_POSITION)
+            holder.bind(model)
 
     }
 
@@ -46,12 +44,11 @@ class AdminHomeAdapter(
         init {
             binding.listener = listener
             binding.cardView.setOnLongClickListener {
-                _ ->
                 val position = bindingAdapterPosition
                 if (position!=RecyclerView.NO_POSITION)
                 {
                     val item = getItem(position)
-                    item?.let { listener.onProductItemLongClicked(item) }
+                    listener.onProductItemLongClicked(item)
                 }
                 true
             }

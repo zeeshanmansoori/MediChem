@@ -28,9 +28,9 @@ class HomeAdapter(options: FirestoreRecyclerOptions<Product>,val listener:AdminH
     override fun onBindViewHolder(holder: ProductHolder, position: Int, model: Product) {
         val currentItem = getItem(position)
         Log.d("mytag", "current item ${currentItem.toString()}")
-        currentItem?.let {
-            holder.bind(it,listener)
-        }
+
+            holder.bind(currentItem,listener)
+
 
     }
 

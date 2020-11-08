@@ -377,22 +377,27 @@ class DetailsFragment : Fragment(), MyImageClickListener {
 
                 when (imageId) {
                     binding.medImgImageView1.id -> {
-                        imageUriArray.set(0, it)
+                        imageUriArray[0] = it
                         binding.medImgImageView1.setImageURI(it)
+                        Log.d("detailsFragment","image 1")
                     }
                     binding.medImgImageView2.id -> {
-                        imageUriArray.set(1, it)
+                        imageUriArray[1] = it
                         binding.medImgImageView2.setImageURI(it)
+                        Log.d("detailsFragment","image 2")
                     }
                     binding.medImgImageView3.id -> {
-                        imageUriArray.set(2, it)
+                        imageUriArray[2] = it
                         binding.medImgImageView3.setImageURI(it)
+                        Log.d("detailsFragment","image 3")
                     }
                     binding.medImgImageView4.id -> {
-                        imageUriArray.set(3, it)
+                        imageUriArray[3] = it
                         binding.medImgImageView4.setImageURI(it)
+                        Log.d("detailsFragment","image 4")
                     }
 
+                    else -> Log.d("detailsFragment","no image")
                 }
 
 
@@ -431,14 +436,6 @@ class DetailsFragment : Fragment(), MyImageClickListener {
         takePhoto()
     }
 
-    private fun getImageName(imageId: Int) = when (imageId) {
-        binding.medImgImageView1.id -> "${oldProduct.id}r1.jpg"
-        binding.medImgImageView2.id -> "${oldProduct.id}r2.jpg"
-        binding.medImgImageView3.id -> "${oldProduct.id}r3.jpg"
-        binding.medImgImageView4.id -> "${oldProduct.id}r4.jpg"
-        else -> "${oldProduct.id}.jpg"
-    }
-
     private fun getChildName(index: Int) = when (index) {
         0 -> IMAGE1
         1 -> IMAGE2
@@ -450,11 +447,12 @@ class DetailsFragment : Fragment(), MyImageClickListener {
     private fun uploadUri(index: Int, value: Uri) {
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
         dialog.startDialog()
-        val imageRef = storageRef.child(getImageName(imageId))
-        value.let {
-            imageRef.putFile(it).addOnSuccessListener {
+        val imageRef = storageRef.child(getChildName(index))
+
+            imageRef.putFile(value).addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener {
-                    firestore.collection(PRODUCT_REF).document(oldProduct.id).update(
+                    firestore.collection(PRODUCT_REF)
+                        .document(oldProduct.id).update(
                         getChildName(index), it.toString()
                     )
                         .addOnSuccessListener {
@@ -476,14 +474,14 @@ class DetailsFragment : Fragment(), MyImageClickListener {
 
                 }
             }
-        }
+
 
     }
 
     private fun uploadBytes(index: Int, value: ByteArray) {
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
         dialog.startDialog()
-        val imageRef = storageRef.child(getImageName(imageId))
+        val imageRef = storageRef.child(getChildName(index))
         value.let {
             imageRef.putBytes(it).addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener {

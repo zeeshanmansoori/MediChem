@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <variable
+            name="uri"
+            type="String" />
+    </data>
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/medicine_image"
+        glideErrorSrc="@{@drawable/ic_pills}"
+        glideSrc="@{uri}"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginHorizontal="10dp"
+        tools:background="@drawable/ic_pills" />
+</layout>

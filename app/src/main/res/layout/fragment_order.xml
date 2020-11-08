@@ -14,27 +14,19 @@
             android:layout_height="wrap_content"
             android:text="Your Order History"
             android:gravity="center"
-            android:background="@drawable/btn_background"
             android:textColor="@android:color/white"
             android:textSize="15sp"
             android:padding="10dp"
-            android:backgroundTint="@color/tint_background"
-            android:layout_margin="10dp"
-            />
 
-        <View
-            android:id="@+id/action_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/colordevider" />
+            android:background="@color/tint_background"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/order_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/ordered_single_item_layout"
+            tools:listitem="@layout/order_single_item_layout"
             android:background="@color/all_bg_color"
             />
     </LinearLayout></layout>

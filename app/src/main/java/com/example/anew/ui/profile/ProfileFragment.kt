@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import com.example.anew.MainActivity
 import com.example.anew.R
 import com.example.anew.databinding.FragmentProfileBinding
 import com.example.anew.model.*
@@ -23,6 +26,8 @@ import com.example.anew.utils.CustomLoadingDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.ByteArrayOutputStream
@@ -32,7 +37,9 @@ class ProfileFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var firestore: FirebaseFirestore
     private lateinit var storageRef: StorageReference
-    private var currentUserId: String? = null
+    private val userId = Firebase.auth.currentUser?.uid!!
+
+    private var snackbar: Snackbar? = null
 
     //image from gallery app
     private var imageUri: Uri? = null
@@ -52,26 +59,49 @@ class ProfileFragment : Fragment(), View.OnClickListener {
 
         storageRef = FirebaseStorage.getInstance().getReference(USER_REF)
 
-        currentUserId = FirebaseAuth.getInstance().currentUser?.uid
 
         setHasOptionsMenu(true)
 
-        FirebaseAuth.getInstance().currentUser?.uid?.let {
-            firestore.collection(USER_REF)
-                .document(it).get()
-                .addOnSuccessListener {
-                    binding.user = it.toObject(User::class.java)!!
-                    initialSetUp()
 
-                }
-                .addOnFailureListener {
-                    binding.user = User()
-                }
-        }
+        firestore.collection(USER_REF)
+            .document(userId).get()
+            .addOnSuccessListener {
+                user->
+                firestore.collection(USER_REF)
+                    .document(userId).collection(USER_ADDRESSES)
+                    .document(ADDRESS1)
+                    .get().
+                        addOnSuccessListener {
+                            binding.user = user.toObject(User::class.java)!!
+                            binding.address = it.toObject(Address::class.java)
+                        }
+                    .addOnFailureListener {
+                        binding.user = user.toObject(User::class.java)!!
+                        binding.address = Address()
+                    }
 
+
+            }
+            .addOnFailureListener {
+                binding.user = User()
+                binding.address = Address()
+            }
 
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(binding) {
+            addressEditText.setOnClickListener(this@ProfileFragment)
+            emailEditText.setOnClickListener(this@ProfileFragment)
+            userName.clearFocus()
+            addressEditText.clearFocus()
+            phoneNoEditText.requestFocus(View.FOCUS_RIGHT)
+            userImage.setOnClickListener(this@ProfileFragment)
+            fab.setOnClickListener(this@ProfileFragment)
+        }
     }
 
     private fun takePhoto() {
@@ -120,7 +150,23 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         v?.let {
             when (v.id) {
                 binding.userImage.id -> takePhoto()
-                binding.fab.id -> currentUserId?.let { saveChanges(it) }
+                binding.fab.id -> saveChanges(userId)
+                binding.addressEditText.id -> {
+                    snackbar = Snackbar.make(
+                        binding.root,
+                        "Address can not be edited from here",
+                        Snackbar.LENGTH_SHORT
+                    )
+                    snackbar?.show()
+                }
+                binding.emailEditText.id -> {
+                    snackbar = Snackbar.make(
+                        binding.root,
+                        "Email can not be edited`",
+                        Snackbar.LENGTH_SHORT
+                    )
+                    snackbar?.show()
+                }
 
                 else -> false
             }
@@ -144,12 +190,12 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                         currentUser.phoneNo == phoneNo &&
                         (imageUri == null && imageByteArray == null)
                     ) {
-                        Snackbar.make(
+                        snackbar = Snackbar.make(
                             binding.root,
                             "you have not made any changes",
                             Snackbar.LENGTH_SHORT
                         )
-                            .show()
+                        snackbar?.show()
                         return@addOnSuccessListener
                     }
 
@@ -160,24 +206,23 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     if (currentUser.name != userName && currentUser.email == userEmail &&
                         currentUser.phoneNo == phoneNo && userName.isNotEmpty()
                     ) {
-                        currentUserId?.apply {
 
-                            firestore.collection(USER_REF).document(this).update(
-                                USER_NAME, userName
-                            ).addOnSuccessListener {
-                                Snackbar.make(
-                                    binding.root,
-                                    "name updated successfully",
-                                    Snackbar.LENGTH_SHORT
-                                )
-                                    .show()
-                                uploadImage(this)
 
-                                dialog.dismissDialog()
-                            }.addOnFailureListener {
-                                Snackbar.make(binding.root, "${it}", Snackbar.LENGTH_SHORT).show()
-                                dialog.dismissDialog()
-                            }
+                        firestore.collection(USER_REF).document(userId).update(
+                            USER_NAME, userName
+                        ).addOnSuccessListener {
+                            snackbar = Snackbar.make(
+                                binding.root,
+                                "name updated successfully",
+                                Snackbar.LENGTH_SHORT
+                            )
+                            snackbar?.show()
+                            uploadImage(userId)
+
+                            dialog.dismissDialog()
+                        }.addOnFailureListener {
+                            Snackbar.make(binding.root, "${it}", Snackbar.LENGTH_SHORT).show()
+                            dialog.dismissDialog()
                         }
                         return@addOnSuccessListener
                     }
@@ -187,24 +232,24 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     if (currentUser.name == userName && currentUser.email == userEmail &&
                         currentUser.phoneNo != phoneNo && phoneNo.length == 10
                     ) {
-                        currentUserId?.apply {
 
-                            firestore.collection(USER_REF).document(this).update(
-                                USER_PHONE_NO, phoneNo
-                            ).addOnSuccessListener {
-                                Snackbar.make(
-                                    binding.root,
-                                    "phone number updated successfully",
-                                    Snackbar.LENGTH_SHORT
-                                )
-                                    .show()
-                                uploadImage(this)
-                                dialog.dismissDialog()
-                            }.addOnFailureListener {
-                                Snackbar.make(binding.root, "${it}", Snackbar.LENGTH_SHORT).show()
-                                dialog.dismissDialog()
-                            }
+
+                        firestore.collection(USER_REF).document(userId).update(
+                            USER_PHONE_NO, phoneNo
+                        ).addOnSuccessListener {
+                            snackbar = Snackbar.make(
+                                binding.root,
+                                "phone number updated successfully",
+                                Snackbar.LENGTH_SHORT
+                            )
+                            snackbar?.show()
+                            uploadImage(userId)
+                            dialog.dismissDialog()
+                        }.addOnFailureListener {
+                            Snackbar.make(binding.root, "${it}", Snackbar.LENGTH_SHORT).show()
+                            dialog.dismissDialog()
                         }
+
                         return@addOnSuccessListener
                     }
 
@@ -242,7 +287,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                         (imageUri != null || imageByteArray != null)
                     ) {
 
-                        currentUserId?.let { uploadImage(it) }
+                        uploadImage(userId)
                         dialog.dismissDialog()
                         return@addOnSuccessListener
                     }
@@ -252,27 +297,26 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                     if (userName.isNotEmpty() && userName.isNotEmpty() && userEmail.isNotEmpty()
                         && phoneNo.isNotEmpty()
                     ) {
-                        currentUserId?.apply {
 
-                            firestore.collection(USER_REF).document(this).update(
-                                USER_NAME, userName,
-                                USER_EMAIL, userEmail,
-                                USER_PHONE_NO, phoneNo
-                            ).addOnSuccessListener {
-                                Snackbar.make(
-                                    binding.root,
-                                    "changes updated successfully",
-                                    Snackbar.LENGTH_SHORT
-                                )
-                                    .show()
-                                uploadImage(this)
-                                dialog.dismissDialog()
-                            }.addOnFailureListener {
-                                Snackbar.make(binding.root, "${it}", Snackbar.LENGTH_SHORT).show()
-                                dialog.dismissDialog()
-                            }
 
+                        firestore.collection(USER_REF).document(userId).update(
+                            USER_NAME, userName,
+                            USER_EMAIL, userEmail,
+                            USER_PHONE_NO, phoneNo
+                        ).addOnSuccessListener {
+                            snackbar = Snackbar.make(
+                                binding.root,
+                                "changes updated successfully",
+                                Snackbar.LENGTH_SHORT
+                            )
+                            snackbar?.show()
+                            uploadImage(userId)
+                            dialog.dismissDialog()
+                        }.addOnFailureListener {
+                            Snackbar.make(binding.root, "${it}", Snackbar.LENGTH_SHORT).show()
+                            dialog.dismissDialog()
                         }
+
 
                     }
 
@@ -298,13 +342,14 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                             USER_IMAGE, uri.toString()
                         )
                             .addOnSuccessListener {
-                                Snackbar.make(
+                                snackbar = Snackbar.make(
                                     binding.root,
                                     "Image uploaded",
                                     Snackbar.LENGTH_SHORT
                                 )
-                                    .show()
+                                snackbar?.show()
                                 dialog.dismissDialog()
+                                imageUri = null
                             }.addOnFailureListener {
                                 Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT)
                                     .show()
@@ -328,13 +373,14 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                             USER_IMAGE, uri.toString()
                         )
                             .addOnSuccessListener {
-                                Snackbar.make(
+                                snackbar = Snackbar.make(
                                     binding.root,
                                     "Image uploaded",
                                     Snackbar.LENGTH_SHORT
                                 )
-                                    .show()
+                                snackbar?.show()
                                 dialog.dismissDialog()
+                                imageByteArray = null
                             }.addOnFailureListener {
                                 Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT)
                                     .show()
@@ -352,22 +398,29 @@ class ProfileFragment : Fragment(), View.OnClickListener {
         inflater.inflate(R.menu.user_profile_menu, menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-    override fun onResume() {
-        super.onResume()
+        when (item.itemId) {
+            R.id.user_profile_save -> saveChanges(userId)
+            R.id.user_profile_help -> navigateToAbout()
+        }
 
+        return super.onOptionsItemSelected(item)
     }
-    private fun initialSetUp() {
-        with(binding) {
-            userName.clearFocus()
-            addressEditText.clearFocus()
-            phoneNoEditText.requestFocus(View.FOCUS_RIGHT)
-            userImage.setOnClickListener(this@ProfileFragment)
-            fab.setOnClickListener(this@ProfileFragment)
-            //phoneNoEditText.setSelection(phoneNoEditText.text?.length!!)
+
+
+    private fun navigateToAbout(): Boolean {
+        with(activity as MainActivity) {
+            val menuId = navView.menu.findItem(R.id.nav_about)
+            return NavigationUI.onNavDestinationSelected(menuId, findNavController())
         }
     }
 
 
+    override fun onPause() {
+        snackbar?.dismiss()
+        super.onPause()
+
+    }
     // selecting menu item
 }

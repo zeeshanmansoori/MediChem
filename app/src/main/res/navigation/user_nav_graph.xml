@@ -22,7 +22,8 @@
         <action
             android:id="@+id/action_nav_login_to_adminActivity"
             app:destination="@id/adminActivity"
-            app:popUpTo="@id/nav_login" />
+            app:popUpTo="@id/nav_login"
+            app:popUpToInclusive="true" />
 
 
     </fragment>
@@ -150,9 +151,8 @@
         <action
             android:id="@+id/action_paymentDetailsFragment_to_orderPlacedFragment"
             app:destination="@id/orderPlacedFragment"
-            app:popUpTo="@id/medDetailsFragment"
-            app:popUpToInclusive="true" >
-        </action>
+            app:popUpTo="@id/paymentDetailsFragment"
+            app:popUpToInclusive="true"></action>
     </fragment>
 
     <fragment
@@ -165,7 +165,8 @@
             app:argType="com.example.anew.model.Product[]" />
         <action
             android:id="@+id/action_newAddressFragment_to_paymentDetailsFragment"
-            app:destination="@id/paymentDetailsFragment" >
+            app:destination="@id/paymentDetailsFragment"
+            app:popUpTo="@id/medDetailsFragment">
 
             <argument
                 android:name="address"
@@ -174,6 +175,10 @@
                 android:name="products"
                 app:argType="com.example.anew.model.Product[]" />
         </action>
+        <argument
+            android:name="fromBottomSheet"
+            app:argType="boolean"
+            android:defaultValue="false" />
 
     </fragment>
 
@@ -198,10 +203,15 @@
             <argument
                 android:name="products"
                 app:argType="com.example.anew.model.Product[]" />
+            <argument
+                android:name="fromBottomSheet"
+                app:argType="boolean"
+                android:defaultValue="false" />
         </action>
         <action
             android:id="@+id/action_proceedWithDefaultAddBottomSheet_to_paymentDetailsFragment"
-            app:destination="@id/paymentDetailsFragment" >
+            app:destination="@id/paymentDetailsFragment"
+            app:popUpTo="@id/nav_cart">
 
             <argument
                 android:name="address"

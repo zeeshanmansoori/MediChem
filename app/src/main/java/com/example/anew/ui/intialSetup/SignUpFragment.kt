@@ -27,6 +27,7 @@ import io.paperdb.Paper
 
 const val REQUEST_GET_PROFILE_IMAGE = 23
 const val USER_REF = "User"
+const val CURRENT_USER = "current_user"
 
 class SignUpFragment : Fragment(), View.OnClickListener {
 
@@ -168,7 +169,7 @@ class SignUpFragment : Fragment(), View.OnClickListener {
                         ).show()
                         Paper.book().write(CHECK_BOX, true)
                         Paper.book().write(IS_USER, true)
-
+                        Paper.book().write(CURRENT_USER,user)
                             moveToHome()
                     }
                         .addOnFailureListener {
@@ -218,57 +219,3 @@ class SignUpFragment : Fragment(), View.OnClickListener {
 
 
 }
-
-
-//            if (isValid) {
-//                bindng.progressBar.visibility = View.VISIBLE
-//                rootRef.addListenerForSingleValueEvent(object : ValueEventListener {
-//
-//                    override fun onDataChange(snapshot: DataSnapshot) {
-//                        if (!snapshot.child("Users").child(phoneNo).exists()) {
-//                            val map = HashMap<String, Any>()
-//                            map["name"] = name
-//                            map["password"] = password
-//                            map["phoneNo"] = phoneNo
-//                            map["email"] = email
-//
-//
-//                            rootRef.child("Users").child(phoneNo).updateChildren(map)
-//                                .addOnCompleteListener {
-//                                    if (it.isSuccessful) {
-//                                        bindng.progressBar.visibility = View.GONE
-//                                        Snackbar.make(
-//                                            bindng.root,
-//                                            "successfully created ",
-//                                            Snackbar.LENGTH_SHORT
-//                                        )
-//                                            .show()
-//                                    } else {
-//                                        bindng.progressBar.visibility = View.GONE
-//                                        Snackbar.make(
-//                                            bindng.root,
-//                                            "cant create an account",
-//                                            Snackbar.LENGTH_SHORT
-//                                        )
-//                                            .show()
-//                                    }
-//                                }
-//                        } else {
-//                            bindng.progressBar.visibility = View.GONE
-//                            Snackbar.make(bindng.root, "account exits", Snackbar.LENGTH_SHORT)
-//                                .show()
-//                        }
-//                    }
-//
-//                    override fun onCancelled(error: DatabaseError) {
-//                        TODO("Not yet implemented")
-//                    }
-//                })
-//                MyUtil.uploadImage(phoneNo, imageUri)
-//            } else{
-//                Snackbar.make(bindng.root, "one of the fields are empty", Snackbar.LENGTH_SHORT)
-//                    .show()
-//            }
-//
-//
-//        }

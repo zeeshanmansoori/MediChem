@@ -41,6 +41,6 @@ data class Order(
     var orderId:String = "",
     val paymentStatus: Boolean =true,
     val product: MutableList<Product> = mutableListOf(),
-    var totalPrize: Double = 0.0
-
+    val totalPrize: Double = product.sumByDouble {it.prize.toDouble() }
 )
+

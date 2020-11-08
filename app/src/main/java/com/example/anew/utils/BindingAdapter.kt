@@ -4,6 +4,13 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
+import com.example.anew.model.Product
+import com.example.anew.ui.admin.detail.PagerAdapter
+import com.example.anew.ui.order.NestedOrderAdapter
 import com.squareup.picasso.Picasso
 
 
@@ -29,5 +36,37 @@ fun ImageView.setImageUri(
     }
     Log.d("mytag","found null")
 
+}
+
+
+@BindingAdapter("setData")
+fun RecyclerView.setData(
+    products: MutableList<Product>
+) {
+    val nestedOrderAdapter = NestedOrderAdapter()
+    nestedOrderAdapter.submitList(products)
+    setHasFixedSize(true)
+    setItemViewCacheSize(20)
+    adapter = nestedOrderAdapter
+}
+
+@BindingAdapter("setUris")
+fun ViewPager2.setUris(product: Product){
+    val imgList = mutableListOf(product.image1,product.image2,product.image3,product.image4)
+    val pagingAdapter = PagerAdapter(imgList)
+    this.adapter = pagingAdapter
+    clipChildren = false
+    clipToPadding = false
+    offscreenPageLimit = 3
+    //getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+    val compositePageTransformer = CompositePageTransformer()
+    compositePageTransformer.addTransformer(MarginPageTransformer(5))
+
+    compositePageTransformer.addTransformer { page, position ->
+        val r = 1 - kotlin.math.abs(position)
+        page.scaleY = .85f + r * .15f
+        page.scaleX = .85f + r * .15f
+    }
+    setPageTransformer(compositePageTransformer)
 
 }

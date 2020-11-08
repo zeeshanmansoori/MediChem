@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.anew.MainActivity
 import com.example.anew.R
 import com.example.anew.databinding.FragmentLoginBinding
+import com.example.anew.model.USER_EMAIL
 import com.example.anew.model.User
 import com.example.anew.utils.MyUtil
 import com.example.anew.utils.CustomLoadingDialog
@@ -49,11 +50,11 @@ class loginFragment : Fragment(), View.OnClickListener {
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         Paper.init(activity)
-        Log.d("mytag", "checkbox ${Paper.book().read(CHECK_BOX, false)}")
-        Log.d("mytag", "user ${Paper.book().read(IS_USER, false)}")
-        Log.d("mytag", "auth ${mAuth.currentUser != null}")
+        super.onActivityCreated(savedInstanceState)
+        Log.d("loginFragment", "checkbox ${Paper.book().read(CHECK_BOX, false)}")
+        Log.d("loginFragment", "user ${Paper.book().read(IS_USER, false)}")
+        Log.d("loginFragment", "auth ${mAuth.currentUser != null}")
         if (Paper.book().read(CHECK_BOX, false)
             && Paper.book().read(IS_USER, false)
             && mAuth.currentUser != null
@@ -107,12 +108,15 @@ class loginFragment : Fragment(), View.OnClickListener {
 
     private fun loginUser(id: Int) {
 
+        Paper.book().write(CHECK_BOX, binding.rememberMeCheckbox.isChecked)
+
         //hide keyboard
         activity?.let { MyUtil.hideKeyBoard(it) }
 
         // custom dialog
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
         if (id == binding.googleLoginBtn.id) {
+            Paper.book().write(IS_USER,true)
             val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
             return
@@ -145,6 +149,8 @@ class loginFragment : Fragment(), View.OnClickListener {
             }
 
             dialog.startDialog()
+
+
             if (id == binding.loginBtn.id) {
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {
@@ -164,7 +170,6 @@ class loginFragment : Fragment(), View.OnClickListener {
                             snackbar?.show()
                         }
                         dialog.dismissDialog()
-                        Paper.book().write(CHECK_BOX, binding.rememberMeCheckbox.isChecked)
                         Paper.book().write(IS_USER, true)
                         navigateToHome()
 
@@ -301,13 +306,13 @@ class loginFragment : Fragment(), View.OnClickListener {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         mAuth.signInWithCredential(credential)
 
-            .addOnCompleteListener{ task ->
+            .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("LoginFragment", "signInWithCredential:success")
                     val user = mAuth.currentUser
                     user?.let {
-                        addToDb(it,dialog)
+                        addToDb(it, dialog)
                     }
 
                 } else {
@@ -322,27 +327,55 @@ class loginFragment : Fragment(), View.OnClickListener {
             }
     }
 
-    private fun addToDb(fUser:FirebaseUser,dialog: CustomLoadingDialog){
-        val user = User(fUser.email.toString(),fUser.displayName.toString(),phoneNo = fUser.phoneNumber.toString())
-        firestore.collection(USER_REF).document(fUser.uid)
-            .set(user)
+    private fun addToDb(fUser: FirebaseUser, dialog: CustomLoadingDialog) {
+        firestore.collection(USER_REF).whereEqualTo(USER_EMAIL, fUser.email)
+            .get()
             .addOnSuccessListener {
-                dialog.dismissDialog()
-                Log.d("LoginFragment", "success added")
-                snackbar =
-                    Snackbar.make(binding.root, "successfully logged in", Snackbar.LENGTH_SHORT)
-                snackbar?.show()
-                dialog.dismissDialog()
-                Paper.book().write(CHECK_BOX, binding.rememberMeCheckbox.isChecked)
-                Paper.book().write(IS_USER, true)
-                navigateToHome()
+
+                if (it.isEmpty) {
+
+                    val user = User(
+                        fUser.email.toString(),
+                        fUser.displayName.toString(),
+                        phoneNo = fUser.phoneNumber.toString()
+                    )
+                    firestore.collection(USER_REF).document(fUser.uid)
+                        .set(user)
+                        .addOnSuccessListener {
+                            dialog.dismissDialog()
+                            Log.d("LoginFragment", "success added")
+                            snackbar =
+                                Snackbar.make(
+                                    binding.root,
+                                    "successfully logged in",
+                                    Snackbar.LENGTH_SHORT
+                                )
+                            snackbar?.show()
+                            dialog.dismissDialog()
+                            Paper.book().write(CHECK_BOX, binding.rememberMeCheckbox.isChecked)
+                            Paper.book().write(IS_USER, true)
+                            navigateToHome()
+                        }
+                        .addOnFailureListener {
+                            snackbar =
+                                Snackbar.make(binding.root, "$it", Snackbar.LENGTH_SHORT)
+                            snackbar?.show()
+                            dialog.dismissDialog()
+                        }
+
+                } else {
+                    dialog.dismissDialog()
+                    navigateToHome()
+                }
+
             }
             .addOnFailureListener {
-                snackbar =
-                    Snackbar.make(binding.root, "successfully logged in", Snackbar.LENGTH_SHORT)
-                snackbar?.show()
                 dialog.dismissDialog()
+                snackbar = Snackbar.make(binding.root, "check your internet connection", Snackbar.LENGTH_SHORT)
+                snackbar?.show()
+
             }
 
     }
+
 }

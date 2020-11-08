@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewParent
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.customview.widget.Openable
@@ -13,8 +12,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.example.anew.databinding.NavHeaderMainBinding
 import com.example.anew.model.User
-import com.example.anew.ui.admin.home.NavHeaderViewModel
 import com.example.anew.ui.intialSetup.CHECK_BOX
+import com.example.anew.ui.intialSetup.CURRENT_USER
 import com.example.anew.ui.intialSetup.IS_USER
 import com.example.anew.ui.intialSetup.USER_REF
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -22,8 +21,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -34,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var drawerLayout: DrawerLayout
     lateinit var navView: NavigationView
+    lateinit var navHeaderMainBinding:NavHeaderMainBinding
     private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,18 +45,17 @@ class MainActivity : AppCompatActivity() {
 
         // setting up header layout to show user details
         val headerView = navView.getHeaderView(0)
-        val navHeaderMainBinding = NavHeaderMainBinding.bind(headerView)
-        Firebase.auth.currentUser?.uid?.let { userId ->
-            FirebaseFirestore.getInstance().collection(USER_REF)
-                .document(userId)
-                .get()
-                .addOnSuccessListener {
-                    val user = it.toObject(User::class.java)
-                    user?.let {
-                        navHeaderMainBinding.user = it
+        navHeaderMainBinding = NavHeaderMainBinding.bind(headerView)
+        Firebase.auth.currentUser?.uid?.let {
+            userId ->
+            FirebaseFirestore.getInstance().collection(USER_REF).document(userId)
+                .addSnapshotListener {value,error ->
+
+                    if (error==null && value!=null){
+                        if (value.exists())
+                            navHeaderMainBinding.user = value.toObject(User::class.java)
                     }
-                }.addOnFailureListener {
-                    Snackbar.make(drawerLayout,"plz login again having some issue",Snackbar.LENGTH_SHORT).show()
+
                 }
         }
 
@@ -87,7 +84,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 Log.d("mynavigation", "called")
                 handled
-
             }
         }
 
@@ -96,6 +92,7 @@ class MainActivity : AppCompatActivity() {
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
+
     }
 
     private fun logMeOut(): Boolean {
@@ -113,7 +110,12 @@ class MainActivity : AppCompatActivity() {
                 googleSignInClient.signOut()
                 Paper.book().write(CHECK_BOX, false)
                 Paper.book().write(IS_USER,false)
-                startActivity(Intent(this@MainActivity,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
+
+                startActivity(Intent(this@MainActivity,MainActivity::class.java)
+                    .apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    })
 
             }
         }.apply { show() }

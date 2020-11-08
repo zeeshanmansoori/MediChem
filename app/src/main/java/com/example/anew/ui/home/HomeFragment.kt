@@ -1,7 +1,9 @@
 package com.example.anew.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -9,6 +11,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.anew.MainActivity
 import com.example.anew.R
 import com.example.anew.databinding.FragmentHomeBinding
+import com.example.anew.model.PRODUCT_NAME
 import com.example.anew.model.Product
 import com.example.anew.ui.admin.add.PRODUCT_REF
 import com.example.anew.ui.admin.home.AdminHomeAdapter
@@ -40,7 +43,7 @@ class HomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
         //query
-        val query: Query = firestore.collection(PRODUCT_REF)
+        val query: Query = firestore.collection(PRODUCT_REF).orderBy("name")
 
         //fire store recycler option
         val firestoreRecyclerOptions = FirestoreRecyclerOptions.Builder<Product>()
@@ -67,6 +70,67 @@ class HomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.home_menu, menu)
+
+        val seachItem = menu.findItem(R.id.home_search)
+        val searchView = seachItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    binding.recyclerView.scrollToPosition(0)
+                    //query
+                    val query: Query = firestore.collection(PRODUCT_REF).orderBy(PRODUCT_NAME)
+                        .startAt(query)
+                        .endAt(query + "\uf8ff")
+
+                    //fire store recycler option
+                    FirestoreRecyclerOptions.Builder<Product>()
+                        .setQuery(query, Product::class.java)
+                        .build()
+                        .also {
+                            homeAdapter.updateOptions(it)
+                        }
+
+
+
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    if (newText.isNotEmpty()){
+                        binding.recyclerView.scrollToPosition(0)
+                        //query
+                        val query: Query = firestore.collection(PRODUCT_REF).orderBy(PRODUCT_NAME)
+                            .startAt(newText)
+                            .endAt(newText + "\uf8ff")
+
+                        //fire store recycler option
+                        FirestoreRecyclerOptions.Builder<Product>()
+                            .setQuery(query, Product::class.java)
+                            .build()
+                            .also {
+                                homeAdapter.updateOptions(it)
+                            }
+
+                    }
+                    else{
+                        //query
+                        val query: Query = firestore.collection(PRODUCT_REF)
+
+                        //fire store recycler option
+                        val firestoreRecyclerOptions = FirestoreRecyclerOptions.Builder<Product>()
+                            .setQuery(query, Product::class.java)
+                            .build()
+                        homeAdapter.updateOptions(firestoreRecyclerOptions)
+                    }
+                }
+                Log.d("mytag","$newText")
+                return true
+            }
+
+        })
+
 
     }
 

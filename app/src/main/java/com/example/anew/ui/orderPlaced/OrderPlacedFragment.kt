@@ -15,7 +15,7 @@ import com.example.anew.databinding.FragmentOrderPlacedBinding
 import com.example.anew.model.Order
 import com.google.firebase.firestore.FirebaseFirestore
 
-const val ORDER_PLACED = "order_placed"
+const val ORDER_PLACED = "Order_placed"
 class OrderPlacedFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding:FragmentOrderPlacedBinding

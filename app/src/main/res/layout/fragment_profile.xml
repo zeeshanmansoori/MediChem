@@ -8,6 +8,9 @@
         <variable
             name="user"
             type="com.example.anew.model.User" />
+        <variable
+            name="address"
+            type="com.example.anew.model.Address" />
 
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -62,6 +65,7 @@
                 android:paddingBottom="10dp"
                 android:lines="1"
                 android:ellipsize="end"
+                android:inputType="text"
                 />
 
             <LinearLayout
@@ -162,6 +166,8 @@
                     android:lines="6"
                     android:gravity="top"
                     android:ellipsize="end"
+                    android:text="@{address.toString()}"
+
                     />
 
             </LinearLayout>

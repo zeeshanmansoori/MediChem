@@ -23,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import java.lang.StringBuilder
 
 class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClickListener {
 
@@ -178,26 +179,23 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
     }
 
     override fun onPause() {
-        super.onPause()
         snackbar?.dismiss()
-        if (cartAdapter.itemCount == 0) {
+
+        if (cartAdapter.itemCount==0)
+        {
             super.onPause()
-            snackbar?.dismiss()
             return
-        } else {
-
+        }
+        if (cartAdapter.itemCount > 0) {
             for (position in 0 until cartAdapter.itemCount) {
-//                Log.d("mycart","id ${cartAdapter.getItem(0).id}")
-//                Log.d("mycart","quantity ${cartAdapter.getItem(0).quantity}")
-
                 firestore.collection(USER_REF).document(userId)
                     .collection(CART_REF)
                     .document(cartAdapter.getItem(position).product.id)
-                    .update(QUANTITY, cartAdapter.getItem(position).product.quantity)
-                    .addOnSuccessListener { Log.d("mycart", "updated quantity ${5}") }
+                    .update("product.$QUANTITY", cartAdapter.getItem(position).product.quantity)
+                    .addOnSuccessListener { Log.d("CartFragment", "updated quantity ") }
 
             }
-
+            super.onPause()
         }
 
 

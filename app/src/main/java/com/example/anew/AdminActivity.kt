@@ -70,9 +70,10 @@ class AdminActivity : AppCompatActivity() {
                 Paper.book().write(CHECK_BOX, false)
                 Paper.book().write(IS_USER, false)
                 startActivity(Intent(this@AdminActivity, MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                 //   flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                 //   addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 })
-
+                finishAffinity()
             }
         }.also {
             it.show()

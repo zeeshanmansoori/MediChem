@@ -76,7 +76,7 @@ class ProceedWithDefaultAddBottomSheet() :
     private fun navigateToNewAddress() {
         val action =
             ProceedWithDefaultAddBottomSheetDirections.actionProceedWithDefaultAddBottomSheetToNewAddressFragment2(
-                navArgs.products
+                navArgs.products,true
             )
         findNavController().navigate(action)
     }

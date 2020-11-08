@@ -33,7 +33,7 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
     private val mAuth = FirebaseAuth.getInstance()
     private val userId = mAuth.currentUser?.uid!!
 
-    val args: MedDetailsFragmentArgs by navArgs()
+    private val args: MedDetailsFragmentArgs by navArgs()
 
     private var snackbar:Snackbar? = null
 
@@ -75,13 +75,13 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
 
     override fun onImageClicked(view: View) {
         when (view.id) {
-            binding.addToBag.id -> addToCart()
+            binding.addToBag.id -> addToBag()
             binding.buyNow.id -> buyNow()
         }
     }
 
 
-    private fun addToCart() {
+    private fun addToBag() {
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
         dialog.startDialog()
         val product = args.product.apply {
@@ -92,27 +92,27 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
             product,
             MyUtil.getDate()
         )
-        val insertTask = firestore.collection(USER_REF).document(userId)
+        firestore.collection(USER_REF).document(userId)
             .collection(CART_REF).document(cartProduct.product.id).set(
                 cartProduct
-            )
-
-        insertTask.addOnSuccessListener {
-            snackbar =Snackbar.make((activity as AppCompatActivity).findViewById(R.id.drawer_layout), "successfully added to bag", Snackbar.LENGTH_SHORT)
+            ).addOnSuccessListener {
+            snackbar =Snackbar.make((activity as AppCompatActivity).findViewById(R.id.drawer_layout),
+                "successfully added to bag", Snackbar.LENGTH_SHORT)
                 .setAction("CHECK"){
                     navigateToCart()
                 }
 
+
             snackbar?.show()
 
             dialog.dismissDialog()
-        }
-        insertTask.addOnFailureListener {
+        }.addOnFailureListener {
             snackbar = Snackbar.make(binding.root, "failed to add", Snackbar.LENGTH_SHORT)
             snackbar?.show()
             dialog.dismissDialog()
-            Log.d("fail", "${it}")
+            Log.d("medDetailsFragment", "${it}")
         }
+
 
 
     }

@@ -20,7 +20,9 @@ import com.example.anew.ui.intialSetup.USER_REF
 import com.example.anew.utils.CustomLoadingDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
@@ -28,8 +30,7 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val firestore = FirebaseFirestore.getInstance()
 
-    private val mAuth = FirebaseAuth.getInstance()
-    private val userId = mAuth.currentUser?.uid!!
+    private val userId = Firebase.auth.currentUser?.uid!!
 
     private val navArgs: NewAddressFragmentArgs by navArgs()
 
@@ -115,7 +116,24 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 return
             }
 
+            if (phoneNo.length<10) {
+                binding.phoneNo.error = "phone no should have 10 characters"
+                binding.phoneNo.requestFocus()
+                return
+            }
 
+
+            if (alternatePhoneNo.isEmpty()) {
+                binding.phoneNo.error = "phoneNo can not be empty !"
+                binding.phoneNo.requestFocus()
+                return
+            }
+
+            if (alternatePhoneNo.length<10) {
+                binding.phoneNo.error = "phone no should have 10 characters"
+                binding.phoneNo.requestFocus()
+                return
+            }
             val address = Address(
                 city,
                 locality,
@@ -127,20 +145,30 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 phoneNo,
                 alternatePhoneNo
             )
-            dialog.startDialog()
-            firestore.collection(USER_REF).document(userId)
-                .collection(USER_ADDRESSES).document(ADDRESS1).set(address)
-                .addOnSuccessListener {
-                    Snackbar.make(
-                        binding.root,
-                        "address added successfully !",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                    dialog.dismissDialog()
-                    navigateToPayment(address)
-                }
+
+            if (navArgs.fromBottomSheet){
+                navigateToPayment(address)
+            }
+            else{
+                dialog.startDialog()
+                firestore.collection(USER_REF).document(userId)
+                    .collection(USER_ADDRESSES)
+                    .document(ADDRESS1)
+                    .set(address)
+                    .addOnSuccessListener {
+                        Snackbar.make(
+                            binding.root,
+                            "address added successfully !",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                        dialog.dismissDialog()
+                        navigateToPayment(address)
+                    }
+            }
+
         }
     }
+
 
     private fun navigateToPayment(address: Address) {
         NewAddressFragmentDirections.actionNewAddressFragmentToPaymentDetailsFragment(address,navArgs.products).also {
