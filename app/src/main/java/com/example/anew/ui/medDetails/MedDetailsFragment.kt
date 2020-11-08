@@ -48,12 +48,14 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
         //product = args.product
         binding.product = args.product
         binding.listener = this
+        binding.pagerIndicator = binding.dotsIndicator
         binding.productQuantityDropDown.adapter =
             ArrayAdapter.createFromResource(
                 activity?.baseContext!!, R.array.product_quantity, R.layout.spinner_item
             ).apply {
                 setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
             }
+
 
         // enabling optn menu
         setHasOptionsMenu(true)

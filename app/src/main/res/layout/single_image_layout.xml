@@ -15,7 +15,6 @@
         glideErrorSrc="@{@drawable/ic_pills}"
         glideSrc="@{uri}"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_marginHorizontal="10dp"
+        android:layout_height="match_parent"
         tools:background="@drawable/ic_pills" />
 </layout>

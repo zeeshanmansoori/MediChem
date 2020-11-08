@@ -12,6 +12,7 @@ import com.example.anew.model.Product
 import com.example.anew.ui.admin.detail.PagerAdapter
 import com.example.anew.ui.order.NestedOrderAdapter
 import com.squareup.picasso.Picasso
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 
 
 @BindingAdapter("glideSrc","glideErrorSrc",requireAll = false)
@@ -50,23 +51,25 @@ fun RecyclerView.setData(
     adapter = nestedOrderAdapter
 }
 
-@BindingAdapter("setUris")
-fun ViewPager2.setUris(product: Product){
-    val imgList = mutableListOf(product.image1,product.image2,product.image3,product.image4)
-    val pagingAdapter = PagerAdapter(imgList)
-    this.adapter = pagingAdapter
+@BindingAdapter("setUris","setIndicator",requireAll = true)
+fun ViewPager2.setUris(product: Product,indicator: DotsIndicator){
+    val imgList = mutableListOf(product.image1,product.image2,product.image3,product.image4).filter {
+        it.isNotEmpty()
+    }
+    this.adapter = PagerAdapter(imgList)
     clipChildren = false
     clipToPadding = false
     offscreenPageLimit = 3
-    //getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-    val compositePageTransformer = CompositePageTransformer()
-    compositePageTransformer.addTransformer(MarginPageTransformer(5))
+    indicator.setViewPager2(this)
+//    getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+//    val compositePageTransformer = CompositePageTransformer()
+//    compositePageTransformer.addTransformer(MarginPageTransformer(5))
 
-    compositePageTransformer.addTransformer { page, position ->
-        val r = 1 - kotlin.math.abs(position)
-        page.scaleY = .85f + r * .15f
-        page.scaleX = .85f + r * .15f
-    }
-    setPageTransformer(compositePageTransformer)
+//    compositePageTransformer.addTransformer { page, position ->
+//        val r = 1 - kotlin.math.abs(position)
+//        page.scaleY = .85f + r * .15f
+//        page.scaleX = .85f + r * .15f
+//    }
+//    setPageTransformer(compositePageTransformer)
 
 }

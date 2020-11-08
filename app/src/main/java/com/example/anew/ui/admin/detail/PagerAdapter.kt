@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.anew.R
 import com.example.anew.databinding.SingleImageLayoutBinding
 
-class PagerAdapter(val uriList: MutableList<String>): RecyclerView.Adapter<PagerAdapter.PagerHolder>(){
+class PagerAdapter(val uriList: List<String>): RecyclerView.Adapter<PagerAdapter.PagerHolder>(){
 
 
     inner class PagerHolder(val binding: SingleImageLayoutBinding) : RecyclerView.ViewHolder(binding.root) {

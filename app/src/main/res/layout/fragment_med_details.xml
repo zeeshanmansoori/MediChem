@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
+
     >
 
     <data>
@@ -14,6 +15,10 @@
         <variable
             name="listener"
             type="com.example.anew.ui.admin.detail.MyImageClickListener" />
+
+        <variable
+            name="pagerIndicator"
+            type="com.tbuonomo.viewpagerdotsindicator.DotsIndicator" />
     </data>
 
     <ScrollView
@@ -42,9 +47,29 @@
                 android:layout_marginHorizontal="10dp"
                 android:id="@+id/medicine_image"
                 setUris="@{product}"
+                setIndicator="@{pagerIndicator}"
+                android:animationCache="true"
+                android:elevation="12dp"
                 />
 
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/dots_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/medicine_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="0dp"
+                app:dotsColor="@color/google_blue_color_trans"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="10dp"
+                app:dotsSpacing="3dp"
+                app:dotsWidthFactor="1"
+                app:progressMode="true"
+                app:selectedDotColor="@android:color/black"
+                android:elevation="10dp"/>
+
             <TextView
+                android:id="@+id/text_ture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/medicine_image"
@@ -80,7 +105,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="156dp"
-                    android:background="@color/colordevider" />
+                    android:background="@color/color_divider" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"

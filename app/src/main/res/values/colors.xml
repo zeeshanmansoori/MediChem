@@ -9,7 +9,7 @@
     <color name="actionBarColor">#301210</color>
     <color name="text">#151517</color>
     <color name="subtext">#5f5f5f</color>
-    <color name="colordevider">#64dad8d8</color>
+    <color name="color_divider">#64dad8d8</color>
     <color name="all_bg_color">#f5f5f5</color>
     <color name="tint_background">#00DDBF</color>
     <color name="new_color_dark">#009B86</color>
@@ -17,6 +17,6 @@
     <color name="new_color_extra_dark">#004B40</color>
     <color name="green_text_color">#00ff7f</color>
     <color name="blue_text_color">#388E8E</color>
-
+    <color name="google_blue_color_trans">#A3518EF8</color>
 
 </resources>
