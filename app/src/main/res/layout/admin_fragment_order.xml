@@ -13,12 +13,11 @@
         android:layout_height="wrap_content"
         android:text="Orders Got"
         android:gravity="center"
-        android:background="@drawable/btn_background"
         android:textColor="@android:color/white"
         android:textSize="15sp"
         android:padding="10dp"
-        android:backgroundTint="@color/tint_background"
-        android:layout_margin="10dp"
+        android:background="@color/tint_background"
+        android:layout_marginVertical="10dp"
         />
     <View
         android:id="@+id/action_divider"
@@ -34,4 +33,5 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/admin_order_single_item_layout"
         />
+
 </LinearLayout>

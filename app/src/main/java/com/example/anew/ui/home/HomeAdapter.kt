@@ -42,16 +42,18 @@ class ProductHolder(private val binding: HomeSingleItemLayoutBinding) :
 
     fun bind(product: Product,listener:AdminHomeAdapter.ProductItemClickListener) {
         with(binding) {
-            //medicineName.text = product.name
-            //medicinePrize.text = product.prize
-//            GlideApp.with(binding.root).load(product.image.toUri()).into(
-//                medicineImage
-//            )
-            //Picasso.get().load(product.image).into(medicineImage)
-            //Glide.with(binding.root).load(product.image).into(medicineImage)
 
             this.product = product
             this.listener  = listener
         }
     }
 }
+
+
+//medicineName.text = product.name
+//medicinePrize.text = product.prize
+//            GlideApp.with(binding.root).load(product.image.toUri()).into(
+//                medicineImage
+//            )
+//Picasso.get().load(product.image).into(medicineImage)
+//Glide.with(binding.root).load(product.image).into(medicineImage)

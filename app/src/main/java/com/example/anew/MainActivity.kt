@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                         (parent as Openable).close()
                     }
                 }
-                Log.d("mynavigation", "called")
+                Log.d("MainActivity", "called")
                 handled
             }
         }

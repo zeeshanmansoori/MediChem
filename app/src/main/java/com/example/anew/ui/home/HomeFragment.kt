@@ -51,6 +51,7 @@ class HomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener {
             .build()
 
         homeAdapter = HomeAdapter(firestoreRecyclerOptions, this)
+
         with(binding) {
             recyclerView.apply {
                 setHasFixedSize(true)

@@ -22,7 +22,7 @@
         <action
             android:id="@+id/action_nav_login_to_adminActivity"
             app:destination="@id/adminActivity"
-            app:popUpTo="@id/nav_login"
+            app:popUpTo="@id/adminActivity"
             app:popUpToInclusive="true" />
 
 

@@ -66,7 +66,7 @@
                 app:dotsWidthFactor="1"
                 app:progressMode="true"
                 app:selectedDotColor="@android:color/black"
-                android:elevation="10dp"/>
+                android:elevation="13dp"/>
 
             <TextView
                 android:id="@+id/text_ture"
@@ -74,7 +74,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/medicine_image"
                 android:layout_marginHorizontal="10dp"
-                android:background="@drawable/btn_border_bg" />
+                android:background="@drawable/btn_border_bg"
+
+                />
 
             <LinearLayout
                 android:id="@+id/linear1"
