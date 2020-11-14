@@ -20,12 +20,15 @@ class OrderPlacedFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding:FragmentOrderPlacedBinding
 
+    private val varArgs:OrderPlacedFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_order_placed, container, false)
+        binding.order = varArgs.order
         return binding.root
     }
 

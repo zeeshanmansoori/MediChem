@@ -1,5 +1,7 @@
 package com.example.anew.utils
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +13,20 @@ import androidx.navigation.fragment.navArgs
 import com.example.anew.R
 import com.example.anew.databinding.ProceedWithDefaultAddBottomSheetLayoutBinding
 import com.example.anew.model.Address
+import com.example.anew.model.AdminDetails
+import com.example.anew.model.User
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class ProceedWithDefaultAddBottomSheet() :
-    BottomSheetDialogFragment(), RadioGroup.OnCheckedChangeListener {
+
+class ProceedWithDefaultAddBottomSheet :
+    BottomSheetDialogFragment(), RadioGroup.OnCheckedChangeListener, View.OnClickListener {
 
     private val navArgs: ProceedWithDefaultAddBottomSheetArgs by navArgs()
 
     private lateinit var binding: ProceedWithDefaultAddBottomSheetLayoutBinding
+
+    private var adminAddress = Address()
+
 
 
     override fun onCreateView(
@@ -32,7 +40,22 @@ class ProceedWithDefaultAddBottomSheet() :
             container,
             false
         )
-        binding.address = navArgs.address
+
+        binding.adminDetails = AdminDetails(
+            Address(
+                "mumbai",
+                "andheri east",
+                pinCode = "400058",
+                state = "Maharashtra",
+                buildingName = "aklnfd",
+                landMark = "opposite metro station"
+
+            ),
+            User(phoneNo = "8975676576")
+        )
+        adminAddress = navArgs.address
+        binding.address = adminAddress
+
         return binding.root
     }
 
@@ -44,6 +67,10 @@ class ProceedWithDefaultAddBottomSheet() :
         binding.buyNow.setOnClickListener {
             navigateToPayment()
         }
+
+        binding.getDirection.setOnClickListener(this)
+
+        binding.phoneNo.setOnClickListener(this)
     }
 
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
@@ -76,7 +103,7 @@ class ProceedWithDefaultAddBottomSheet() :
     private fun navigateToNewAddress() {
         val action =
             ProceedWithDefaultAddBottomSheetDirections.actionProceedWithDefaultAddBottomSheetToNewAddressFragment2(
-                navArgs.products,true
+                navArgs.products, true
             )
         findNavController().navigate(action)
     }
@@ -86,11 +113,7 @@ class ProceedWithDefaultAddBottomSheet() :
         var address = when (binding.radioGroup.checkedRadioButtonId) {
 
             binding.pickFromStoreRadioButton.id -> {
-                Address(
-                    "mumbai", "andheri (west)",
-                    "shanti apart", "400103", "MAHARASHTRA",
-                    "opposite to cinema", "", "126574357", ""
-                )
+                adminAddress
             }
 
             binding.defaultAddressRadioButton.id -> navArgs.address
@@ -107,4 +130,33 @@ class ProceedWithDefaultAddBottomSheet() :
         findNavController().navigate(action)
     }
 
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            binding.phoneNo.id -> makeCall()
+            binding.getDirection.id -> openMap()
+        }
+    }
+
+    private fun openMap() {
+        Intent(
+            Intent.ACTION_VIEW, Uri.parse("geo:19.1198242,72.8443423?z=17")
+        ).apply {
+            this.`package` = "com.google.android.apps.maps"
+        }
+            .also {
+
+                startActivity(it)
+            }
+
+
+    }
+
+    private fun makeCall() {
+
+        val u: Uri = Uri.parse("tel:" + binding.phoneNo.text.toString())
+        Intent(Intent.ACTION_DIAL, u).also {
+            startActivity(it)
+        }
+    }
 }

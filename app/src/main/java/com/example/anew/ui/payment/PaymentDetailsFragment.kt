@@ -27,7 +27,6 @@ class PaymentDetailsFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentPaymentDetailsBinding
     private val navArgs: PaymentDetailsFragmentArgs by navArgs()
-
     private val userId = Firebase.auth.currentUser?.uid!!
 
     private var snackbar: Snackbar? = null
@@ -77,7 +76,7 @@ class PaymentDetailsFragment : Fragment(), View.OnClickListener {
                             .set(order)
                             .addOnSuccessListener {
                                 dialog.dismissDialog()
-                                findNavController().navigate(R.id.action_paymentDetailsFragment_to_orderPlacedFragment)
+                                navigateToOrderPlaced(order)
                                 Log.d("paymentDetailsFragment", "placed")
                             }
                             .addOnFailureListener {
@@ -100,6 +99,11 @@ class PaymentDetailsFragment : Fragment(), View.OnClickListener {
             }
 
 
+    }
+
+    private fun navigateToOrderPlaced(order: Order) {
+        val action = PaymentDetailsFragmentDirections.actionPaymentDetailsFragmentToOrderPlacedFragment(order)
+        findNavController().navigate(action)
     }
 
 

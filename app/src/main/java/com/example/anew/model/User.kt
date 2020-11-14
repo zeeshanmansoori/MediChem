@@ -8,19 +8,21 @@ const val USER_PHONE_NO = "phoneNo"
 const val USER_IMAGE = "image"
 
 //
-const val CITY_NAME = "city"
-const val LOCALITY = "locality"
-const val BUILDING_NAME = "bldg_name"
-const val PIN_CODE = "pin_code"
-const val STATE = "state"
-const val LAND_MARK = "land_mark"
-const val ALTERNATE_PHONE_NO = "alternate_phone_number"
-const val USER_ADDRESSES = "addresses"
-const val ADDRESS1 = "address1"
+const val CITY_NAME = "City"
+const val LOCALITY = "Locality"
+const val BUILDING_NAME = "Bldg_name"
+const val PIN_CODE = "Pin_code"
+const val STATE = "State"
+const val LAND_MARK = "Land_mark"
+const val ALTERNATE_PHONE_NO = "Alternate_phone_number"
+const val USER_ADDRESSES = "Addresses"
+const val ADDRESS1 = "Address1"
 
 
 data class User(val email:String="", val name:String="",
-                val phoneNo:String="", var image:String = "")
+                val phoneNo:String="", var image:String = "",
+                val admin:Boolean = false
+)
 
 
 data class Address(
@@ -33,5 +35,8 @@ data class Address(
     val userName: String = "",
     val phoneNo: String = "",
     val alternatePhoneNo: String = ""
-): Serializable
+): Serializable{
+    override fun toString(): String =
+        "$buildingName $locality\n$landMark \n$city $pinCode \n$state \n$phoneNo\n$alternatePhoneNo "
+}
 

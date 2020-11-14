@@ -152,7 +152,11 @@
             android:id="@+id/action_paymentDetailsFragment_to_orderPlacedFragment"
             app:destination="@id/orderPlacedFragment"
             app:popUpTo="@id/paymentDetailsFragment"
-            app:popUpToInclusive="true"></action>
+            app:popUpToInclusive="true">
+
+            <argument android:name="order"
+                app:argType="com.example.anew.model.Order" />
+        </action>
     </fragment>
 
     <fragment
@@ -234,6 +238,8 @@
         android:label="fragment_order_placed"
         tools:layout="@layout/fragment_order_placed" >
 
+        <argument android:name="order"
+            app:argType="com.example.anew.model.Order" />
     </fragment>
 
 

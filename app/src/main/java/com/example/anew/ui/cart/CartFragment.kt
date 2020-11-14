@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
+import com.example.anew.MainActivity
 import com.example.anew.R
 import com.example.anew.databinding.FragmentCartBinding
 import com.example.anew.model.*
@@ -77,7 +78,7 @@ class CartFragment : Fragment(), CartAdapter.CartItemClickListener, View.OnClick
             .delete()
         deleteTask.addOnSuccessListener {
 
-            snackbar = Snackbar.make(binding.root, "item removed from bag", Snackbar.LENGTH_SHORT)
+            snackbar = Snackbar.make((activity as MainActivity).drawerLayout, "item removed from bag", Snackbar.LENGTH_SHORT)
             snackbar?.show()
             cartAdapter.totalItemCount -= cartProduct.product.quantity
             cartAdapter.totalPrize -= (cartProduct.product.quantity) * (cartProduct.product.prize)

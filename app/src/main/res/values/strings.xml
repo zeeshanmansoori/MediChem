@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">New</string>
+    <string name="app_name">MediCham</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Zeeshan</string>
@@ -33,8 +33,12 @@
     <string name="show_in_rupee">Rs %s</string>
 
     <string name="medical_address">
-        Description\nA progressive casual runner, Motion provides long lasting comfort, traction and flexibility in an upper
-        of breathable materials with a distinctive cage-inspired eye stay. A lightweight sole with a deep geometric.
+        Andheri east Mumbai
+        Near Metro Station
+        Andheri Cadsgds
+        sfsdf slfashoaeu
+        Maharashtra 400058.
+
     </string>
     <string name="confirmation_msg">you will shortly receive your order confirmation message and email</string>
     <string name="delivery_msg">Expected delivery within 4-6 days</string>
@@ -48,6 +52,12 @@
     <string name="product_id"><b>product Id :</b>\t\t%s</string>
     <string name="product_description"><b>description :</b>\t %s</string>
     <string name="product_usage"><b>Indications n Usage :</b>\t %s</string>
+    <string name="email_cant_edited">Email can not be edited</string>
+    <string name="address_cant_edited">Address can not be edited from here</string>
+    <string name="name_updated_successfully">name updated successfully</string>
+    <string name="phone_no_updated_successfully">phone number updated successfully</string>
+    <string name="changes_updated_successfully">changes updated successfully</string>
+    <string name="img_uploaded_msg">Image uploaded</string>
 
 
     <string-array name="product_quantity">

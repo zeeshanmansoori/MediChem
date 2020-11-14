@@ -30,11 +30,13 @@ data class Product(
     val image4: String = ""
 ) : Parcelable
 
+
 data class CartProduct(
     val product: Product=Product(),
     val dateAdded:String=""
 )
 
+@Parcelize
 data class Order(
     val address: Address = Address(),
     val dateAdded: String = "",
@@ -42,5 +44,5 @@ data class Order(
     val paymentStatus: Boolean =true,
     val product: MutableList<Product> = mutableListOf(),
     val totalPrize: Double = product.sumByDouble {it.prize.toDouble() }
-)
+):Parcelable
 

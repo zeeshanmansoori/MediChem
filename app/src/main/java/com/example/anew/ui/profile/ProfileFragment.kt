@@ -154,7 +154,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 binding.addressEditText.id -> {
                     snackbar = Snackbar.make(
                         binding.root,
-                        "Address can not be edited from here",
+                        getString(R.string.address_cant_edited),
                         Snackbar.LENGTH_SHORT
                     )
                     snackbar?.show()
@@ -162,7 +162,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                 binding.emailEditText.id -> {
                     snackbar = Snackbar.make(
                         binding.root,
-                        "Email can not be edited`",
+                        getString(R.string.email_cant_edited),
                         Snackbar.LENGTH_SHORT
                     )
                     snackbar?.show()
@@ -213,7 +213,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                         ).addOnSuccessListener {
                             snackbar = Snackbar.make(
                                 binding.root,
-                                "name updated successfully",
+                                getString(R.string.name_updated_successfully),
                                 Snackbar.LENGTH_SHORT
                             )
                             snackbar?.show()
@@ -239,7 +239,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                         ).addOnSuccessListener {
                             snackbar = Snackbar.make(
                                 binding.root,
-                                "phone number updated successfully",
+                                getString(R.string.phone_no_updated_successfully),
                                 Snackbar.LENGTH_SHORT
                             )
                             snackbar?.show()
@@ -306,7 +306,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                         ).addOnSuccessListener {
                             snackbar = Snackbar.make(
                                 binding.root,
-                                "changes updated successfully",
+                                getString(R.string.changes_updated_successfully),
                                 Snackbar.LENGTH_SHORT
                             )
                             snackbar?.show()
@@ -375,7 +375,7 @@ class ProfileFragment : Fragment(), View.OnClickListener {
                             .addOnSuccessListener {
                                 snackbar = Snackbar.make(
                                     binding.root,
-                                    "Image uploaded",
+                                    getString(R.string.img_uploaded_msg),
                                     Snackbar.LENGTH_SHORT
                                 )
                                 snackbar?.show()

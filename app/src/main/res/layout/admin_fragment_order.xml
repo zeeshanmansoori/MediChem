@@ -18,6 +18,7 @@
         android:padding="10dp"
         android:background="@color/tint_background"
         android:layout_marginVertical="10dp"
+
         />
     <View
         android:id="@+id/action_divider"
@@ -31,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/admin_order_single_item_layout"
+        tools:listitem="@layout/order_single_item_layout"
         />
 
 </LinearLayout>

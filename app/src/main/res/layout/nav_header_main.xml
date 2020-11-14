@@ -53,8 +53,8 @@
             android:layout_centerInParent="true"
             android:contentDescription="@string/nav_header_desc"
             glideSrc="@{user.image}"
-            glideErrorSrc="@{@drawable/ic_edit_profile}"
-            tools:src="@drawable/ic_edit_profile"
+            glideErrorSrc="@{@drawable/user}"
+            tools:src="@drawable/user"
             />
         <!--    app:civ_border_color="#FF000000"-->
         <!--    app:civ_border_width="2dp"-->

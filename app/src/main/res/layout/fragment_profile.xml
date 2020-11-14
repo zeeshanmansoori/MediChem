@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:backgroundTint="@color/partial_black"
-                tools:src="@drawable/ic_pills"
+                tools:src="@drawable/user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

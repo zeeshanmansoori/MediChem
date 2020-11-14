@@ -25,11 +25,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import io.paperdb.Paper
 
 const val CHECK_BOX = "checkbox"
@@ -52,9 +58,6 @@ class loginFragment : Fragment(), View.OnClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         Paper.init(activity)
         super.onActivityCreated(savedInstanceState)
-        Log.d("loginFragment", "checkbox ${Paper.book().read(CHECK_BOX, false)}")
-        Log.d("loginFragment", "user ${Paper.book().read(IS_USER, false)}")
-        Log.d("loginFragment", "auth ${mAuth.currentUser != null}")
         if (Paper.book().read(CHECK_BOX, false)
             && Paper.book().read(IS_USER, false)
             && mAuth.currentUser != null
@@ -75,6 +78,7 @@ class loginFragment : Fragment(), View.OnClickListener {
         with(activity as AppCompatActivity) {
             googleSignInClient = GoogleSignIn.getClient(this, gso)
         }
+
     }
 
     override fun onCreateView(
@@ -106,7 +110,7 @@ class loginFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    private fun loginUser(id: Int) {
+    private fun loginUser(btnId: Int) {
 
         Paper.book().write(CHECK_BOX, binding.rememberMeCheckbox.isChecked)
 
@@ -115,8 +119,8 @@ class loginFragment : Fragment(), View.OnClickListener {
 
         // custom dialog
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
-        if (id == binding.googleLoginBtn.id) {
-            Paper.book().write(IS_USER,true)
+        if (btnId == binding.googleLoginBtn.id) {
+            Paper.book().write(IS_USER, true)
             val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
             return
@@ -151,63 +155,68 @@ class loginFragment : Fragment(), View.OnClickListener {
             dialog.startDialog()
 
 
-            if (id == binding.loginBtn.id) {
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val user = mAuth.currentUser
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
 
+                if (it.isSuccessful) {
 
-                        user?.let { user ->
-                            snackbar = if (user.isEmailVerified) {
-                                Snackbar.make(root, "logged in successfully", Snackbar.LENGTH_SHORT)
+                    FirebaseFirestore.getInstance().collection(USER_REF)
+                        .document(mAuth.currentUser?.uid!!)
+                        .get()
+                        .addOnSuccessListener {
+
+                            val currentUser = it.toObject(User::class.java)!!
+
+                            if (currentUser.admin) {
+                                dialog.dismissDialog()
+                                Paper.book().write(IS_USER, false)
+                                if (btnId == binding.adminLoginBtn.id) {
+                                    navigateToAdminHome()
+                                    FirebaseMessaging.getInstance().subscribeToTopic("orders")
+                                } else {
+                                    dialog.dismissDialog()
+                                    with(activity as MainActivity) {
+                                        MaterialAlertDialogBuilder(this).apply {
+                                            setTitle("Alert")
+                                            setMessage("It is an Admin account Do you really want to continue as User")
+                                            setPositiveButton("OK") { _,_ ->
+                                                navigateToHome()
+                                            }
+                                            setNegativeButton("open as Admin") { _, _ ->
+                                                navigateToAdminHome()
+                                                FirebaseMessaging.getInstance().subscribeToTopic("orders")
+                                            }
+                                            setNeutralButton("CANCEL") { dialog, _ ->
+                                                mAuth.signOut()
+                                                dialog.dismiss()
+                                            }
+                                        }.also {
+                                            it.show()
+                                        }
+                                    }
+
+                                }
                             } else {
-                                Snackbar.make(
-                                    root,
-                                    "check your mail to verify your account",
-                                    Snackbar.LENGTH_SHORT
-                                )
+                                dialog.dismissDialog()
+                                Paper.book().write(IS_USER, true)
+                                navigateToHome()
                             }
-                            snackbar?.show()
+
                         }
-                        dialog.dismissDialog()
-                        Paper.book().write(IS_USER, true)
-                        navigateToHome()
 
-                    } else {
-                        snackbar = Snackbar.make(
-                            root,
-                            "email and password did not matched",
-                            Snackbar.LENGTH_SHORT
-                        )
-                        snackbar?.show()
-                        dialog.dismissDialog()
-                    }
 
+                } else {
+                    snackbar = Snackbar.make(
+                        root,
+                        "Email / Password incorrect ",
+                        Snackbar.LENGTH_SHORT
+                    )
+                    snackbar?.show()
+                    dialog.dismissDialog()
                 }
-                return
-            }
 
-            if (id == binding.adminLoginBtn.id) {
-                FirebaseFirestore.getInstance().collection(ADMIN_REF).document(email).get()
-                    .addOnSuccessListener {
-                        mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-                            snackbar =
-                                Snackbar.make(root, "welcome back admin", Snackbar.LENGTH_SHORT)
-                            snackbar?.show()
-                            dialog.dismissDialog()
-                            Paper.book().write(CHECK_BOX, binding.rememberMeCheckbox.isChecked)
-                            Paper.book().write(IS_USER, false)
-                            navigateToAdminHome()
-                        }
-                    }
-                    .addOnFailureListener {
-                        dialog.dismissDialog()
-                        snackbar = Snackbar.make(root, "there is some error", Snackbar.LENGTH_SHORT)
-                        snackbar?.show()
-                    }
-
-                return
             }
+            return
+
 
         }
 
@@ -273,8 +282,9 @@ class loginFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onPause() {
-        super.onPause()
         snackbar?.dismiss()
+        super.onPause()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -371,7 +381,11 @@ class loginFragment : Fragment(), View.OnClickListener {
             }
             .addOnFailureListener {
                 dialog.dismissDialog()
-                snackbar = Snackbar.make(binding.root, "check your internet connection", Snackbar.LENGTH_SHORT)
+                snackbar = Snackbar.make(
+                    binding.root,
+                    "check your internet connection",
+                    Snackbar.LENGTH_SHORT
+                )
                 snackbar?.show()
 
             }

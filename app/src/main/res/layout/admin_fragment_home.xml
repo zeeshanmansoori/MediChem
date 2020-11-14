@@ -15,6 +15,7 @@
             android:layout_height="match_parent"
             android:id="@+id/recycler_view"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/admin_home_single_item_layout"
             >
 
         </androidx.recyclerview.widget.RecyclerView>
