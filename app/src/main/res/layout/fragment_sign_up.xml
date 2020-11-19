@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="45dp"
 
                 android:orientation="vertical"
                 >
@@ -157,10 +157,10 @@
                 app:backgroundTint="@color/tint_background"
                 />
 
-            <View
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="15dp"
-                />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bottom_container"
                 android:layout_width="match_parent"

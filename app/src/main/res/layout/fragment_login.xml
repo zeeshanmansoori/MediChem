@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="45dp"
                 android:orientation="vertical"
                 android:padding="@dimen/table_padding">
 
