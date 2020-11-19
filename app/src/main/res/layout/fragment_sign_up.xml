@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="35dp"
 
                 android:orientation="vertical"
                 >
@@ -157,20 +157,19 @@
                 app:backgroundTint="@color/tint_background"
                 />
 
-            <Space
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
+                android:layout_height="15dp"
+                />
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bottom_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackground"
+
                 >
 
                 <TextView

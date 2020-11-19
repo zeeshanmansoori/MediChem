@@ -19,6 +19,7 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
             tools:listitem="@layout/home_single_item_layout"
+            android:background="@color/all_bg_color"
             />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009B86</color>
-    <color name="colorPrimaryDark">#301210</color>
-    <color name="colorAccent">#00DDBF</color>
+    <color name="colorPrimary">#00DDBF</color>
+    <color name="colorPrimaryDark">#00DDBF</color>
+    <color name="colorAccent">#FFD740</color>
     <color name="table_bg">#C4C5C5</color>
     <color name="user_menu_icon_color">#967ADC</color>
     <color name="partial_black">#504747</color>
-    <color name="actionBarColor">#301210</color>
     <color name="text">#151517</color>
     <color name="subtext">#5f5f5f</color>
     <color name="color_divider">#64dad8d8</color>
@@ -18,5 +17,7 @@
     <color name="green_text_color">#00ff7f</color>
     <color name="blue_text_color">#388E8E</color>
     <color name="google_blue_color_trans">#A3518EF8</color>
+
+
 
 </resources>
