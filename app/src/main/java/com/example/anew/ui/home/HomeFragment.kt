@@ -13,11 +13,15 @@ import com.example.anew.R
 import com.example.anew.databinding.FragmentHomeBinding
 import com.example.anew.model.PRODUCT_NAME
 import com.example.anew.model.Product
+import com.example.anew.model.User
 import com.example.anew.ui.admin.add.PRODUCT_REF
 import com.example.anew.ui.admin.home.AdminHomeAdapter
+import com.example.anew.ui.intialSetup.USER_REF
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener {
 
@@ -27,6 +31,25 @@ class HomeFragment : Fragment(), AdminHomeAdapter.ProductItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeAdapter: HomeAdapter
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(activity as MainActivity){
+            if (navHeaderMainBinding.user==null){
+                Firebase.auth.currentUser?.uid?.let {
+                        userId ->
+                    FirebaseFirestore.getInstance().collection(USER_REF).document(userId)
+                        .addSnapshotListener {value,error ->
+
+                            if (error==null && value!=null){
+                                if (value.exists())
+                                    navHeaderMainBinding.user = value.toObject(User::class.java)
+                            }
+
+                        }
+                }
+            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

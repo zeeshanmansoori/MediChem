@@ -41,7 +41,6 @@
             android:layout_centerHorizontal="true"
             android:elevation="3dp"
             tools:text="@string/nav_header_title"
-            android:textColor="#33303E"
             android:textSize="18sp"
             android:text="@{user.name}"
             />
@@ -64,7 +63,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="zee1233456@gmail.com"
-            android:textColor="@android:color/black"
             android:layout_below="@id/user_name"
             android:layout_centerHorizontal="true"
             android:text="@{user.email}"

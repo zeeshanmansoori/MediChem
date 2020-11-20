@@ -30,7 +30,6 @@
                 android:layout_margin="@dimen/margin_top"
                 android:background="@drawable/btn_background"
                 android:text="Proceed to buy"
-                android:textColor="@android:color/white"
                 app:backgroundTint="@color/tint_background"
                 />
             <View
@@ -45,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:background="@color/all_bg_color"
+            tools:listitem="@layout/cart_single_item_layout"
             />
     </LinearLayout>
 </layout>

@@ -66,9 +66,9 @@
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.anew.ui.slideshow.SlideshowFragment"
+        android:name="com.example.anew.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_cart"

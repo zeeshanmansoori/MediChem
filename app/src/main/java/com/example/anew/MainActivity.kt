@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.ViewParent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.customview.widget.Openable
 import androidx.drawerlayout.widget.DrawerLayout
@@ -22,10 +23,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import io.paperdb.Paper
 
+const val IS_DARK_MODE_ENABLED = "darkMode"
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -33,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var navView: NavigationView
     lateinit var navHeaderMainBinding:NavHeaderMainBinding
     private lateinit var googleSignInClient: GoogleSignInClient
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,18 +51,21 @@ class MainActivity : AppCompatActivity() {
         // setting up header layout to show user details
         val headerView = navView.getHeaderView(0)
         navHeaderMainBinding = NavHeaderMainBinding.bind(headerView)
-        Firebase.auth.currentUser?.uid?.let {
-            userId ->
-            FirebaseFirestore.getInstance().collection(USER_REF).document(userId)
-                .addSnapshotListener {value,error ->
+        if (Firebase.auth.currentUser!=null){
+            Firebase.auth.currentUser?.uid?.let {
+                    userId ->
+                FirebaseFirestore.getInstance().collection(USER_REF).document(userId)
+                    .addSnapshotListener {value,error ->
 
-                    if (error==null && value!=null){
-                        if (value.exists())
-                            navHeaderMainBinding.user = value.toObject(User::class.java)
+                        if (error==null && value!=null){
+                            if (value.exists())
+                                navHeaderMainBinding.user = value.toObject(User::class.java)
+                        }
+
                     }
-
-                }
+            }
         }
+
 
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
@@ -131,6 +139,8 @@ class MainActivity : AppCompatActivity() {
         //this is not called because we handled this in onnavgationitemselected
 
     }
+
+
 
 
 }

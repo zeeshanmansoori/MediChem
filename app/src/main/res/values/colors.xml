@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#00DDBF</color>
-    <color name="colorPrimaryDark">#00DDBF</color>
+    <color name="colorPrimaryDark">#00aa8f</color>
     <color name="colorAccent">#FFD740</color>
     <color name="table_bg">#C4C5C5</color>
     <color name="user_menu_icon_color">#967ADC</color>
@@ -17,6 +17,8 @@
     <color name="green_text_color">#00ff7f</color>
     <color name="blue_text_color">#388E8E</color>
     <color name="google_blue_color_trans">#A3518EF8</color>
+    <color name="splash_bg_light">#ffff</color>
+    <color name="splash_bg_dark">#504747</color>
 
 
 

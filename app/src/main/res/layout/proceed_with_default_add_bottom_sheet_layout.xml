@@ -33,10 +33,8 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/button_with_border"
                 android:text="Pick from store"
-                android:textColor="@color/partial_black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:buttonTint="@color/partial_black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -133,10 +131,8 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/button_with_border"
                 android:text="Choose Default Address"
-                android:textColor="@color/partial_black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:buttonTint="@color/partial_black"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -165,10 +161,8 @@
                 android:layout_margin="5dp"
                 android:background="@drawable/button_with_border"
                 android:text="Go with New Address"
-                android:textColor="@color/partial_black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:buttonTint="@color/partial_black"
                 app:layout_constraintStart_toStartOf="parent" />
 
         </RadioGroup>
@@ -183,13 +177,13 @@
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:text="Go To Payment"
-            android:textColor="#ffff"
             android:textSize="15dp"
             app:backgroundTint="@color/tint_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radio_group" />
+            app:layout_constraintTop_toBottomOf="@id/radio_group"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -56,7 +56,7 @@ class loginFragment : Fragment(), View.OnClickListener {
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        Paper.init(activity)
+        //Paper.init(activity)
         super.onActivityCreated(savedInstanceState)
         if (Paper.book().read(CHECK_BOX, false)
             && Paper.book().read(IS_USER, false)

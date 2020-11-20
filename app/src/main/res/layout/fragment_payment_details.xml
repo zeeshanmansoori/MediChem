@@ -18,7 +18,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/all_bg_color"
             tools:context=".ui.payment.PaymentDetailsFragment">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -27,13 +26,14 @@
                 android:layout_marginHorizontal="10dp"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:text="Select a payment method"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
@@ -119,7 +119,7 @@
                             android:layout_height="wrap_content"
                             android:text="No of Items"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/subtext"
+
                             android:textSize="@dimen/label_text_size14"
                             />
 
@@ -129,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/subtext"
+
                             android:textSize="@dimen/label_text_size14"
                             tools:text="5"
                             android:text="@{String.valueOf(paymentProduct.noOfItems)}"
@@ -142,7 +142,6 @@
                             android:layout_below="@id/no_of_items_label"
                             android:text="Total MRP"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/subtext"
                             android:textSize="@dimen/label_text_size14" />
 
                         <TextView
@@ -152,7 +151,6 @@
                             android:layout_below="@id/no_of_items"
                             android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/subtext"
                             android:textSize="@dimen/label_text_size14"
                             tools:text="Rs 3534.45"
                             android:text="@{@string/show_in_rupee(String.valueOf(paymentProduct.totalMrp))}"
@@ -165,7 +163,7 @@
                             android:layout_below="@id/total_mrp_label"
                             android:text="Shipping Charges"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/subtext"
+
                             android:textSize="@dimen/label_text_size14" />
 
                         <TextView
@@ -175,7 +173,6 @@
                             android:layout_below="@id/total_mrp"
                             android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/subtext"
                             android:textSize="@dimen/label_text_size14"
                             tools:text="Rs 100.45"
                             android:text="@{@string/show_in_rupee(String.valueOf(paymentProduct.shippingCharges))}"
@@ -189,7 +186,6 @@
                             android:layout_below="@id/shipping_charge_label"
                             android:text="Discount"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/subtext"
                             android:textSize="@dimen/label_text_size14"
 
                             />
@@ -201,7 +197,7 @@
                             android:layout_below="@id/shipping_charge"
                             android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/subtext"
+
                             android:textSize="@dimen/label_text_size14"
                             tools:text="Rs 0.0"
                             android:text="@{@string/show_in_rupee(paymentProduct.discount)}"
@@ -213,7 +209,6 @@
                             android:layout_below="@id/discount_label"
                             android:text="Amount to be paid"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/text"
                             android:textSize="@dimen/label_text_size16" />
 
                         <TextView
@@ -223,7 +218,6 @@
                             android:layout_below="@id/discount"
                             android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/text"
                             android:textSize="@dimen/label_text_size16"
                             tools:text="Rs 1450.0"
                             android:text="@{@string/show_in_rupee(paymentProduct.amountToBePaid)}"
@@ -300,7 +294,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textColor="@color/text"
                             android:textSize="@dimen/label_text_size16"
                             tools:text="MediCham Andheri west"
                             />
@@ -311,7 +304,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="5"
-                            android:textColor="@color/subtext"
+
                             android:textSize="@dimen/label_text_size14"
                             android:text="@{address.toString()}"
                             tools:text="@string/medical_address" />
@@ -340,7 +333,6 @@
                 app:layout_constraintBottom_toTopOf="@+id/to_be_paid"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-
                 />
 
             <com.google.android.material.textview.MaterialTextView

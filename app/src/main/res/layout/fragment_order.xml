@@ -27,6 +27,5 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/order_single_item_layout"
-            android:background="@color/all_bg_color"
             />
     </LinearLayout></layout>
