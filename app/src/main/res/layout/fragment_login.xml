@@ -138,7 +138,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:drawableLeft="@drawable/ic_google_icon"
-                android:background="@drawable/btn_bg_img"
+                android:background="@drawable/btn_background"
                 app:backgroundTint="@color/google_blue_color"
                 android:text="Login With Google"
                 />
@@ -201,7 +201,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:elevation="0dp"
                     android:src="@drawable/right_arrow"
-                    android:background="@drawable/btn_bg_img"
+                    android:background="@drawable/btn_background"
                     android:backgroundTint="@color/tint_background"
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>

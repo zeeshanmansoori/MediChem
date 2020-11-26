@@ -56,12 +56,15 @@
                         android:layout_height="wrap_content">
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/google_pay_radio_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_google_pay"
                             android:drawablePadding="10dp"
                             android:padding="10dp"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            android:checked="true"
+                            />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -73,6 +76,7 @@
                             android:textSize="15sp" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/paytm_radio_button"
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
                             android:drawableStart="@drawable/ic_paytm"

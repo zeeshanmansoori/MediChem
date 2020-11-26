@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <item android:drawable="@drawable/ic_online_shop"
         android:gravity="center"
         android:height="120dp"
         android:width="120dp"
         />
+
     <item android:drawable="@drawable/my_name_logo" android:gravity="bottom|center"
         android:height="75dp" android:width="150dp"
         />
+
 </layer-list>

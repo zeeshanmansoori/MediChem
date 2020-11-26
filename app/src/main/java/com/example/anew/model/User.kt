@@ -19,9 +19,10 @@ const val USER_ADDRESSES = "Addresses"
 const val ADDRESS1 = "Address1"
 
 
-data class User(val email:String="", val name:String="",
-                val phoneNo:String="", var image:String = "",
-                val admin:Boolean = false
+data class User(
+    val email: String = "", val name: String = "",
+    val phoneNo: String = "", var image: String = "",
+    val admin: Boolean = false
 )
 
 
@@ -35,8 +36,17 @@ data class Address(
     val userName: String = "",
     val phoneNo: String = "",
     val alternatePhoneNo: String = ""
-): Serializable{
+) : Serializable {
     override fun toString(): String =
         "$buildingName $locality\n$landMark \n$city $pinCode \n$state \n$phoneNo\n$alternatePhoneNo "
 }
+
+
+data class AdminUser(
+    val upiId:String = "",
+    val email: String = "", val name: String = "",
+    val phoneNo: String = "", var image: String = "",
+    val admin: Boolean = false
+)
+
 
