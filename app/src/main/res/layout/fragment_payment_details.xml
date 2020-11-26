@@ -40,10 +40,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
-                    android:text="Payment Options"
+                    android:text="Payment options"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@android:color/holo_red_light"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/dimen18" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -59,40 +59,24 @@
                             android:id="@+id/google_pay_radio_button"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_google_pay"
+                            android:drawableEnd="@drawable/ic_google_pay"
                             android:drawablePadding="10dp"
                             android:padding="10dp"
-                            android:textAlignment="center"
-                            android:checked="true"
+                            android:text="Google Pay Upi"
+                            android:textSize="20sp"
                             />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:paddingStart="8dp"
-                            android:text="Google Pay Upi"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textSize="15sp" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/paytm_radio_button"
+                            android:id="@+id/cash_on_dev_radio_btn"
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
-                            android:drawableStart="@drawable/ic_paytm"
                             android:drawablePadding="10dp"
                             android:padding="10dp"
-                            android:textAlignment="center" />
+                            android:text="Cash on Delivery (COD)"
+                            android:textSize="20sp"
+                            />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="25dp"
-                            android:paddingStart="8dp"
-                            android:paddingBottom="5dp"
-                            android:text="Paytm"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textSize="15sp" />
 
                     </RadioGroup>
                 </com.google.android.material.card.MaterialCardView>
@@ -102,10 +86,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
-                    android:text="Cart Total"
+                    android:text="Cart total"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@android:color/holo_red_light"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/dimen18" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -246,7 +230,7 @@
                                 android:text="Total Savings"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                                 android:textColor="@color/green_text_color"
-                                android:textSize="@dimen/label_text_size14"
+                                android:textSize="@dimen/dimen20"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
 
@@ -259,7 +243,7 @@
                                 android:layout_alignParentEnd="true"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                                 android:textColor="#00ff7f"
-                                android:textSize="@dimen/label_text_size14"
+                                android:textSize="@dimen/dimen20"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 tools:text="Rs 1450.0"
@@ -277,10 +261,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
-                    android:text="Address Details"
+                    android:text="Address details"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@android:color/holo_red_light"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/dimen18" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -294,21 +278,11 @@
                         android:padding="5dp">
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/address_header"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                            android:textSize="@dimen/label_text_size16"
-                            tools:text="MediCham Andheri west"
-                            />
-
-                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/address_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="5"
-
                             android:textSize="@dimen/label_text_size14"
                             android:text="@{address.toString()}"
                             tools:text="@string/medical_address" />
@@ -329,28 +303,29 @@
             >
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/to_be_paid_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="To be paid"
-                app:layout_constraintBottom_toTopOf="@+id/to_be_paid"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/to_be_paid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="@dimen/label_text_size16"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/to_be_paid_label"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="2345.43"
                 android:text="@{@string/show_in_rupee(String.valueOf(paymentProduct.amountToBePaid))}"
+
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/to_be_paid_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="To be paid"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/to_be_paid"
+                android:textSize="@dimen/dimen18"
+
                 />
 
             <com.google.android.material.button.MaterialButton
@@ -364,7 +339,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:paddingVertical="4dp"
                 android:textSize="@dimen/label_text_size14"
-                android:backgroundTint="@color/tint_background"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

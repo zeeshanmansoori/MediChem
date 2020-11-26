@@ -32,7 +32,8 @@ import com.google.firebase.ktx.Firebase
 
 const val GOOGLE_PAY_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user"
 const val PAYMENT_REQUEST_CODE = 863
-class PaymentDetailsFragment : Fragment(){
+
+class PaymentDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentPaymentDetailsBinding
     private val navArgs: PaymentDetailsFragmentArgs by navArgs()
@@ -48,6 +49,13 @@ class PaymentDetailsFragment : Fragment(){
             DataBindingUtil.inflate(inflater, R.layout.fragment_payment_details, container, false)
 
         binding.address = navArgs.address
+        when (navArgs.isPickFromStoreSelected) {
+            true -> {
+                binding.googlePayRadioButton.isEnabled = false
+                binding.cashOnDevRadioBtn.isChecked = true
+                binding.cashOnDevRadioBtn.text = "Pay at Store"
+            }
+        }
 
         binding.paymentProduct = PaymentProduct(navArgs.products)
         return binding.root
@@ -57,26 +65,22 @@ class PaymentDetailsFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         binding.payNowBtn.setOnClickListener {
             when {
-                binding.googlePayRadioButton.isChecked -> payUsingGooglePay()
-                binding.paytmRadioButton.isChecked -> payUsingPaytm()
+                binding.googlePayRadioButton.isChecked -> payUsingGooglePay(binding.toBePaid.text.toString())
+                //binding.paytmRadioButton.isChecked -> payUsingPaytm(binding.toBePaid.text.toString())
                 else -> navigateToConfirmation()
             }
         }
     }
 
-    private fun payUsingPaytm() {
-        TODO("Not yet implemented")
-    }
 
-    private fun payUsingGooglePay(amount:String="1") {
-        if (MyUtil.isConnectedToInternet(context))
-        {
+    private fun payUsingGooglePay(amount: String = "1") {
+        if (MyUtil.isConnectedToInternet(context)) {
             FirebaseFirestore.getInstance().collection(USER_REF)
-                .whereEqualTo("admin",true)
+                .whereEqualTo("admin", true)
                 .get()
                 .addOnSuccessListener {
                     val adminUser = it.toObjects(AdminUser::class.java).first()
-                    Log.d("UPIPAY","user ${adminUser.toString()}")
+                    Log.d("UPIPAY", "user ${adminUser.toString()}")
                     val uri = Uri.parse("upi://pay").buildUpon()
                         .appendQueryParameter("pa", adminUser.upiId)
                         .appendQueryParameter("pn", adminUser.name)
@@ -86,20 +90,20 @@ class PaymentDetailsFragment : Fragment(){
                         .build()
 
 
-                 Intent(Intent.ACTION_VIEW).apply {
+                    Intent(Intent.ACTION_VIEW).apply {
                         data = uri
                         setPackage(GOOGLE_PAY_PACKAGE_NAME)
                     }
-                        .also { paymentIntent->
+                        .also { paymentIntent ->
                             startActivityForResult(paymentIntent, PAYMENT_REQUEST_CODE)
                         }
 
                 }
                 .addOnFailureListener {
-                    Log.d("UPIPAY","failed to fetch")
+                    Log.d("UPIPAY", "failed to fetch")
                 }
 
-        }else{
+        } else {
             snackbar = Snackbar.make(binding.root, "plz connect to internet", Snackbar.LENGTH_SHORT)
             snackbar?.show()
         }
@@ -154,29 +158,30 @@ class PaymentDetailsFragment : Fragment(){
     }
 
     private fun navigateToOrderPlaced(order: Order) {
-        val action = PaymentDetailsFragmentDirections.actionPaymentDetailsFragmentToOrderPlacedFragment(
-            order
-        )
+        val action =
+            PaymentDetailsFragmentDirections.actionPaymentDetailsFragmentToOrderPlacedFragment(
+                order
+            )
         findNavController().navigate(action)
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode== PAYMENT_REQUEST_CODE && resultCode==RESULT_OK){
+        if (requestCode == PAYMENT_REQUEST_CODE && resultCode == RESULT_OK) {
             val trxt = data?.getStringExtra("response")
             Log.d("UPIPAY", "onActivityResult: $trxt")
             val dataList = ArrayList<String>()
             dataList.add(trxt.toString())
             context?.let {
-                upiPaymentDataOperation(dataList,it)
+                upiPaymentDataOperation(dataList, it)
             }
 
         }
     }
 
 
-    private fun upiPaymentDataOperation(data: ArrayList<String>,context: Context) {
+    private fun upiPaymentDataOperation(data: ArrayList<String>, context: Context) {
         if (MyUtil.isConnectedToInternet(context)) {
             var str = data[0]
             Log.e("UPIPAY", "upiPaymentDataOperation: $str")
@@ -190,8 +195,13 @@ class PaymentDetailsFragment : Fragment(){
                 if (equalStr.size >= 2) {
                     if (equalStr[0].equals("Status", ignoreCase = true)) {
                         status = equalStr[1].toLowerCase()
-                    } else if (equalStr[0].equals("ApprovalRefNo", ignoreCase = true) || equalStr[0].equals(
-                            "txnRef", ignoreCase = true)) {
+                    } else if (equalStr[0].equals(
+                            "ApprovalRefNo",
+                            ignoreCase = true
+                        ) || equalStr[0].equals(
+                            "txnRef", ignoreCase = true
+                        )
+                    ) {
                         approvalRefNo = equalStr[1]
                     }
                 } else {
@@ -214,6 +224,7 @@ class PaymentDetailsFragment : Fragment(){
             Log.e("UPI", "Internet issue: ")
         }
     }
+
     override fun onPause() {
         super.onPause()
         snackbar?.dismiss()

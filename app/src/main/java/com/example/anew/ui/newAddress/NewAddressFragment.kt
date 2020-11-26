@@ -171,7 +171,7 @@ class NewAddressFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
 
     private fun navigateToPayment(address: Address) {
-        NewAddressFragmentDirections.actionNewAddressFragmentToPaymentDetailsFragment(address,navArgs.products).also {
+        NewAddressFragmentDirections.actionNewAddressFragmentToPaymentDetailsFragment(address,navArgs.products,false).also {
             findNavController().navigate(it)
         }
 

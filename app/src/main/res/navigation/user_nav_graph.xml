@@ -133,7 +133,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.example.anew.ui.profile.ProfileFragment"
+        android:name="com.example.anew.ui.admin.profile.AdminProfileFragment"
         android:label="profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
@@ -157,6 +157,10 @@
             <argument android:name="order"
                 app:argType="com.example.anew.model.Order" />
         </action>
+        <argument
+            android:name="isPickFromStoreSelected"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
 
     <fragment
@@ -178,6 +182,10 @@
             <argument
                 android:name="products"
                 app:argType="com.example.anew.model.Product[]" />
+
+            <argument
+                android:name="isPickFromStoreSelected"
+                app:argType="boolean" />
         </action>
         <argument
             android:name="fromBottomSheet"
@@ -223,6 +231,11 @@
             <argument
                 android:name="products"
                 app:argType="com.example.anew.model.Product[]" />
+
+            <argument
+                android:name="isPickFromStoreSelected"
+                app:argType="boolean"
+                />
 
         </action>
 

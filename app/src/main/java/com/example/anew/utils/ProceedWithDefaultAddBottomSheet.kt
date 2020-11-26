@@ -109,11 +109,13 @@ class ProceedWithDefaultAddBottomSheet :
     }
 
     private fun navigateToPayment() {
-
+        var isFromStoreSelected = false
         var address = when (binding.radioGroup.checkedRadioButtonId) {
 
             binding.pickFromStoreRadioButton.id -> {
+                isFromStoreSelected = true
                 adminAddress
+
             }
 
             binding.defaultAddressRadioButton.id -> navArgs.address
@@ -124,7 +126,7 @@ class ProceedWithDefaultAddBottomSheet :
 
         val action =
             ProceedWithDefaultAddBottomSheetDirections.actionProceedWithDefaultAddBottomSheetToPaymentDetailsFragment(
-                address, navArgs.products
+                address, navArgs.products,isFromStoreSelected
             )
 
         findNavController().navigate(action)

@@ -35,7 +35,9 @@ class AdminActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
-                R.id.nav_orders, R.id.nav_add
+                R.id.nav_profile_admin,
+                R.id.nav_orders,
+                R.id.nav_add
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

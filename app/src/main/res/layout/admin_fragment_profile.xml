@@ -5,13 +5,10 @@
     tools:context=".ui.admin.profile.AdminProfileFragment">
 
     <data>
-        <variable
-            name="user"
-            type="com.example.anew.model.User" />
-        <variable
-            name="address"
-            type="com.example.anew.model.Address" />
 
+        <variable
+            name="adminUser"
+            type="com.example.anew.model.AdminUser" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -24,7 +21,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/user_image"
+                android:id="@+id/adminUser_image"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:backgroundTint="@color/partial_black"
@@ -32,8 +29,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                glideSrc="@{user.image}"
-                glideErrorSrc="@{@drawable/user}"
+                glideSrc="@{adminUser.image}"
+                glideErrorSrc="@{@drawable/adminUser}"
                 android:clickable="true"
                 android:focusable="true"
                 android:scaleType="fitCenter"
@@ -41,26 +38,26 @@
                 />
 
             <TextView
-                android:id="@+id/user_image_btm"
+                android:id="@+id/adminUser_image_btm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/user_image"
+                android:layout_alignBottom="@id/adminUser_image"
                 android:background="@drawable/btn_border_bg"
                 android:layout_marginHorizontal="10dp"
                 />
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/user_name"
+                android:id="@+id/adminUser_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/user_image"
+                android:layout_alignBottom="@id/adminUser_image"
                 android:layout_marginVertical="10dp"
                 android:layout_marginStart="25dp"
                 tools:text="Zeeshan"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:fontFamily="cursive"
-                android:text="@{user.name}"
+                android:text="@{adminUser.name}"
                 android:background="@android:color/transparent"
                 android:paddingBottom="10dp"
                 android:lines="1"
@@ -71,7 +68,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/user_image"
+                android:layout_below="@id/adminUser_image"
                 android:layout_marginStart="20dp"
                 android:orientation="vertical"
                 android:layout_alignParentBottom="true"
@@ -108,7 +105,7 @@
                         android:inputType="phone"
                         android:maxLength="10"
                         android:paddingTop="2dp"
-                        android:text="@{user.phoneNo}"
+                        android:text="@{adminUser.phoneNo}"
                         android:textSize="16sp"
                         android:paddingStart="8dp"
 
@@ -132,7 +129,7 @@
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="textEmailAddress"
                     android:paddingTop="2dp"
-                    android:text="@{user.email}"
+                    android:text="@{adminUser.email}"
                     android:textSize="16sp"
                     android:lines="1"
                     android:ellipsize="end"
@@ -143,13 +140,38 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="18sp"
+                    android:text="Google Pay Upi Id"
+                    android:textSize="@dimen/label_text_size"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/payment_upi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/transparent"
+                    android:inputType="text"
+                    android:paddingTop="2dp"
+                    android:textSize="16sp"
+                    android:lines="1"
+                    android:ellipsize="end"
+                    android:paddingStart="5dp"
+                    android:hint="enter your google pay api"
+                    android:text="@{adminUser.upiId}"
+                    />
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:paddingTop="18dp"
                     android:text="Address"
                     android:textSize="@dimen/label_text_size"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/address_edit_text"
+                    android:id="@+id/address_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@android:color/transparent"
@@ -159,8 +181,7 @@
                     android:lines="6"
                     android:gravity="top"
                     android:ellipsize="end"
-                    android:text="@{address.toString()}"
-
+                    android:text="@{adminUser.address.toString()}"
                     />
 
             </LinearLayout>
