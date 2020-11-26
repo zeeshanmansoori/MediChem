@@ -72,6 +72,13 @@ class DetailsFragment : Fragment(), MyImageClickListener {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.saveChangesBtn.setOnClickListener {
+            saveChanges()
+        }
+    }
+
 
     override fun onStart() {
         super.onStart()

@@ -7,13 +7,14 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_profile_admin"
-            android:icon="@drawable/ic_edit_profile"
-            android:title="profile" />
-        <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_update__med"
             android:title="Home" />
+        <item
+            android:id="@+id/nav_profile_admin"
+            android:icon="@drawable/ic_edit_profile"
+            android:title="profile" />
+
         <item
             android:id="@+id/nav_orders"
             android:icon="@drawable/ic_discount"

@@ -62,6 +62,15 @@ class AdminProfileFragment : Fragment() {
             .addOnSuccessListener {
                 adminUser = it.toObject(AdminUser::class.java)!!
                 binding.adminUser = adminUser
+                binding.address = Address(
+                    "mumbai",
+                    "andheri east",
+                    pinCode = "400058",
+                    state = "Maharashtra",
+                    buildingName = "aklnfd",
+                    landMark = "opposite metro station"
+
+                )
             }
 
         return binding.root

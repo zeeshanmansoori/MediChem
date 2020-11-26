@@ -211,13 +211,15 @@ class PaymentDetailsFragment : Fragment() {
             when {
                 status == "success" -> {
                     //Code to handle successful transaction here.
-                    Log.e("UPI", "payment successful: $approvalRefNo")
+                    navigateToConfirmation()
                 }
                 "Payment cancelled by user." == paymentCancel -> {
-                    Log.e("UPI", "Cancelled by user: $approvalRefNo")
+                    snackbar = Snackbar.make(binding.root,"payment got canceled",Snackbar.LENGTH_SHORT);
+                    snackbar?.show()
                 }
                 else -> {
-                    Log.e("UPI", "failed payment: $approvalRefNo")
+                    snackbar = Snackbar.make(binding.root,"payment failed",Snackbar.LENGTH_SHORT);
+                    snackbar?.show()
                 }
             }
         } else {

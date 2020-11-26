@@ -9,6 +9,9 @@
         <variable
             name="adminUser"
             type="com.example.anew.model.AdminUser" />
+        <variable
+            name="address"
+            type="com.example.anew.model.Address" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -30,7 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 glideSrc="@{adminUser.image}"
-                glideErrorSrc="@{@drawable/adminUser}"
+                glideErrorSrc="@{@drawable/user}"
                 android:clickable="true"
                 android:focusable="true"
                 android:scaleType="fitCenter"
@@ -181,7 +184,7 @@
                     android:lines="6"
                     android:gravity="top"
                     android:ellipsize="end"
-                    android:text="@{adminUser.address.toString()}"
+                    android:text="@{address.toString()}"
                     />
 
             </LinearLayout>

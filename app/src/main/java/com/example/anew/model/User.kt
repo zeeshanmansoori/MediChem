@@ -47,7 +47,6 @@ data class AdminUser(
     val email: String = "", val name: String = "",
     val phoneNo: String = "", var image: String = "",
     val admin: Boolean = false,
-    val address: Address = Address()
 )
 
 
