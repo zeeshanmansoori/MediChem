@@ -178,7 +178,6 @@
             android:gravity="center"
             android:text="Go To Payment"
             android:textSize="15dp"
-            app:backgroundTint="@color/tint_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

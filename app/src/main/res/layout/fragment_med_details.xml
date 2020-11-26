@@ -266,7 +266,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:backgroundTint="@color/tint_background"
                     />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buy_now"
@@ -276,7 +275,6 @@
                     android:gravity="center"
                     android:letterSpacing="0.09"
                     android:text="Order Now"
-                    android:textColor="#fff"
                     android:textSize="17dp"
                     android:layout_gravity="center_horizontal"
                     app:layout_constraintStart_toStartOf="parent"
