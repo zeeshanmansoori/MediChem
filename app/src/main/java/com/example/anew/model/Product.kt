@@ -19,11 +19,11 @@ const val MEDICINE_USAGE = "medicineUsage"
 @Parcelize
 data class Product(
     val id: String = "",
-    val name: String = "",
-    val description: String = "",
+    var name: String = "",
+    var description: String = "",
     var quantity: Int = 0,
-    val prize: Float = 0.0f,
-    val medicineUsage: String = "",
+    var prize: Float = 0.0f,
+    var medicineUsage: String = "",
     val image1: String = "",
     val image2: String = "",
     val image3: String = "",

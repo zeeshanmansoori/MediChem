@@ -132,6 +132,7 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 && oldDescription == description
                 && oldMedUsage == medUsage
                 && oldQuantity == quantity
+                && oldPrize == prize
                 && imageByteArray.filterNotNull().count() == 0
                 && imageUriArray.filterNotNull().count() == 0
 
@@ -154,7 +155,8 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 )
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
-                    Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, "Name Updated", Snackbar.LENGTH_SHORT).show()
+                    oldProduct.name = name
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
@@ -173,8 +175,8 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 )
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
-                    Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-
+                    Snackbar.make(binding.root, "Description Updated", Snackbar.LENGTH_SHORT).show()
+                    oldProduct.description = description
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
@@ -193,7 +195,7 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, "Usage updated", Snackbar.LENGTH_SHORT).show()
-
+                    oldProduct.medicineUsage = medUsage
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
@@ -213,8 +215,8 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 )
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
-                    Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-
+                    Snackbar.make(binding.root, "Prize Updated", Snackbar.LENGTH_SHORT).show()
+                    oldProduct.prize = prize
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
@@ -232,8 +234,8 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                 )
                 updateTask.addOnSuccessListener {
                     dialog.dismissDialog()
-                    Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
-
+                    Snackbar.make(binding.root, "Quantity Updated", Snackbar.LENGTH_SHORT).show()
+                    oldProduct.quantity = quantity
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
@@ -279,6 +281,11 @@ class DetailsFragment : Fragment(), MyImageClickListener {
                     dialog.dismissDialog()
                     Snackbar.make(binding.root, "Changes Updated", Snackbar.LENGTH_SHORT).show()
                     dialog.dismissDialog()
+                    oldProduct = Product(oldProduct.id,name, description
+                        , quantity, prize,medUsage,oldProduct.image1
+                        ,oldProduct.image2,oldProduct.image3
+                        ,oldProduct.image4
+                    )
                 }
                 updateTask.addOnFailureListener {
                     dialog.dismissDialog()
@@ -454,8 +461,8 @@ class DetailsFragment : Fragment(), MyImageClickListener {
     private fun uploadUri(index: Int, value: Uri) {
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
         dialog.startDialog()
-        val imageRef = storageRef.child(getChildName(index))
-
+        val imageRef = storageRef.child(oldProduct.id+getChildName(index))
+        Log.d("uploadUri",imageRef.toString())
             imageRef.putFile(value).addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener {
                     firestore.collection(PRODUCT_REF)
@@ -488,7 +495,7 @@ class DetailsFragment : Fragment(), MyImageClickListener {
     private fun uploadBytes(index: Int, value: ByteArray) {
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
         dialog.startDialog()
-        val imageRef = storageRef.child(getChildName(index))
+        val imageRef = storageRef.child(oldProduct.id +getChildName(index))
         value.let {
             imageRef.putBytes(it).addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener {
