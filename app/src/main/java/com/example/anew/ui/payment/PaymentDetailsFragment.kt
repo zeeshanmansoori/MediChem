@@ -51,7 +51,7 @@ class PaymentDetailsFragment : Fragment() {
         binding.address = navArgs.address
         when (navArgs.isPickFromStoreSelected) {
             true -> {
-                binding.googlePayRadioButton.isEnabled = false
+                binding.googlePayRadioButton.isChecked = false
                 binding.cashOnDevRadioBtn.isChecked = true
                 binding.cashOnDevRadioBtn.text = "Pay at Store"
             }
