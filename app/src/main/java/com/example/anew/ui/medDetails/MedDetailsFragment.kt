@@ -77,8 +77,24 @@ class MedDetailsFragment : Fragment(), MyImageClickListener {
 
     override fun onImageClicked(view: View) {
         when (view.id) {
-            binding.addToBag.id -> addToBag()
-            binding.buyNow.id -> buyNow()
+            binding.addToBag.id -> {
+                if(MyUtil.isConnectedToInternet(context))
+                    addToBag()
+                else {
+                    snackbar =Snackbar.make((activity as AppCompatActivity).findViewById(R.id.drawer_layout),
+                        "plz connect to internet", Snackbar.LENGTH_SHORT)
+                    snackbar?.show()
+                }
+            }
+            binding.buyNow.id -> {
+                if (MyUtil.isConnectedToInternet(context))
+                    buyNow()
+                else {
+                    snackbar =Snackbar.make((activity as AppCompatActivity).findViewById(R.id.drawer_layout),
+                        "plz connect to internet", Snackbar.LENGTH_SHORT)
+                    snackbar?.show()
+                }
+            }
         }
     }
 

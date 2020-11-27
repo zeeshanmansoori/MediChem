@@ -43,6 +43,7 @@ data class Order(
     var orderId:String = "",
     val paymentStatus: Boolean =true,
     val product: MutableList<Product> = mutableListOf(),
+    val paymentMethod:String = "",
     val totalPrize: Double = product.sumByDouble {it.prize.toDouble() }
 ):Parcelable
 

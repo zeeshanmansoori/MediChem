@@ -160,9 +160,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="5dp"
                         android:padding="@dimen/padding4"
-                        android:text="Payment method\nGoogle pay Upi"
+                        android:text="@{@string/payment_method(order.paymentMethod)}"
                         android:textSize="@dimen/label_text_size14"
                         android:layout_marginStart="10dp"
+                        tools:text="Payment Method\nGoogle Pay Api"
+
                         />
 
                     <com.google.android.material.textview.MaterialTextView

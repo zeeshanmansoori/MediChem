@@ -53,7 +53,7 @@ class PaymentDetailsFragment : Fragment() {
             true -> {
                 binding.googlePayRadioButton.isChecked = false
                 binding.cashOnDevRadioBtn.isChecked = true
-                binding.cashOnDevRadioBtn.text = "Pay at Store"
+                binding.cashOnDevRadioBtn.text = getString(R.string.pay_at_store_string)
             }
         }
 
@@ -66,8 +66,7 @@ class PaymentDetailsFragment : Fragment() {
         binding.payNowBtn.setOnClickListener {
             when {
                 binding.googlePayRadioButton.isChecked -> payUsingGooglePay(binding.toBePaid.text.toString())
-                //binding.paytmRadioButton.isChecked -> payUsingPaytm(binding.toBePaid.text.toString())
-                else -> navigateToConfirmation()
+                else -> navigateToConfirmation(binding.cashOnDevRadioBtn.text.toString(),false)
             }
         }
     }
@@ -109,13 +108,15 @@ class PaymentDetailsFragment : Fragment() {
         }
     }
 
-    private fun navigateToConfirmation() {
+    private fun navigateToConfirmation(paymentMethod:String,paymentStatus:Boolean) {
         val dialog = CustomLoadingDialog(activity as AppCompatActivity)
         dialog.startDialog()
         val order = Order(
             address = navArgs.address,
             product = navArgs.products.toMutableList(),
-            dateAdded = MyUtil.getDate()
+            dateAdded = MyUtil.getDate(),
+            paymentMethod = paymentMethod,
+            paymentStatus = paymentStatus
         )
         FirebaseFirestore.getInstance().collection(USER_REF).document(userId)
             .collection(ORDER_PLACED)
@@ -148,7 +149,7 @@ class PaymentDetailsFragment : Fragment() {
                             Snackbar.LENGTH_SHORT
                         )
                             .setAction("RETRY") {
-                                navigateToConfirmation()
+                                navigateToConfirmation(paymentMethod,paymentStatus)
                             }
                         snackbar?.show()
                     }
@@ -211,7 +212,7 @@ class PaymentDetailsFragment : Fragment() {
             when {
                 status == "success" -> {
                     //Code to handle successful transaction here.
-                    navigateToConfirmation()
+                    navigateToConfirmation(getString(R.string.google_pay_upi),true)
                 }
                 "Payment cancelled by user." == paymentCancel -> {
                     snackbar = Snackbar.make(binding.root,"payment got canceled",Snackbar.LENGTH_SHORT);

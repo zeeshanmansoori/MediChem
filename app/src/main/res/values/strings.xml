@@ -58,6 +58,10 @@
     <string name="phone_no_updated_successfully">phone number updated successfully</string>
     <string name="changes_updated_successfully">changes updated successfully</string>
     <string name="img_uploaded_msg">Image uploaded</string>
+    <string name="payment_method">Payment method\n%s</string>
+    <string name="cash_on_delivery_string">Cash on Delivery (COD)</string>
+    <string name="pay_at_store_string">Pay at Store</string>
+    <string name="google_pay_upi">Google Pay Upi</string>
 
 
     <string-array name="product_quantity">

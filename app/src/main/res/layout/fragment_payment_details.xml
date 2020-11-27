@@ -62,7 +62,7 @@
                             android:drawableEnd="@drawable/ic_google_pay"
                             android:drawablePadding="10dp"
                             android:padding="10dp"
-                            android:text="Google Pay Upi"
+                            android:text="@string/google_pay_upi"
                             android:textSize="20sp"
                             />
 
@@ -73,7 +73,7 @@
                             android:layout_height="55dp"
                             android:drawablePadding="10dp"
                             android:padding="10dp"
-                            android:text="Cash on Delivery (COD)"
+                            android:text="@string/cash_on_delivery_string"
                             android:textSize="20sp"
                             />
 
@@ -117,7 +117,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-
+                            android:maxLength="18"
                             android:textSize="@dimen/label_text_size14"
                             tools:text="5"
                             android:text="@{String.valueOf(paymentProduct.noOfItems)}"
@@ -142,6 +142,7 @@
                             android:textSize="@dimen/label_text_size14"
                             tools:text="Rs 3534.45"
                             android:text="@{@string/show_in_rupee(String.valueOf(paymentProduct.totalMrp))}"
+                            android:maxLength="18"
                             />
 
                         <TextView
@@ -164,6 +165,7 @@
                             android:textSize="@dimen/label_text_size14"
                             tools:text="Rs 100.45"
                             android:text="@{@string/show_in_rupee(String.valueOf(paymentProduct.shippingCharges))}"
+                            android:maxLength="18"
                             />
 
 
@@ -185,7 +187,7 @@
                             android:layout_below="@id/shipping_charge"
                             android:layout_alignParentEnd="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-
+                            android:maxLength="18"
                             android:textSize="@dimen/label_text_size14"
                             tools:text="Rs 0.0"
                             android:text="@{@string/show_in_rupee(paymentProduct.discount)}"
@@ -209,6 +211,7 @@
                             android:textSize="@dimen/label_text_size16"
                             tools:text="Rs 1450.0"
                             android:text="@{@string/show_in_rupee(paymentProduct.amountToBePaid)}"
+                            android:maxLength="18"
                             />
 
 
@@ -313,6 +316,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="2345.43"
                 android:text="@{@string/show_in_rupee(String.valueOf(paymentProduct.amountToBePaid))}"
+                android:maxLength="10"
 
                 />
 

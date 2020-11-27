@@ -24,6 +24,7 @@ import com.example.anew.ui.admin.add.TAKE_IMAGE
 import com.example.anew.ui.intialSetup.ADMIN_REF
 import com.example.anew.ui.intialSetup.USER_REF
 import com.example.anew.utils.CustomLoadingDialog
+import com.example.anew.utils.MyUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
@@ -69,6 +70,10 @@ class DetailsFragment : Fragment(), MyImageClickListener {
         setHasOptionsMenu(true)
 
         firestore = FirebaseFirestore.getInstance()
+
+        if (!MyUtil.checkCameraPermission(activity))
+            MyUtil.requestCameraPermission(activity)
+
         return binding.root
     }
 
