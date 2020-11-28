@@ -1,29 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.circularreveal.CircularRevealLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.about.AboutFragment"
     android:orientation="vertical"
 
-    >
+>
+    <TextView
+        android:id="@+id/about_us"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About Us"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dimen20"
+        android:textSize="28dp"
+        />
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:id="@+id/image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:src="@drawable/ic_online_shop"
         android:layout_gravity="center"
-        android:layout_margin="50dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/about_us"
+        app:layout_constraintEnd_toEndOf="parent"
+
         />
     <TextView
+        android:id="@+id/app_name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:gravity="center"
-        android:textSize="25sp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:textColor="@color/partial_black"
+        android:textSize="38sp"
+        android:fontFamily="sans-serif"
+        android:textColor="#2395EE"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        android:layout_marginTop="10dp"
         />
 
-</com.google.android.material.circularreveal.CircularRevealLinearLayout>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/developer_name_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_name"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Developed by : "
+            android:gravity="center"
+            android:textSize="25sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_marginTop="15dp"
+            />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:fontFamily="sans-serif"
+            android:layout_marginTop="15dp"
+            android:linksClickable="true"
+            android:autoLink="web"
+            android:text="Zeeshan Mansoori"
+            android:textColor="@android:color/darker_gray"
+
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/instagram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="25sp"
+        android:fontFamily="sans-serif"
+        android:layout_marginTop="30dp"
+        android:linksClickable="true"
+        android:autoLink="web"
+        android:text="zeeshanboi"
+        android:textColor="@android:color/darker_gray"
+        android:drawableStart="@drawable/ic_instagram"
+        android:drawablePadding="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/developer_name_container"
+        />
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:fontFamily="sans-serif"
+        android:layout_marginTop="15dp"
+        android:linksClickable="true"
+        android:autoLink="web"
+        android:text="zee7797"
+        android:textColor="@android:color/darker_gray"
+        android:drawableStart="@drawable/ic_github"
+        android:layout_gravity="center"
+        android:drawablePadding="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/instagram"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/dimen20"
+        android:padding="10dp"
+        >
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Design with"
+            android:textSize="20sp"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_heart"
+
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="In India, Mumbai"
+
+            />
+
+
+    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

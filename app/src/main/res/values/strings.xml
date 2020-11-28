@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MediCham</string>
+    <string name="app_name">MediChem</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Zeeshan</string>
@@ -62,6 +62,7 @@
     <string name="cash_on_delivery_string">Cash on Delivery (COD)</string>
     <string name="pay_at_store_string">Pay at Store</string>
     <string name="google_pay_upi">Google Pay Upi</string>
+
 
 
     <string-array name="product_quantity">
