@@ -66,7 +66,12 @@ class PaymentDetailsFragment : Fragment() {
         binding.payNowBtn.setOnClickListener {
             when {
                 binding.googlePayRadioButton.isChecked -> payUsingGooglePay(binding.toBePaid.text.toString())
-                else -> navigateToConfirmation(binding.cashOnDevRadioBtn.text.toString(),false)
+                binding.cashOnDevRadioBtn.isChecked -> navigateToConfirmation(binding.cashOnDevRadioBtn.text.toString(),false)
+                else -> {
+                    snackbar = Snackbar.make(binding.root,"Plz Select any of the above payment Methods",Snackbar.LENGTH_SHORT)
+                    snackbar?.show()
+
+                }
             }
         }
     }
